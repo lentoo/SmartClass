@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-1.10.2.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.2.js"></script>
+    <script src="/SignalR/hubs" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+        $(function(){
+         "use strict";
+             var chat = $.connection['MyHub'];
+             var messagelist=$('#messagelist');
+             chat.client.Reciver=function(name,message){
+                 messagelist.append('<li><strong>'+name+'</strong>：'+message+'</li>');
+            }
+            $.connection.hub.start().done(function(){
+                $('#btn_send').on('click',function(){
+                    chat.server.send($('#name').val(),$('#message').val());
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <ul id="messagelist"></ul>
+    <br />
+    <input type="text" id="name" name="name" value="Test" />
+    <br />
+    <textarea id="message">content</textarea>
+    <br />
+    <button id="btn_send">send</button>
+
+
+</body>
+</html>

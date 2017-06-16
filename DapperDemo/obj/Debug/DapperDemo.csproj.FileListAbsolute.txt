@@ -1,0 +1,10 @@
+E:\Demo\DapperDemo\bin\Debug\DapperDemo.exe
+E:\Demo\DapperDemo\bin\Debug\DapperDemo.pdb
+E:\Demo\DapperDemo\bin\Debug\Dapper.dll
+E:\Demo\DapperDemo\bin\Debug\Dapper.xml
+E:\Demo\DapperDemo\obj\Debug\DapperDemo.csprojResolveAssemblyReference.cache
+E:\Demo\DapperDemo\obj\Debug\DapperDemo.Form1.resources
+E:\Demo\DapperDemo\obj\Debug\DapperDemo.Properties.Resources.resources
+E:\Demo\DapperDemo\obj\Debug\DapperDemo.csproj.GenerateResource.Cache
+E:\Demo\DapperDemo\obj\Debug\DapperDemo.exe
+E:\Demo\DapperDemo\obj\Debug\DapperDemo.pdb

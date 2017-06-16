@@ -1,0 +1,4 @@
+E:\Demo\BLL\bin\Debug\BLL.dll
+E:\Demo\BLL\bin\Debug\BLL.pdb
+E:\Demo\BLL\obj\Debug\BLL.dll
+E:\Demo\BLL\obj\Debug\BLL.pdb

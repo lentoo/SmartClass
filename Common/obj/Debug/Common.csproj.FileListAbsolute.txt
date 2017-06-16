@@ -1,0 +1,6 @@
+E:\Demo\Common\bin\Debug\Common.dll
+E:\Demo\Common\bin\Debug\Common.pdb
+E:\Demo\Common\bin\Debug\NLog.dll
+E:\Demo\Common\bin\Debug\NLog.xml
+E:\Demo\Common\obj\Debug\Common.dll
+E:\Demo\Common\obj\Debug\Common.pdb

@@ -1,0 +1,137 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=.85,user-scalable=no">
+    <title>登陆</title>
+    <link rel="stylesheet" href="/Content/bootstrap.css" />
+    <link rel="stylesheet" href="~/Content/Css/Logon.css" />
+</head>
+<body>
+    <div class="container content">
+        <header class="header clear">
+            <h2 class="text-center">智慧教室登陆系统</h2>
+            <div class="clearfix"></div>
+        </header>
+        <section class="main clear">
+            <div class="logon col-xs-offset-1 col-xs-10 col-md-offset-4 col-md-4">
+                <h3 class="text-center tishi">账号密码登陆</h3>
+                <form class="form-horizontal" action="#">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" id="username" placeholder="用户名">
+                            <span id="usernamePrompt" class="hidden">用户名由字母、数字、下划线组成，字母开头，4-16位。</span>
+                        </div>
+                        
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="password" class="form-control" id="password" placeholder="密码">
+                            <span id="passwordPrompt" class="hidden">密码不能为空</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control validate" id="validateCode" placeholder="验证码"><img id="validate" class="img-rounded" src="#" />
+                            <div id="validatePrompt" class="hidden"></div>
+                        </div>
+                        
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox">记住账号
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button id="btn_login" type="button" class="btn btn-primary  btn-block btn-login">登陆</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6 col-xs-12">
+                            <a src="#" class="btn btn-default  btn-block btn-help">登陆遇到问题</a>
+                        </div><div class="col-sm-6 col-xs-12">
+                            <a src="#" class="btn btn-info  btn-block btn-register">立即注册</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <footer class="footer">
+            <div class="text-center">©2017 SmartClass 系统开发 Mr.Li</div>
+        </footer>
+    </div>
+    <script src="/Scripts/jquery-1.10.2.js"></script>
+    <script src="/Content/Js/validate.js"></script>
+    <script type="text/javascript">
+         var validate = $('#validate');
+         validate.attr('src','/Logon/ValidateCode').on('click',function(){
+            validate.attr('src','/Logon/ValidateCode?date='+new Date().getTime());
+         });
+        
+        /*绑定事件*/
+         var username = $('#username');
+         username.on('blur', function () {
+             checkUserName();
+         });
+         var password = $('#password');
+         password.on('blur', function () {
+             checkPassword();
+         });
+        //用户名校验
+         function checkUserName() {             
+                 var str = username.val();
+                 if (checkUser(str)) {
+                     $('#usernamePrompt').attr('class', 'hidden');
+                     return true;
+                 } else {
+                     $('#usernamePrompt').attr('class', 'show').css({ 'color': 'red' });
+                     return false;
+                 }
+         
+         };
+        //密码校验
+         function checkPassword() {
+             var pwd = password.val();
+                 if (checkPwd(pwd)) {
+                     $('#passwordPrompt').attr('class', 'hidden');
+                     return true;
+                 } else {
+                     $('#passwordPrompt').attr('class', 'show').css({ 'color': 'red' });
+                     return false;
+                 }            
+         };
+        /*登录按钮*/
+         var btnLogin = $('#btn_login');
+         btnLogin.on('click', function () {
+             var checkUser = checkUserName();
+             var checkPwd = checkPassword();
+             var validateCode = $('#validateCode').val();
+             if (checkUser && checkPwd) {
+                 $.ajax({
+                     type: "POST",
+                     url: "/Logon/CheckValidate",
+                     data: { validateCode: validateCode },
+                     datatype:'json',
+                     success: function (msg) {
+                         if (msg.state == 'No') {
+                             $('#validatePrompt').attr('class', 'show').css({ 'color': 'red' }).text(msg.content);
+                             validate.trigger('click');
+                         } else {
+                             $('#validatePrompt').attr('class', 'hidden');
+                         }
+                     }
+                 });
+             }
+         });
+         </script>
+</body>
+</html>

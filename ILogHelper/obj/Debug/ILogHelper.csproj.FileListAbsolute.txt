@@ -1,0 +1,4 @@
+E:\Demo\ILogHelper\bin\Debug\ILogHelper.dll
+E:\Demo\ILogHelper\bin\Debug\ILogHelper.pdb
+E:\Demo\ILogHelper\obj\Debug\ILogHelper.dll
+E:\Demo\ILogHelper\obj\Debug\ILogHelper.pdb
