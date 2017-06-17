@@ -1,8 +1,0 @@
-E:\Demo\NLogDemo\bin\Debug\NLog.config
-E:\Demo\NLogDemo\bin\Debug\NLogDemo.exe.config
-E:\Demo\NLogDemo\bin\Debug\NLogDemo.exe
-E:\Demo\NLogDemo\bin\Debug\NLogDemo.pdb
-E:\Demo\NLogDemo\bin\Debug\NLog.dll
-E:\Demo\NLogDemo\bin\Debug\NLog.xml
-E:\Demo\NLogDemo\obj\Debug\NLogDemo.exe
-E:\Demo\NLogDemo\obj\Debug\NLogDemo.pdb
