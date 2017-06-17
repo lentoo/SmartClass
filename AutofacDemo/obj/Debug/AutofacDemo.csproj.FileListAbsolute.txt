@@ -2,16 +2,8 @@ E:\Demo\AutofacDemo\bin\Debug\AutofacDemo.exe.config
 E:\Demo\AutofacDemo\bin\Debug\AutofacDemo.exe
 E:\Demo\AutofacDemo\bin\Debug\AutofacDemo.pdb
 E:\Demo\AutofacDemo\bin\Debug\Autofac.dll
-E:\Demo\AutofacDemo\bin\Debug\Autofac.xml
-E:\Demo\AutofacDemo\obj\Debug\AutofacDemo.Form1.resources
-E:\Demo\AutofacDemo\obj\Debug\AutofacDemo.Properties.Resources.resources
-E:\Demo\AutofacDemo\obj\Debug\AutofacDemo.csproj.GenerateResource.Cache
-E:\Demo\AutofacDemo\obj\Debug\AutofacDemo.exe
-E:\Demo\AutofacDemo\obj\Debug\AutofacDemo.pdb
-E:\Demo\AutofacDemo\bin\Debug\ILogHelper.dll
-E:\Demo\AutofacDemo\bin\Debug\ILogHelper.pdb
-E:\Demo\AutofacDemo\obj\Debug\AutofacDemo.csprojResolveAssemblyReference.cache
 E:\Demo\AutofacDemo\bin\Debug\Autofac.Integration.Mvc.dll
+E:\Demo\AutofacDemo\bin\Debug\ILogHelper.dll
 E:\Demo\AutofacDemo\bin\Debug\Microsoft.Web.Infrastructure.dll
 E:\Demo\AutofacDemo\bin\Debug\System.Web.Helpers.dll
 E:\Demo\AutofacDemo\bin\Debug\System.Web.Mvc.dll
@@ -19,6 +11,8 @@ E:\Demo\AutofacDemo\bin\Debug\System.Web.Razor.dll
 E:\Demo\AutofacDemo\bin\Debug\System.Web.WebPages.Deployment.dll
 E:\Demo\AutofacDemo\bin\Debug\System.Web.WebPages.dll
 E:\Demo\AutofacDemo\bin\Debug\System.Web.WebPages.Razor.dll
+E:\Demo\AutofacDemo\bin\Debug\ILogHelper.pdb
+E:\Demo\AutofacDemo\bin\Debug\Autofac.xml
 E:\Demo\AutofacDemo\bin\Debug\Autofac.Integration.Mvc.xml
 E:\Demo\AutofacDemo\bin\Debug\System.Web.Helpers.xml
 E:\Demo\AutofacDemo\bin\Debug\System.Web.Mvc.xml
@@ -26,3 +20,9 @@ E:\Demo\AutofacDemo\bin\Debug\System.Web.Razor.xml
 E:\Demo\AutofacDemo\bin\Debug\System.Web.WebPages.xml
 E:\Demo\AutofacDemo\bin\Debug\System.Web.WebPages.Deployment.xml
 E:\Demo\AutofacDemo\bin\Debug\System.Web.WebPages.Razor.xml
+E:\Demo\AutofacDemo\obj\Debug\AutofacDemo.csprojResolveAssemblyReference.cache
+E:\Demo\AutofacDemo\obj\Debug\AutofacDemo.Form1.resources
+E:\Demo\AutofacDemo\obj\Debug\AutofacDemo.Properties.Resources.resources
+E:\Demo\AutofacDemo\obj\Debug\AutofacDemo.csproj.GenerateResource.Cache
+E:\Demo\AutofacDemo\obj\Debug\AutofacDemo.exe
+E:\Demo\AutofacDemo\obj\Debug\AutofacDemo.pdb

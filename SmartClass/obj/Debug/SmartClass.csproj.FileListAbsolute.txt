@@ -111,6 +111,7 @@ E:\Demo\SmartClass\bin\Antlr3.Runtime.dll
 E:\Demo\SmartClass\bin\Autofac.dll
 E:\Demo\SmartClass\bin\Autofac.Integration.Mvc.dll
 E:\Demo\SmartClass\bin\Common.dll
+E:\Demo\SmartClass\bin\IBLL.dll
 E:\Demo\SmartClass\bin\log4net.dll
 E:\Demo\SmartClass\bin\Microsoft.AI.Agent.Intercept.dll
 E:\Demo\SmartClass\bin\Microsoft.AI.DependencyCollector.dll
@@ -121,6 +122,7 @@ E:\Demo\SmartClass\bin\Microsoft.AI.WindowsServer.dll
 E:\Demo\SmartClass\bin\Microsoft.ApplicationInsights.dll
 E:\Demo\SmartClass\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 E:\Demo\SmartClass\bin\Microsoft.Web.Infrastructure.dll
+E:\Demo\SmartClass\bin\Model.dll
 E:\Demo\SmartClass\bin\Newtonsoft.Json.dll
 E:\Demo\SmartClass\bin\NLog.dll
 E:\Demo\SmartClass\bin\System.Web.Helpers.dll
@@ -131,7 +133,11 @@ E:\Demo\SmartClass\bin\System.Web.WebPages.Deployment.dll
 E:\Demo\SmartClass\bin\System.Web.WebPages.dll
 E:\Demo\SmartClass\bin\System.Web.WebPages.Razor.dll
 E:\Demo\SmartClass\bin\WebGrease.dll
+E:\Demo\SmartClass\bin\EntityFramework.dll
 E:\Demo\SmartClass\bin\Common.pdb
+E:\Demo\SmartClass\bin\IBLL.pdb
+E:\Demo\SmartClass\bin\Model.pdb
+E:\Demo\SmartClass\bin\Model.dll.config
 E:\Demo\SmartClass\bin\Autofac.xml
 E:\Demo\SmartClass\bin\Autofac.Integration.Mvc.xml
 E:\Demo\SmartClass\bin\log4net.xml
@@ -151,6 +157,7 @@ E:\Demo\SmartClass\bin\Microsoft.AI.DependencyCollector.xml
 E:\Demo\SmartClass\bin\Microsoft.AI.ServerTelemetryChannel.xml
 E:\Demo\SmartClass\bin\Microsoft.AI.WindowsServer.xml
 E:\Demo\SmartClass\bin\Microsoft.AI.Web.xml
+E:\Demo\SmartClass\bin\EntityFramework.xml
 E:\Demo\SmartClass\bin\zh-Hans\System.Web.Helpers.resources.dll
 E:\Demo\SmartClass\bin\zh-Hans\System.Web.Mvc.resources.dll
 E:\Demo\SmartClass\bin\zh-Hans\System.Web.Optimization.resources.dll
@@ -158,8 +165,7 @@ E:\Demo\SmartClass\bin\zh-Hans\System.Web.Razor.resources.dll
 E:\Demo\SmartClass\bin\zh-Hans\System.Web.WebPages.resources.dll
 E:\Demo\SmartClass\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll
 E:\Demo\SmartClass\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
+E:\Demo\SmartClass\bin\zh-Hans\EntityFramework.resources.dll
 E:\Demo\SmartClass\obj\Debug\SmartClass.csprojResolveAssemblyReference.cache
 E:\Demo\SmartClass\obj\Debug\SmartClass.dll
 E:\Demo\SmartClass\obj\Debug\SmartClass.pdb
-E:\Demo\SmartClass\bin\BLL.dll
-E:\Demo\SmartClass\bin\BLL.pdb

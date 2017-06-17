@@ -1,4 +1,17 @@
 E:\Demo\BLL\bin\Debug\BLL.dll
 E:\Demo\BLL\bin\Debug\BLL.pdb
+E:\Demo\BLL\bin\Debug\IBLL.dll
+E:\Demo\BLL\bin\Debug\IDAL.dll
+E:\Demo\BLL\bin\Debug\Model.dll
+E:\Demo\BLL\bin\Debug\EntityFramework.dll
+E:\Demo\BLL\bin\Debug\IBLL.pdb
+E:\Demo\BLL\bin\Debug\IDAL.pdb
+E:\Demo\BLL\bin\Debug\Model.pdb
+E:\Demo\BLL\bin\Debug\Model.dll.config
+E:\Demo\BLL\bin\Debug\EntityFramework.xml
+E:\Demo\BLL\bin\Debug\zh-Hans\EntityFramework.resources.dll
+E:\Demo\SmartClass\bin\BLL.dll
+E:\Demo\SmartClass\bin\BLL.pdb
+E:\Demo\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
 E:\Demo\BLL\obj\Debug\BLL.dll
 E:\Demo\BLL\obj\Debug\BLL.pdb

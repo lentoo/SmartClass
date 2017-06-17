@@ -1,4 +1,8 @@
-﻿using System;
+﻿
+using IBLL;
+
+using Model;
+using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
@@ -10,10 +14,63 @@ namespace SmartClass.Controllers
 {
     public class LogonController : Controller
     {
+        //public LogonController(ISys_UserService UserService, ISys_UserLogOnService UserLogService)
+        //{
+        //    this.UserService = UserService;
+        //    this.UserLogService = UserLogService;
+        //}
+        public ISys_UserService UserService { get; set; }
+        public ISys_UserLogOnService UserLogService { get; set; }
+        //public LogonController(ISys_UserBll UserBll)
+        //{
+        //    this.UserBll = UserBll;
+        //}
         // GET: Logon
         public ActionResult Index()
         {
             return View();
+        }
+
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Logon(string Account, string Pwd)
+        {
+            //测试初始化登录-begin
+            Account = "admin";
+            Pwd = "4a7d1ed414474e4033ac29ccb8653d9b";
+           
+            Sys_User User = UserService.GetEntityByAccount(Account);
+            if (User == null)
+            {
+                return Json(new { Message = "用户名不存在" });
+            }
+            Sys_UserLogOn UserLogOn = UserLogService.GetEntityByUserId(User.F_Id);
+            if (UserLogOn == null)
+            {
+                return Json(new { Message = "查询不到密码信息" });
+            }
+            string key = UserLogOn.F_UserSecretkey;
+            string _Pwd = Common.Md5.md5(Common.DESEncrypt.Encrypt(Pwd, key).ToLower(), 32).ToLower();
+          //  string _Pwd = Common.DESEncrypt.Encrypt(Pwd, key).ToLower();
+
+            if (UserLogOn.F_UserPassword == _Pwd)    //登录成功
+            {
+                if (UserLogOn.F_LastVisitTime != null)
+                {
+                    UserLogOn.F_PreviousVisitTime = UserLogOn.F_LastVisitTime;
+                }
+                UserLogOn.F_LastVisitTime = DateTime.Now;
+                UserLogOn.F_LogOnCount = UserLogOn.F_LogOnCount + 1;
+
+                UserLogService.UpdateEntityInfo(UserLogOn);
+                return Json(new { Message = "登录成功" });
+            }
+            else
+            {
+                return Json(new { Message = "密码错误" });
+            }
         }
 
         /// <summary>
@@ -41,12 +98,12 @@ namespace SmartClass.Controllers
             }
             string code = Session["validateCode"].ToString();
             if (code != validateCode)
-            {              
-                return Json(new {state="No",content="验证码错误" });
+            {
+                return Json(new { state = "No", content = "验证码错误" });
             }
             else
             {
-                return Json(new { state = "Yes" ,content="验证通过"});
+                return Json(new { state = "Yes", content = "验证通过" });
             }
         }
     }

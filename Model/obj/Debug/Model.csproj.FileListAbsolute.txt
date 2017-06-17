@@ -1,0 +1,10 @@
+E:\Demo\Model\bin\Debug\Model.dll.config
+E:\Demo\Model\bin\Debug\Model.dll
+E:\Demo\Model\bin\Debug\Model.pdb
+E:\Demo\Model\bin\Debug\EntityFramework.dll
+E:\Demo\Model\bin\Debug\EntityFramework.SqlServer.dll
+E:\Demo\Model\bin\Debug\EntityFramework.xml
+E:\Demo\Model\bin\Debug\EntityFramework.SqlServer.xml
+E:\Demo\Model\bin\Debug\zh-Hans\EntityFramework.resources.dll
+E:\Demo\Model\obj\Debug\Model.dll
+E:\Demo\Model\obj\Debug\Model.pdb

@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
-using BLL;
+
 using Common;
 using SmartClass.Models;
 using System;
@@ -17,11 +17,15 @@ namespace SmartClass.Controllers
 {
     public class HomeController : Controller
     {
-
+     
+        //public HomeController(IUserInfoService UserInfoService)
+        //{
+        //    this.UserInfoService = UserInfoService;
+        //}
         public ActionResult Index()
         {
-            // MyUserInfoService= AutofacDependencyResolver.Current.RequestLifetimeScope.ResolveNamed<IUserInfoService>("My");
-            
+           /* UserInfoService = AutofacDependencyResolver.Current.RequestLifetimeScope.ResolveNamed<IUserInfoService>("My")*/;
+           // string name = UserInfoService.Name("aaaa");
             return View();
         }
         /// <summary>

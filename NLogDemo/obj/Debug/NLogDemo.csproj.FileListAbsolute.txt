@@ -6,4 +6,3 @@ E:\Demo\NLogDemo\bin\Debug\NLog.dll
 E:\Demo\NLogDemo\bin\Debug\NLog.xml
 E:\Demo\NLogDemo\obj\Debug\NLogDemo.exe
 E:\Demo\NLogDemo\obj\Debug\NLogDemo.pdb
-E:\Demo\NLogDemo\obj\Debug\NLogDemo.csprojResolveAssemblyReference.cache

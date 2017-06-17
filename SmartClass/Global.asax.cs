@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
-using BLL;
 using SmartClass.Models;
 using SmartClass.Models.Exceptions;
 using System;
@@ -20,15 +19,15 @@ namespace SmartClass
         protected void Application_Start()
         {
             //从配置文件读取log4net的配置、然后进行一个初始化的工作       
-            //  log4net.Config.XmlConfigurator.Configure();
+            //  log4net.Config.XmlConfigurator.Configure();          
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            //初始化autofac
+            
             AutofacConfig.init();
-           
+
             MyException.ProcessException();
         }
     }

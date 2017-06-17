@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="NFineBaseModelStoreContainer" CdmEntityContainer="NFineBaseEntities">
+    <EntitySetMapping Name="Sys_User">
+      <EntityTypeMapping TypeName="NFineBaseModel.Sys_User">
+        <MappingFragment StoreEntitySet="Sys_User">
+          <ScalarProperty Name="F_Id" ColumnName="F_Id" />
+          <ScalarProperty Name="F_Account" ColumnName="F_Account" />
+          <ScalarProperty Name="F_RealName" ColumnName="F_RealName" />
+          <ScalarProperty Name="F_NickName" ColumnName="F_NickName" />
+          <ScalarProperty Name="F_HeadIcon" ColumnName="F_HeadIcon" />
+          <ScalarProperty Name="F_Gender" ColumnName="F_Gender" />
+          <ScalarProperty Name="F_Birthday" ColumnName="F_Birthday" />
+          <ScalarProperty Name="F_MobilePhone" ColumnName="F_MobilePhone" />
+          <ScalarProperty Name="F_Email" ColumnName="F_Email" />
+          <ScalarProperty Name="F_WeChat" ColumnName="F_WeChat" />
+          <ScalarProperty Name="F_ManagerId" ColumnName="F_ManagerId" />
+          <ScalarProperty Name="F_SecurityLevel" ColumnName="F_SecurityLevel" />
+          <ScalarProperty Name="F_Signature" ColumnName="F_Signature" />
+          <ScalarProperty Name="F_OrganizeId" ColumnName="F_OrganizeId" />
+          <ScalarProperty Name="F_DepartmentId" ColumnName="F_DepartmentId" />
+          <ScalarProperty Name="F_RoleId" ColumnName="F_RoleId" />
+          <ScalarProperty Name="F_DutyId" ColumnName="F_DutyId" />
+          <ScalarProperty Name="F_IsAdministrator" ColumnName="F_IsAdministrator" />
+          <ScalarProperty Name="F_SortCode" ColumnName="F_SortCode" />
+          <ScalarProperty Name="F_DeleteMark" ColumnName="F_DeleteMark" />
+          <ScalarProperty Name="F_EnabledMark" ColumnName="F_EnabledMark" />
+          <ScalarProperty Name="F_Description" ColumnName="F_Description" />
+          <ScalarProperty Name="F_CreatorTime" ColumnName="F_CreatorTime" />
+          <ScalarProperty Name="F_CreatorUserId" ColumnName="F_CreatorUserId" />
+          <ScalarProperty Name="F_LastModifyTime" ColumnName="F_LastModifyTime" />
+          <ScalarProperty Name="F_LastModifyUserId" ColumnName="F_LastModifyUserId" />
+          <ScalarProperty Name="F_DeleteTime" ColumnName="F_DeleteTime" />
+          <ScalarProperty Name="F_DeleteUserId" ColumnName="F_DeleteUserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sys_UserLogOn">
+      <EntityTypeMapping TypeName="NFineBaseModel.Sys_UserLogOn">
+        <MappingFragment StoreEntitySet="Sys_UserLogOn">
+          <ScalarProperty Name="F_Id" ColumnName="F_Id" />
+          <ScalarProperty Name="F_UserId" ColumnName="F_UserId" />
+          <ScalarProperty Name="F_UserPassword" ColumnName="F_UserPassword" />
+          <ScalarProperty Name="F_UserSecretkey" ColumnName="F_UserSecretkey" />
+          <ScalarProperty Name="F_AllowStartTime" ColumnName="F_AllowStartTime" />
+          <ScalarProperty Name="F_AllowEndTime" ColumnName="F_AllowEndTime" />
+          <ScalarProperty Name="F_LockStartDate" ColumnName="F_LockStartDate" />
+          <ScalarProperty Name="F_LockEndDate" ColumnName="F_LockEndDate" />
+          <ScalarProperty Name="F_FirstVisitTime" ColumnName="F_FirstVisitTime" />
+          <ScalarProperty Name="F_PreviousVisitTime" ColumnName="F_PreviousVisitTime" />
+          <ScalarProperty Name="F_LastVisitTime" ColumnName="F_LastVisitTime" />
+          <ScalarProperty Name="F_ChangePasswordDate" ColumnName="F_ChangePasswordDate" />
+          <ScalarProperty Name="F_MultiUserLogin" ColumnName="F_MultiUserLogin" />
+          <ScalarProperty Name="F_LogOnCount" ColumnName="F_LogOnCount" />
+          <ScalarProperty Name="F_UserOnLine" ColumnName="F_UserOnLine" />
+          <ScalarProperty Name="F_Question" ColumnName="F_Question" />
+          <ScalarProperty Name="F_AnswerQuestion" ColumnName="F_AnswerQuestion" />
+          <ScalarProperty Name="F_CheckIPAddress" ColumnName="F_CheckIPAddress" />
+          <ScalarProperty Name="F_Language" ColumnName="F_Language" />
+          <ScalarProperty Name="F_Theme" ColumnName="F_Theme" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
