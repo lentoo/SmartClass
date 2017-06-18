@@ -11,8 +11,8 @@ namespace BLL
 {
     public class Sys_UserLogOnService : BaseService<Sys_UserLogOn>, ISys_UserLogOnService
     {
-      //  public ISys_UserLogOnDal UserLogOnDal { get; set; }
-         
+          public ISys_UserLogOnDal UserLogOnDal { get; set; }
+
         public Sys_UserLogOn GetEntityByUserId(string userId)
         {
             //return dal.GetEntitys(userId);

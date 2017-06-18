@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Model;
+using IDAL;
+using System.Linq.Expressions;
 
 namespace DAL
 {
-    public class Sys_UserLogOnDal : BaseDal<Sys_UserLogOnDal>, IDAL.ISys_UserLogOnDal<Sys_UserLogOnDal>
+    public class Sys_UserLogOnDal : BaseDal<Sys_UserLogOn>, ISys_UserLogOnDal
     {
         /// <summary>
         /// 根据用户ID查找用户密码相关信息

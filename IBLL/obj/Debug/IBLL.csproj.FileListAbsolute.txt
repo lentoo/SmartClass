@@ -1,3 +1,4 @@
+E:\Demo\IBLL\obj\Debug\IBLL.csprojResolveAssemblyReference.cache
 E:\Demo\IBLL\bin\Debug\IBLL.dll
 E:\Demo\IBLL\bin\Debug\IBLL.pdb
 E:\Demo\IBLL\bin\Debug\IDAL.dll
@@ -8,6 +9,5 @@ E:\Demo\IBLL\bin\Debug\Model.pdb
 E:\Demo\IBLL\bin\Debug\Model.dll.config
 E:\Demo\IBLL\bin\Debug\EntityFramework.xml
 E:\Demo\IBLL\bin\Debug\zh-Hans\EntityFramework.resources.dll
-E:\Demo\IBLL\obj\Debug\IBLL.csprojResolveAssemblyReference.cache
 E:\Demo\IBLL\obj\Debug\IBLL.dll
 E:\Demo\IBLL\obj\Debug\IBLL.pdb

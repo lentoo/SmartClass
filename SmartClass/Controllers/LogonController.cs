@@ -28,6 +28,7 @@ namespace SmartClass.Controllers
         // GET: Logon
         public ActionResult Index()
         {
+            
             return View();
         }
 
@@ -35,7 +36,7 @@ namespace SmartClass.Controllers
         /// 登录
         /// </summary>
         /// <returns></returns>
-        public ActionResult Logon(string Account, string Pwd)
+        public ActionResult Logon(string Account, string Pwd,string imei)
         {
             //测试初始化登录-begin
             Account = "admin";

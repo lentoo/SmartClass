@@ -1,5 +1,4 @@
-﻿using DAL;
-using IBLL;
+﻿using IBLL;
 using IDAL;
 using System;
 using System.Collections.Generic;
@@ -11,10 +10,12 @@ namespace BLL
 {
     public class BaseService<T>:IBaseService<T> where T : class, new()
     {
-        public IBaseDal<T> dal = new BaseDal<T>();
+        //public IBaseDal<T> dal = new BaseDal<T>();
+        public IBaseDal<T> dal { get; set; }
+
 
         public bool UpdateEntityInfo(T entity)
-        {
+        {            
            return dal.UpdateEntityInfo(entity);
         }
     }

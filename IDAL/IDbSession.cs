@@ -8,6 +8,6 @@ namespace IDAL
 {
     public interface IDbSession
     {
-        
+       // ISys_UserDal
     }
 }

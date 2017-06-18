@@ -6,5 +6,6 @@ E:\Demo\Model\bin\Debug\EntityFramework.SqlServer.dll
 E:\Demo\Model\bin\Debug\EntityFramework.xml
 E:\Demo\Model\bin\Debug\EntityFramework.SqlServer.xml
 E:\Demo\Model\bin\Debug\zh-Hans\EntityFramework.resources.dll
+E:\Demo\Model\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
 E:\Demo\Model\obj\Debug\Model.dll
 E:\Demo\Model\obj\Debug\Model.pdb

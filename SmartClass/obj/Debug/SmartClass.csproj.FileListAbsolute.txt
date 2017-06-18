@@ -76,6 +76,7 @@ E:\Demo\Demo1\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
 E:\Demo\Demo1\obj\Debug\SmartClass.csprojResolveAssemblyReference.cache
 E:\Demo\Demo1\obj\Debug\SmartClass.dll
 E:\Demo\Demo1\obj\Debug\SmartClass.pdb
+E:\Demo\SmartClass\obj\Debug\SmartClass.csprojResolveAssemblyReference.cache
 E:\Demo\SmartClass\bin\ApplicationInsights.config
 E:\Demo\SmartClass\bin\roslyn\csc.exe
 E:\Demo\SmartClass\bin\roslyn\csc.exe.config
@@ -110,7 +111,6 @@ E:\Demo\SmartClass\bin\SmartClass.pdb
 E:\Demo\SmartClass\bin\Antlr3.Runtime.dll
 E:\Demo\SmartClass\bin\Autofac.dll
 E:\Demo\SmartClass\bin\Autofac.Integration.Mvc.dll
-E:\Demo\SmartClass\bin\Common.dll
 E:\Demo\SmartClass\bin\IBLL.dll
 E:\Demo\SmartClass\bin\log4net.dll
 E:\Demo\SmartClass\bin\Microsoft.AI.Agent.Intercept.dll
@@ -133,6 +133,7 @@ E:\Demo\SmartClass\bin\System.Web.WebPages.Deployment.dll
 E:\Demo\SmartClass\bin\System.Web.WebPages.dll
 E:\Demo\SmartClass\bin\System.Web.WebPages.Razor.dll
 E:\Demo\SmartClass\bin\WebGrease.dll
+E:\Demo\SmartClass\bin\IDAL.dll
 E:\Demo\SmartClass\bin\EntityFramework.dll
 E:\Demo\SmartClass\bin\Common.pdb
 E:\Demo\SmartClass\bin\IBLL.pdb
@@ -157,6 +158,7 @@ E:\Demo\SmartClass\bin\Microsoft.AI.DependencyCollector.xml
 E:\Demo\SmartClass\bin\Microsoft.AI.ServerTelemetryChannel.xml
 E:\Demo\SmartClass\bin\Microsoft.AI.WindowsServer.xml
 E:\Demo\SmartClass\bin\Microsoft.AI.Web.xml
+E:\Demo\SmartClass\bin\IDAL.pdb
 E:\Demo\SmartClass\bin\EntityFramework.xml
 E:\Demo\SmartClass\bin\zh-Hans\System.Web.Helpers.resources.dll
 E:\Demo\SmartClass\bin\zh-Hans\System.Web.Mvc.resources.dll
@@ -166,6 +168,5 @@ E:\Demo\SmartClass\bin\zh-Hans\System.Web.WebPages.resources.dll
 E:\Demo\SmartClass\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll
 E:\Demo\SmartClass\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
 E:\Demo\SmartClass\bin\zh-Hans\EntityFramework.resources.dll
-E:\Demo\SmartClass\obj\Debug\SmartClass.csprojResolveAssemblyReference.cache
 E:\Demo\SmartClass\obj\Debug\SmartClass.dll
 E:\Demo\SmartClass\obj\Debug\SmartClass.pdb

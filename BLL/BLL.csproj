@@ -46,9 +46,9 @@
     <Compile Include="Sys_UserLogOnService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DAL\DAL.csproj">
-      <Project>{6bf3a4e3-1adc-490d-9d51-0189a3460afd}</Project>
-      <Name>DAL</Name>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{ec2cd3ee-9336-4a83-bca6-481ffdc64e2a}</Project>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\IBLL\IBLL.csproj">
       <Project>{ed50b4a1-6e53-42e9-9c75-5587978280c6}</Project>

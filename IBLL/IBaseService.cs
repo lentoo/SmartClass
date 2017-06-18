@@ -9,7 +9,7 @@ namespace IBLL
 {
     public interface IBaseService<T> where T : class ,new()
     {
-        //IBaseDal<T> dal { get; set; }
+        IBaseDal<T> dal { get; set; }
 
         bool UpdateEntityInfo(T entity);
     }
