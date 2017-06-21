@@ -10,8 +10,3 @@ E:\Demo\BLL\bin\Debug\Model.pdb
 E:\Demo\BLL\bin\Debug\Model.dll.config
 E:\Demo\BLL\bin\Debug\EntityFramework.xml
 E:\Demo\BLL\bin\Debug\zh-Hans\EntityFramework.resources.dll
-E:\Demo\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
-E:\Demo\SmartClass\bin\BLL.dll
-E:\Demo\SmartClass\bin\BLL.pdb
-E:\Demo\BLL\obj\Debug\BLL.dll
-E:\Demo\BLL\obj\Debug\BLL.pdb

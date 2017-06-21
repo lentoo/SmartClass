@@ -1,7 +1,9 @@
 ﻿
+using Common;
+using Common.Cache;
 using IBLL;
-
 using Model;
+using SmartClass.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
@@ -12,8 +14,10 @@ using System.Web.Mvc;
 
 namespace SmartClass.Controllers
 {
+    //[MyActionFilter]
     public class LogonController : Controller
     {
+
         //public LogonController(ISys_UserService UserService, ISys_UserLogOnService UserLogService)
         //{
         //    this.UserService = UserService;
@@ -26,22 +30,27 @@ namespace SmartClass.Controllers
         //    this.UserBll = UserBll;
         //}
         // GET: Logon
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
-            
             return View();
+        }
+        public void Test()
+        {
+            MemcacheHelper mc = new MemcacheHelper();
+            mc.AddCache("username", "123456");
+            string str = mc.GetCache("username").ToString();
         }
 
         /// <summary>
         /// 登录
         /// </summary>
         /// <returns></returns>
-        public ActionResult Logon(string Account, string Pwd,string imei)
+        public ActionResult Logon(string Account, string Pwd, string imei)
         {
             //测试初始化登录-begin
             Account = "admin";
             Pwd = "4a7d1ed414474e4033ac29ccb8653d9b";
-           
+
             Sys_User User = UserService.GetEntityByAccount(Account);
             if (User == null)
             {
@@ -53,8 +62,7 @@ namespace SmartClass.Controllers
                 return Json(new { Message = "查询不到密码信息" });
             }
             string key = UserLogOn.F_UserSecretkey;
-            string _Pwd = Common.Md5.md5(Common.DESEncrypt.Encrypt(Pwd, key).ToLower(), 32).ToLower();
-          //  string _Pwd = Common.DESEncrypt.Encrypt(Pwd, key).ToLower();
+            string _Pwd = Md5.md5(DESEncrypt.Encrypt(Pwd, key).ToLower(), 32).ToLower();
 
             if (UserLogOn.F_UserPassword == _Pwd)    //登录成功
             {
@@ -64,9 +72,16 @@ namespace SmartClass.Controllers
                 }
                 UserLogOn.F_LastVisitTime = DateTime.Now;
                 UserLogOn.F_LogOnCount = UserLogOn.F_LogOnCount + 1;
-
                 UserLogService.UpdateEntityInfo(UserLogOn);
-                return Json(new { Message = "登录成功" });
+
+                string token = JwtUtils.CreateToken(User, UserLogOn, imei);
+
+                Common.Cache.CacheHelper.AddCache(User.F_Account, token);
+                return Json(new
+                {
+                    Message = "登录成功",
+                    Token = token
+                }, JsonRequestBehavior.AllowGet);
             }
             else
             {

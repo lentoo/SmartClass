@@ -136,7 +136,7 @@ namespace SmartClass.Models
                 for (int i = 0; i < num; i++)
                 {
                     Digital digitalWD = new Digital();
-                    digitalWD.Id = data[index++];
+                    digitalWD.Id =data[index++];
                     digitalWD.value = (data[index++] << 8 | data[index++]) / 10 + "℃";
                     digitalWD.Name = "温度";
                     actuators.Add(digitalWD);

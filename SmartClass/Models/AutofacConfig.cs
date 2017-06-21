@@ -1,8 +1,10 @@
 ﻿using Autofac;
+
 using Autofac.Integration.Mvc;
 using Common;
-
+using Common.Cache;
 using IBLL;
+
 using System.Linq;
 using System.Reflection;
 using System.Web.Compilation;
@@ -20,6 +22,9 @@ namespace SmartClass
             builder.RegisterTypes(service.GetTypes()).AsImplementedInterfaces().PropertiesAutowired();
             var dal = Assembly.Load("DAL");
             builder.RegisterTypes(dal.GetTypes()).AsImplementedInterfaces().PropertiesAutowired();
+            var common = Assembly.Load("Common");
+            builder.RegisterTypes(common.GetTypes()).AsImplementedInterfaces().PropertiesAutowired();
+            //builder.RegisterType<MemcacheHelper>().As<ICacheHelper>().InstancePerLifetimeScope();   
             //var assemblys = BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToList();
             //builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t => t.Name.EndsWith("Service")).AsImplementedInterfaces().PropertiesAutowired();
 
@@ -35,12 +40,8 @@ namespace SmartClass
 
             //builder.RegisterType<UserInfoService>().Named<IUserInfoService>("My");
             //builder.RegisterType<ILogHelper>().Named<NLogHelper>("NLog");
-            var common = Assembly.Load("Common");
-            builder.RegisterAssemblyTypes(common).AsImplementedInterfaces();
             //属性注入
             builder.RegisterControllers(Assembly.GetExecutingAssembly()).PropertiesAutowired();
-            //构造函数注入
-           // builder.RegisterControllers(Assembly.GetExecutingAssembly());
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             #endregion

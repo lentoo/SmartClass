@@ -21,8 +21,7 @@ namespace SmartClass.Models.Exceptions
 
         public static Queue<Exception> ExceptionQueue = new Queue<Exception>();
 
-        public static ILogHelper LogHelper = new NLogHelper();
-        //public static ILogHelper LogHelper = AutofacDependencyResolver.Current.RequestLifetimeScope.ResolveNamed<NLogHelper>("NLog");
+        public static ILogHelper LogHelper = DependencyResolver.Current.GetService<ILogHelper>();
 
         public override void OnException(ExceptionContext filterContext)
         {

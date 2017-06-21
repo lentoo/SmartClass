@@ -10,7 +10,7 @@ namespace SmartClass
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new MyException());
-            filters.Add(new MyActionFilterAttribute());
+            //filters.Add(new MyActionFilterAttribute());
         }
     }
 }

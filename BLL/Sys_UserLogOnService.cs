@@ -15,7 +15,6 @@ namespace BLL
 
         public Sys_UserLogOn GetEntityByUserId(string userId)
         {
-            //return dal.GetEntitys(userId);
             return dal.GetEntitys(u => u.F_UserId == userId).FirstOrDefault();
         }
     }

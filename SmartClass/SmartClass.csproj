@@ -247,9 +247,17 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{9a6cf352-6d3a-4ce1-8581-2f02038c3273}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{ec2cd3ee-9336-4a83-bca6-481ffdc64e2a}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{6bf3a4e3-1adc-490d-9d51-0189a3460afd}</Project>
+      <Name>DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\IBLL\IBLL.csproj">
       <Project>{ED50B4A1-6E53-42E9-9C75-5587978280C6}</Project>

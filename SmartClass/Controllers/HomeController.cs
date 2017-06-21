@@ -35,7 +35,7 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult Process(string classroom)
         {
-            byte[] Cmd = new byte[] { 0x55, 0x02, 0x12, 0x34, 0x1f, 0x00, 0x01, 0x00, 0x3a, 0x12, 0xbb };
+            byte[] Cmd = new byte[] { 0x55, 0x02, 0x12, 0x34, 0x1f, 0x00, 0x01, 0x00};
             byte[] roomId = CmdUtils.StrToHexByte(classroom);
             roomId.CopyTo(Cmd, 2);
             Cmd = CmdUtils.ActuatorCommand(Cmd);
