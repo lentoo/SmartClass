@@ -14,7 +14,7 @@ using System.Web.Mvc;
 
 namespace SmartClass.Controllers
 {
-    //[MyActionFilter]
+
     public class LogonController : Controller
     {
 
@@ -30,16 +30,12 @@ namespace SmartClass.Controllers
         //    this.UserBll = UserBll;
         //}
         // GET: Logon
+
         public virtual ActionResult Index()
         {
             return View();
         }
-        public void Test()
-        {
-            MemcacheHelper mc = new MemcacheHelper();
-            mc.AddCache("username", "123456");
-            string str = mc.GetCache("username").ToString();
-        }
+
 
         /// <summary>
         /// 登录
@@ -47,6 +43,7 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult Logon(string Account, string Pwd, string imei)
         {
+            
             //测试初始化登录-begin
             Account = "admin";
             Pwd = "4a7d1ed414474e4033ac29ccb8653d9b";
@@ -74,9 +71,16 @@ namespace SmartClass.Controllers
                 UserLogOn.F_LogOnCount = UserLogOn.F_LogOnCount + 1;
                 UserLogService.UpdateEntityInfo(UserLogOn);
 
-                string token = JwtUtils.CreateToken(User, UserLogOn, imei);
+                //string token = JwtUtils.CreateToken(User, UserLogOn, imei);
+                Payload payload = new Payload()
+                {
+                    Account = Account,
+                    IMEI = imei
+                };
 
-                Common.Cache.CacheHelper.AddCache(User.F_Account, token);
+                string token = JwtUtils.EncodingToken(payload, UserLogOn.F_UserSecretkey);
+                CacheHelper.AddCache(token, UserLogOn.F_UserSecretkey,DateTime.Now.AddDays(7));
+                
                 return Json(new
                 {
                     Message = "登录成功",

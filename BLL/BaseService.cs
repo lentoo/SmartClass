@@ -8,15 +8,19 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class BaseService<T>:IBaseService<T> where T : class, new()
+    public class BaseService<T> : IBaseService<T> where T : class, new()
     {
         //public IBaseDal<T> dal = new BaseDal<T>();
         public IBaseDal<T> dal { get; set; }
 
+        public bool AddEntity(T entity)
+        {
+            return dal.AddEntity(entity);
+        }
 
         public bool UpdateEntityInfo(T entity)
-        {            
-           return dal.UpdateEntityInfo(entity);
+        {
+            return dal.UpdateEntityInfo(entity);
         }
     }
 }

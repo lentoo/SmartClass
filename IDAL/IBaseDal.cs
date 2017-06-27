@@ -19,5 +19,12 @@ namespace IDAL
         IQueryable<T> GetEntitys(Expression<Func<T, bool>> whereLambda);
 
         bool UpdateEntityInfo(T entity);
+
+        /// <summary>
+        /// 添加一个实体信息
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        bool AddEntity(T entity);
     }
 }

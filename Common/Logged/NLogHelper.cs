@@ -12,7 +12,7 @@ namespace Common
     /// </summary>
     public class NLogHelper:ILogHelper
     {
-        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        private  readonly Logger Log = LogManager.GetCurrentClassLogger();
         public void Debug(object ex)
         {
             Log.Debug(ex);

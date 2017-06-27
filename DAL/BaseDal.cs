@@ -25,6 +25,19 @@ namespace DAL
             }
         }
 
+        public bool AddEntity(T entity)
+        {
+            Db.Set<T>().Add(entity);
+            if (Db.SaveChanges() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         #region 查询
         public IQueryable<T> GetEntitys(Expression<Func<T, bool>> whereLambda)
         {

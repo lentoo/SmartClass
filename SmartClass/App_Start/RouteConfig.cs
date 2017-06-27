@@ -19,8 +19,8 @@ namespace SmartClass
                 url: "{controller}/{action}/{id}",
                 defaults: new
                 {
-                    controller = "Home",
-                    action = "Index",
+                    controller = "Logon",
+                    action = "Logon",
                     id = UrlParameter.Optional
                 }
             );

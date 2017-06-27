@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IBaseService.cs" />
+    <Compile Include="ISys_LogService.cs" />
     <Compile Include="ISys_UserService.cs" />
     <Compile Include="ISys_UserLogOnService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

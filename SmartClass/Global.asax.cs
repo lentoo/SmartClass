@@ -22,14 +22,15 @@ namespace SmartClass
         {
             //从配置文件读取log4net的配置、然后进行一个初始化的工作       
             //  log4net.Config.XmlConfigurator.Configure();          
+            //autofac配置
+            AutofacConfig.Init();
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             
-            //autofac配置
-            AutofacConfig.init();
+           
 
             MyException.ProcessException();
         }

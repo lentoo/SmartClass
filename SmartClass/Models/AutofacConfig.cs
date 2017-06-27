@@ -1,10 +1,9 @@
 ﻿using Autofac;
-
 using Autofac.Integration.Mvc;
 using Common;
-using Common.Cache;
 using IBLL;
 
+using SmartClass.Models;
 using System.Linq;
 using System.Reflection;
 using System.Web.Compilation;
@@ -14,7 +13,7 @@ namespace SmartClass
 {
     public class AutofacConfig
     {
-        public static void init()
+        public static void Init()
         {
             #region Autofac配置
             ContainerBuilder builder = new ContainerBuilder();
@@ -24,6 +23,8 @@ namespace SmartClass
             builder.RegisterTypes(dal.GetTypes()).AsImplementedInterfaces().PropertiesAutowired();
             var common = Assembly.Load("Common");
             builder.RegisterTypes(common.GetTypes()).AsImplementedInterfaces().PropertiesAutowired();
+
+            //  builder.RegisterType<MyActionFilterAttribute>().PropertiesAutowired();
             //builder.RegisterType<MemcacheHelper>().As<ICacheHelper>().InstancePerLifetimeScope();   
             //var assemblys = BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToList();
             //builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t => t.Name.EndsWith("Service")).AsImplementedInterfaces().PropertiesAutowired();
@@ -39,9 +40,11 @@ namespace SmartClass
             //builder.RegisterAssemblyTypes(IRepository, Repository).AsImplementedInterfaces().PropertiesAutowired();
 
             //builder.RegisterType<UserInfoService>().Named<IUserInfoService>("My");
-            //builder.RegisterType<ILogHelper>().Named<NLogHelper>("NLog");
+            //builder.RegisterType<NLogHelper>().As<ILogHelper>();//.InstancePerLifetimeScope();
+
             //属性注入
             builder.RegisterControllers(Assembly.GetExecutingAssembly()).PropertiesAutowired();
+            builder.RegisterFilterProvider();//.PropertiesAutowired();
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             #endregion

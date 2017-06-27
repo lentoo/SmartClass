@@ -12,5 +12,7 @@ namespace IBLL
         IBaseDal<T> dal { get; set; }
 
         bool UpdateEntityInfo(T entity);
+
+        bool AddEntity(T entity);
     }
 }

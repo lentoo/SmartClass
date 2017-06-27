@@ -19,9 +19,11 @@ namespace SmartClass.Models.Exceptions
     public class MyException : HandleErrorAttribute
     {
 
-        public static Queue<Exception> ExceptionQueue = new Queue<Exception>();
+       // public static Queue<Exception> ExceptionQueue = new Queue<Exception>();
 
         public static ILogHelper LogHelper = DependencyResolver.Current.GetService<ILogHelper>();
+
+      
 
         public override void OnException(ExceptionContext filterContext)
         {
@@ -29,7 +31,7 @@ namespace SmartClass.Models.Exceptions
             //获取异常对象
             Exception exception = filterContext.Exception;
             //将异常信息放到异常队列中
-            ExceptionQueue.Enqueue(exception);
+            ExceptionHelper.ExceptionQueue.Enqueue(exception);
             //TODO: 此处应该返回500错误页
             filterContext.Result = new RedirectResult("/Home/Index");
             //filterContext.HttpContext.Response.Redirect();
@@ -42,15 +44,14 @@ namespace SmartClass.Models.Exceptions
         {
             //采用 Log4Net 日志
             //  ILog log = LogManager.GetLogger("WebLogger");
-            //采用 NLog 日志        
-
+            //采用 NLog 日志     
             ThreadPool.QueueUserWorkItem((o) =>
             {
                 while (true)
                 {
-                    if (ExceptionQueue.Count > 0)
+                    if (ExceptionHelper.ExceptionQueue.Count > 0)
                     {
-                        Exception ex = ExceptionQueue.Dequeue();
+                        Exception ex = ExceptionHelper.ExceptionQueue.Dequeue();
                         if (ex != null)
                         {
                             LogHelper.Debug(ex);

@@ -4,7 +4,25 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="NFineBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="NFineBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Sys_Log">
+          <Key>
+            <PropertyRef Name="F_Id" />
+          </Key>
+          <Property Name="F_Id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="F_Date" Type="datetime" />
+          <Property Name="F_Account" Type="varchar" MaxLength="50" />
+          <Property Name="F_NickName" Type="varchar" MaxLength="50" />
+          <Property Name="F_Type" Type="varchar" MaxLength="50" />
+          <Property Name="F_IPAddress" Type="varchar" MaxLength="50" />
+          <Property Name="F_IPAddressName" Type="varchar" MaxLength="50" />
+          <Property Name="F_ModuleId" Type="varchar" MaxLength="50" />
+          <Property Name="F_ModuleName" Type="varchar" MaxLength="50" />
+          <Property Name="F_Result" Type="bit" />
+          <Property Name="F_Description" Type="varchar" MaxLength="500" />
+          <Property Name="F_CreatorTime" Type="datetime" />
+          <Property Name="F_CreatorUserId" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Sys_User">
           <Key>
             <PropertyRef Name="F_Id" />
@@ -64,11 +82,11 @@
           <Property Name="F_Theme" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityContainer Name="NFineBaseModelStoreContainer">
+          <EntitySet Name="Sys_Log" EntityType="Self.Sys_Log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sys_User" EntityType="Self.Sys_User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sys_UserLogOn" EntityType="Self.Sys_UserLogOn" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="NFineBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -133,7 +151,26 @@
         <EntityContainer Name="NFineBaseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Sys_User" EntityType="Self.Sys_User" />
           <EntitySet Name="Sys_UserLogOn" EntityType="Self.Sys_UserLogOn" />
+          <EntitySet Name="Sys_Log" EntityType="NFineBaseModel.Sys_Log" />
         </EntityContainer>
+        <EntityType Name="Sys_Log">
+          <Key>
+            <PropertyRef Name="F_Id" />
+          </Key>
+          <Property Name="F_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_Date" Type="DateTime" Precision="3" />
+          <Property Name="F_Account" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_IPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_IPAddressName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_ModuleId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_ModuleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_Result" Type="Boolean" />
+          <Property Name="F_Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="F_CreatorTime" Type="DateTime" Precision="3" />
+          <Property Name="F_CreatorUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -197,6 +234,25 @@
                 <ScalarProperty Name="F_CheckIPAddress" ColumnName="F_CheckIPAddress" />
                 <ScalarProperty Name="F_Language" ColumnName="F_Language" />
                 <ScalarProperty Name="F_Theme" ColumnName="F_Theme" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sys_Log">
+            <EntityTypeMapping TypeName="NFineBaseModel.Sys_Log">
+              <MappingFragment StoreEntitySet="Sys_Log">
+                <ScalarProperty Name="F_CreatorUserId" ColumnName="F_CreatorUserId" />
+                <ScalarProperty Name="F_CreatorTime" ColumnName="F_CreatorTime" />
+                <ScalarProperty Name="F_Description" ColumnName="F_Description" />
+                <ScalarProperty Name="F_Result" ColumnName="F_Result" />
+                <ScalarProperty Name="F_ModuleName" ColumnName="F_ModuleName" />
+                <ScalarProperty Name="F_ModuleId" ColumnName="F_ModuleId" />
+                <ScalarProperty Name="F_IPAddressName" ColumnName="F_IPAddressName" />
+                <ScalarProperty Name="F_IPAddress" ColumnName="F_IPAddress" />
+                <ScalarProperty Name="F_Type" ColumnName="F_Type" />
+                <ScalarProperty Name="F_NickName" ColumnName="F_NickName" />
+                <ScalarProperty Name="F_Account" ColumnName="F_Account" />
+                <ScalarProperty Name="F_Date" ColumnName="F_Date" />
+                <ScalarProperty Name="F_Id" ColumnName="F_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
