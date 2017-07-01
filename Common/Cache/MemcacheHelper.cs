@@ -20,7 +20,7 @@ namespace Common.Cache
         /// <param name="key">键</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        public bool AddCache(string key, object value)
+        public bool AddCache<T>(string key, T value)
         {
             return mc.Store(StoreMode.Add, key, value);
         }
@@ -31,7 +31,7 @@ namespace Common.Cache
         /// <param name="value"></param>
         /// <param name="exp"></param>
         /// <returns></returns>
-        public bool AddCache(string key, object value, DateTime exp)
+        public bool AddCache<T>(string key, T value, DateTime exp)
         {
             return mc.Store(Enyim.Caching.Memcached.StoreMode.Add, key, value, exp);
         }
@@ -41,7 +41,7 @@ namespace Common.Cache
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool SetCache(string key, object value)
+        public bool SetCache<T>(string key, T value)
         {
             return mc.Store(Enyim.Caching.Memcached.StoreMode.Set, key, value);
         }
@@ -52,7 +52,7 @@ namespace Common.Cache
         /// <param name="value"></param>
         /// <param name="exp"></param>
         /// <returns></returns>
-        public bool SetCache(string key, object value, DateTime exp)
+        public bool SetCache<T>(string key, T value, DateTime exp)
         {
             return mc.Store(Enyim.Caching.Memcached.StoreMode.Set, key, value, exp);
         }
@@ -61,10 +61,6 @@ namespace Common.Cache
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public object GetCache(string key)
-        {
-            return mc.Get(key);
-        }
         public T GetCache<T>(string key)
         {
             return mc.Get<T>(key);
@@ -113,23 +109,6 @@ namespace Common.Cache
             memConfig.SocketPool.MinPoolSize = 5;
             memConfig.SocketPool.MaxPoolSize = 200;
             MemClient = new MemcachedClient(memConfig);
-            ////初始化池
-            //SockIOPool pool = SockIOPool.GetInstance();
-            //pool.SetServers(serverlist);
-
-            //pool.InitConnections = 3;
-            //pool.MinConnections = 5;
-            //pool.MaxConnections = 200;
-
-            //pool.SocketConnectTimeout = 1000;
-            //pool.SocketTimeout = 3000;
-
-            //pool.MaintenanceSleep = 30;
-            //pool.Failover = true;
-
-            //pool.Nagle = false;
-            //pool.Initialize();
-            
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Common.Cache
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        bool AddCache(string key, object value);
+        bool AddCache<T>(string key, T value);
         /// <summary>
         /// 添加缓存，并指定过期时间
         /// </summary>
@@ -22,14 +22,14 @@ namespace Common.Cache
         /// <param name="value"></param>
         /// <param name="exp"></param>
         /// <returns></returns>
-        bool AddCache(string key, object value, DateTime exp);
+        bool AddCache<T>(string key, T value, DateTime exp);
         /// <summary>
         /// 修改缓存
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        bool SetCache(string key, object value);
+        bool SetCache<T>(string key, T value);
         /// <summary>
         /// 修改缓存并指定过期时间
         /// </summary>
@@ -37,13 +37,13 @@ namespace Common.Cache
         /// <param name="value"></param>
         /// <param name="exp"></param>
         /// <returns></returns>
-        bool SetCache(string key, object value, DateTime exp);
+        bool SetCache<T>(string key, T value, DateTime exp);
         /// <summary>
         /// 通过键获取缓存
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        object GetCache(string key);
+        T GetCache<T>(string key);
         /// <summary>
         /// 通过键删除缓存
         /// </summary>

@@ -19,10 +19,6 @@ namespace DAL
             {
                 return DbContextFactory.GetDbContext();
             }
-            set
-            {
-                DbContextFactory.GetDbContext();
-            }
         }
 
         public bool AddEntity(T entity)

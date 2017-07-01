@@ -9,11 +9,7 @@ namespace Model
     /// <summary>
     /// 操作执行器
     /// </summary>
-    public class OperationActuator
+    public class OperationActuator:ModelResult
     {
-        public bool Status { get; set; }
-        public string AppendData { get; set; }
-        public string Message { get; set; }
-        public object ErrorData { get; set; }
     }
 }

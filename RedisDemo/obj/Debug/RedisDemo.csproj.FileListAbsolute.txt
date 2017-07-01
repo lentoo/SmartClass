@@ -1,0 +1,12 @@
+E:\Demo\RedisDemo\bin\Debug\RedisDemo.exe
+E:\Demo\RedisDemo\bin\Debug\RedisDemo.pdb
+E:\Demo\RedisDemo\bin\Debug\ServiceStack.Common.dll
+E:\Demo\RedisDemo\bin\Debug\ServiceStack.dll
+E:\Demo\RedisDemo\bin\Debug\ServiceStack.Interfaces.dll
+E:\Demo\RedisDemo\bin\Debug\ServiceStack.OrmLite.dll
+E:\Demo\RedisDemo\bin\Debug\ServiceStack.OrmLite.SqlServer.dll
+E:\Demo\RedisDemo\bin\Debug\ServiceStack.Redis.dll
+E:\Demo\RedisDemo\bin\Debug\ServiceStack.ServiceInterface.dll
+E:\Demo\RedisDemo\bin\Debug\ServiceStack.Text.dll
+E:\Demo\RedisDemo\obj\Debug\RedisDemo.exe
+E:\Demo\RedisDemo\obj\Debug\RedisDemo.pdb

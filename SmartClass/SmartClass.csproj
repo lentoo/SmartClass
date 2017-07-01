@@ -166,7 +166,7 @@
     <Compile Include="Models\AutofacConfig.cs" />
     <Compile Include="Models\Enum\SensorType.cs" />
     <Compile Include="Models\Exceptions\MyException.cs" />
-    <Compile Include="Models\Filter\MyActionFilterAttribute.cs" />
+    <Compile Include="Models\Filter\LoginActionFilterAttribute.cs" />
     <Compile Include="Models\SerialPortUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

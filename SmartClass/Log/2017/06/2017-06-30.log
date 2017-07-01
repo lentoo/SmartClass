@@ -1,0 +1,14 @@
+2017-06-30 15:21:46.4229|DEBUG|Common.NLogHelper|System.ArgumentException: 值不在预期的范围内。
+   在 System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   在 System.Web.Hosting.IIS7WorkerRequest.GetServerVariableInternal(String name)
+   在 System.Web.Hosting.IIS7WorkerRequest.GetServerVariable(String name)
+   在 System.Web.Hosting.IIS7WorkerRequest.GetRemoteAddress()
+   在 System.Web.HttpRequestWrapper.get_UserHostAddress()
+   在 SmartClass.Models.MyActionFilterAttribute.<>c__DisplayClass20_0.<OnActionExecuted>b__0(Object o) 位置 E:\Demo\SmartClass\Models\Filter\MyActionFilterAttribute.cs:行号 56
+2017-06-30 15:22:39.6447|DEBUG|Common.NLogHelper|System.ArgumentException: 值不在预期的范围内。
+   在 System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   在 System.Web.Hosting.IIS7WorkerRequest.GetServerVariableInternal(String name)
+   在 System.Web.Hosting.IIS7WorkerRequest.GetServerVariable(String name)
+   在 System.Web.Hosting.IIS7WorkerRequest.GetRemoteAddress()
+   在 System.Web.HttpRequestWrapper.get_UserHostAddress()
+   在 SmartClass.Models.MyActionFilterAttribute.<>c__DisplayClass20_0.<OnActionExecuted>b__0(Object o) 位置 E:\Demo\SmartClass\Models\Filter\MyActionFilterAttribute.cs:行号 56
