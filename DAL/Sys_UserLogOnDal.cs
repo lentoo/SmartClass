@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 
 namespace DAL
 {
-    public class Sys_UserLogOnDal : BaseDal<Sys_UserLogOn>, ISys_UserLogOnDal
+    public partial class Sys_UserLogOnDal : BaseDal<Sys_UserLogOn>, ISys_UserLogOnDal
     {
         /// <summary>
         /// 根据用户ID查找用户密码相关信息

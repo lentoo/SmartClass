@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IBLL
 {
-    public interface ISys_UserLogOnService:IBaseService<Model.Sys_UserLogOn>
+    public partial interface ISys_UserLogOnService:IBaseService<Model.Sys_UserLogOn>
     {
 
         /// <summary>

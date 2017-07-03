@@ -23,12 +23,12 @@ namespace Common
             IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
             IJwtEncoder encoder = new JwtEncoder(algorithm, serializer, urlEncoder);
 
-            IDateTimeProvider provider = new UtcDateTimeProvider();
-            DateTime now = provider.GetNow().AddDays(7);  //token保存7天
+            //IDateTimeProvider provider = new UtcDateTimeProvider();
+            //DateTime now = provider.GetNow().AddDays(7);  //token保存7天
 
-            DateTime unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            double secounds = Math.Round((now - unixEpoch).TotalSeconds);
-            payload.Exp = secounds;
+            //DateTime unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            //double secounds = Math.Round((now - unixEpoch).TotalSeconds);
+            //payload.Exp = secounds;
             string token = encoder.Encode(payload, secret);
             return token;
         }

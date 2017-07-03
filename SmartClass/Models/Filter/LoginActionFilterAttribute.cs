@@ -36,14 +36,6 @@ namespace SmartClass.Models
                     mr = result.Data as LoginResult;
                     log.F_Account = "admin";
                 }
-                //else
-                //{
-                //    mr = result.Data as OperationActuator;
-                //    if (payload != null)
-                //    {
-                //        log.F_Account = payload.Account;
-                //    }
-                //}
                 #region 开启一个线程，后台处理日志信息
                 ThreadPool.QueueUserWorkItem((o =>
                 {
@@ -58,6 +50,7 @@ namespace SmartClass.Models
                         log.F_Result = mr.Status;
                         log.F_Description = mr.Message;
                         Sys_User user = Sys_UserService.GetEntityByAccount(log.F_Account);
+                        
                         log.F_NickName = user.F_NickName;
                         //更新日志信息
                         Sys_LogService.AddEntity(log);
@@ -81,39 +74,6 @@ namespace SmartClass.Models
             base.OnActionExecuting(filterContext);
             action = filterContext.RequestContext.RouteData.Values["action"].ToString();
             log = new Sys_Log();
-            log.F_CreatorTime = DateTime.Now;
-            if ("Logon" == action)//访问的是登录页面，不验证请求头
-            {
-                ;
-            }
-            //else
-            //{
-            //    string token = filterContext.HttpContext.Request["Access"];
-            //    //从缓存中获取token信息
-            //    object secret = CacheHelper.GetCache(token);
-            //    if (secret != null)
-            //    {
-            //        //解析token
-            //        object obj = JwtUtils.DecodingToken(token, secret.ToString());
-            //        if (obj is Payload)  //验证通过
-            //        {
-            //            payload = obj as Payload;
-
-            //        }
-            //        else   //拦截请求
-            //        {
-            //            var json = new JsonResult();
-            //            json.Data = obj;
-            //            filterContext.Result = json;
-            //        }
-            //    }
-            //    else    //拦截请求
-            //    {
-            //        var json = new JsonResult();
-            //        json.Data = new { Message = "请重新登录" };
-            //        filterContext.Result = json;
-            //    }
-            
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IBLL
 {
-    public interface ISys_UserService:IBaseService<Sys_User>
+    public partial interface ISys_UserService:IBaseService<Sys_User>
     {
         /// <summary>
         /// 根据账号查找用户信息

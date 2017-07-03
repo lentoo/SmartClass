@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class Sys_LogDal:BaseDal<Sys_Log>,ISys_LogDal
+    public partial class Sys_LogDal:BaseDal<Sys_Log>,ISys_LogDal
     {
 
     }

@@ -39,6 +39,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -49,8 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LoginResult.cs" />
-    <Compile Include="ModelResult.cs" />
+    <Compile Include="Result\LoginResult.cs" />
+    <Compile Include="Result\ModelResult.cs" />
     <Compile Include="MyModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -66,9 +67,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MyModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="OperationActuator.cs" />
+    <Compile Include="Result\EquipmentResult.cs" />
     <Compile Include="Payload.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Result\ResultCode.cs" />
     <Compile Include="Sys_Log.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
@@ -76,6 +78,15 @@
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Sys_UserLogOn.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Z_Equipment.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Z_EquipmentLog.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Z_Room.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>

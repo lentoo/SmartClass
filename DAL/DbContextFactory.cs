@@ -17,6 +17,7 @@ namespace DAL
             if (context == null)
             {
                 context = new NFineBaseEntities();
+               
                 CallContext.SetData("dbContext", context);
             }
             return context;

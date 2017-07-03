@@ -58,5 +58,24 @@ namespace DAL
             }
         }
         #endregion
+
+        /// <summary>
+        /// 执行sql语句
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="paramters"></param>
+        /// <returns></returns>
+        public bool ExceptionSql(string sql,object[]paramters)
+        {
+           int i= Db.Database.ExecuteSqlCommand(sql, paramters);
+            if (i > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

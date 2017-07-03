@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class Sys_LogService : BaseService<Sys_Log>, ISys_LogService
+    public partial class Sys_LogService : BaseService<Sys_Log>, ISys_LogService
     {
         public bool AddLog(Sys_Log log)
         {

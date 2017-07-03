@@ -9,7 +9,7 @@ using IDAL;
 
 namespace BLL
 {
-    public class Sys_UserLogOnService : BaseService<Sys_UserLogOn>, ISys_UserLogOnService
+    public partial class Sys_UserLogOnService : BaseService<Sys_UserLogOn>, ISys_UserLogOnService
     {
           public ISys_UserLogOnDal UserLogOnDal { get; set; }
 

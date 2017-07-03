@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class Sys_UserDal:BaseDal<Sys_User>,ISys_UserDal
+    public partial class Sys_UserDal:BaseDal<Sys_User>,ISys_UserDal
     {
 
         /// <summary>

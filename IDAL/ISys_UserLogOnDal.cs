@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IDAL
 {
-   public interface ISys_UserLogOnDal:IBaseDal<Sys_UserLogOn>
+   public partial interface ISys_UserLogOnDal:IBaseDal<Sys_UserLogOn>
     {
         /// <summary>
         /// 根据用户ID查找用户密码相关信息

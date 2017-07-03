@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IDAL
 {
-    public interface ISys_UserDal:IBaseDal<Sys_User>
+    public partial interface ISys_UserDal:IBaseDal<Sys_User>
     {
         /// <summary>
         /// 根据账号查找用户信息

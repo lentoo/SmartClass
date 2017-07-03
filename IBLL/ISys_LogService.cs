@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IBLL
 {
-    public interface ISys_LogService:IBaseService<Sys_Log>
+    public partial interface ISys_LogService:IBaseService<Sys_Log>
     {
         bool AddLog(Sys_Log log);
     }

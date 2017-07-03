@@ -14,6 +14,9 @@ using System.Web.Mvc;
 
 namespace SmartClass.Controllers
 {
+    /// <summary>
+    /// 登录控制器
+    /// </summary>
     [LoginActionFilter]
     public class LogonController : Controller
     {
@@ -33,6 +36,7 @@ namespace SmartClass.Controllers
             Sys_User User = UserService.GetEntityByAccount(Account);
             if (User == null)
             {
+                
                 return Json(new LoginResult { Message = "用户名不存在", Status = false });
             }
             Sys_UserLogOn UserLogOn = UserLogService.GetEntityByUserId(User.F_Id);
@@ -60,8 +64,8 @@ namespace SmartClass.Controllers
                 };
 
                 string token = JwtUtils.EncodingToken(payload, UserLogOn.F_UserSecretkey);
-                CacheHelper.AddCache(token, UserLogOn.F_UserSecretkey, DateTime.Now.AddDays(7));
-
+                CacheHelper.AddCache(token, UserLogOn, DateTime.Now.AddDays(7));
+                
                 return Json(new LoginResult
                 {
                     Message = "登录成功",
@@ -71,7 +75,7 @@ namespace SmartClass.Controllers
             }
             else
             {
-                return Json(new LoginResult() { Message = "密码错误", Status = false });
+                return Json(new LoginResult() { Message = "用户名密码错误", Status = false });
             }
         }
 

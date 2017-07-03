@@ -13,16 +13,13 @@ using System.Text;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using SmartClass.Models.Filter;
 
 namespace SmartClass.Controllers
 {
-   // [MyActionFilter]
+    [EquipmentLogFilter]
     public class HomeController : Controller
     {
-        public ActionResult Index()
-        {
-            return View();
-        }
         /// <summary>
         /// 查询教室数据
         /// </summary>
@@ -55,6 +52,7 @@ namespace SmartClass.Controllers
         {
             try
             {
+                #region 操作设备逻辑
                 byte b = new byte();
                 if (onoff == "01")
                 {
@@ -103,8 +101,6 @@ namespace SmartClass.Controllers
                 int iwd = Convert.ToInt16(wd);
                 iwd |= 0x90;
                 b1 |= (byte)iwd;
-
-
                 //发送命令
                 byte[] cmd = { 0x55, 0x02, 0, 0, 0x06, 0, 0x02, b, b1 };
                 byte[] bclassroom = CmdUtils.StrToHexByte(classroom);
@@ -114,17 +110,22 @@ namespace SmartClass.Controllers
                 byte[] bnodeAdd = CmdUtils.StrToHexByte(nodeAdd);
                 bnodeAdd.CopyTo(cmd, 5);
                 byte[] data = CmdUtils.ActuatorCommand(cmd);
-                SerialPortUtils.SendCmd(data);
-                OperationActuator oa = new OperationActuator();
+                SerialPortUtils.SendCmd(data); 
+                #endregion
+
+                EquipmentResult oa = new EquipmentResult();
                 oa.Status = true;
+                oa.ResultCode = ResultCode.Ok;
                 oa.Message = "设置空调成功";
                 return Json(oa);
             }
-            catch
+            catch(Exception exception)
             {
-                OperationActuator oa = new OperationActuator();
+                EquipmentResult oa = new EquipmentResult();
                 oa.Status = false;
                 oa.Message = "设置空调失败";
+                oa.ErrorData = exception.ToString();
+                oa.ResultCode = ResultCode.Error;
                 return Json(oa);
             }
 
@@ -146,16 +147,19 @@ namespace SmartClass.Controllers
                 cmd[7] = bonoff;//.CopyTo(cmd, 7);
                 cmd = CmdUtils.ActuatorCommand(cmd);
                 SerialPortUtils.SendCmd(cmd);
-                OperationActuator oa = new OperationActuator();
+                EquipmentResult oa = new EquipmentResult();
                 oa.Status = true;
                 oa.Message = "设置灯成功";
+                oa.ResultCode = ResultCode.Ok;
                 return Json(oa,JsonRequestBehavior.AllowGet);
             }
-            catch
+            catch(Exception exception)
             {
-                OperationActuator oa = new OperationActuator();
+                EquipmentResult oa = new EquipmentResult();
                 oa.Status = false;
                 oa.Message = "设置灯失败";
+                oa.ResultCode = ResultCode.Error;
+                oa.ErrorData = exception.ToString();
                 return Json(oa, JsonRequestBehavior.AllowGet);
             }
         }
@@ -180,16 +184,19 @@ namespace SmartClass.Controllers
                 bonoff.CopyTo(cmd, 7);
                 cmd = CmdUtils.ActuatorCommand(cmd);
                 SerialPortUtils.SendCmd(cmd);
-                OperationActuator oa = new OperationActuator();
+                EquipmentResult oa = new EquipmentResult();
                 oa.Status = true;
                 oa.Message = "设置门成功";
+                oa.ResultCode= ResultCode.Ok;
                 return Json(oa);
             }
-            catch
+            catch(Exception exception)
             {
-                OperationActuator oa = new OperationActuator();
+                EquipmentResult oa = new EquipmentResult();
                 oa.Status = false;
                 oa.Message = "设置门失败";
+                oa.ResultCode= ResultCode.Error;
+                oa.ErrorData = exception.ToString();
                 return Json(oa);
             }
 
@@ -218,16 +225,20 @@ namespace SmartClass.Controllers
                 cmd = CmdUtils.ActuatorCommand(cmd);
                 SerialPortUtils.SendCmd(cmd);
 
-                OperationActuator oa = new OperationActuator();
+                EquipmentResult oa = new EquipmentResult();
                 oa.Status = false;
                 oa.Message = "设置窗帘成功";
+                oa.ResultCode= ResultCode.Ok;
+                
                 return Json(oa);
             }
-            catch
+            catch(Exception exception)
             {
-                OperationActuator oa = new OperationActuator();
+                EquipmentResult oa = new EquipmentResult();
                 oa.Status = false;
                 oa.Message = "设置窗帘失败";
+                oa.ResultCode= ResultCode.Error;
+                oa.ErrorData = exception.ToString();
                 return Json(oa);
             }
         }
@@ -255,16 +266,20 @@ namespace SmartClass.Controllers
                 cmd = CmdUtils.ActuatorCommand(cmd);
                 SerialPortUtils.SendCmd(cmd);
 
-                OperationActuator oa = new OperationActuator();
+                EquipmentResult oa = new EquipmentResult();
                 oa.Status = true;
                 oa.Message = "设置窗户成功";
+                oa.ResultCode= ResultCode.Ok;
+                
                 return Json(oa);
             }
-            catch
+            catch(Exception exception)
             {
-                OperationActuator oa = new OperationActuator();
+                EquipmentResult oa = new EquipmentResult();
                 oa.Status = false;
                 oa.Message = "设置窗户失败";
+                oa.ResultCode= ResultCode.Error;
+                oa.ErrorData = exception.ToString();
                 return Json(oa);
             }
         }
@@ -292,16 +307,19 @@ namespace SmartClass.Controllers
                 cmd = CmdUtils.ActuatorCommand(cmd);
                 SerialPortUtils.SendCmd(cmd);
 
-                OperationActuator oa = new OperationActuator();
+                EquipmentResult oa = new EquipmentResult();
                 oa.Status = true;
                 oa.Message = "设置报警灯成功";
+                oa.ResultCode= ResultCode.Ok;
                 return Json(oa);
             }
-            catch
+            catch(Exception exception)
             {
-                OperationActuator oa = new OperationActuator();
+                EquipmentResult oa = new EquipmentResult();
                 oa.Status = false;
                 oa.Message = "设置报警灯失败";
+                oa.ErrorData = exception.ToString();
+                oa.ResultCode= ResultCode.Error;
                 return Json(oa);
             }
         }
@@ -328,16 +346,19 @@ namespace SmartClass.Controllers
                 cmd[7] = bOnoff;
                 cmd = CmdUtils.ActuatorCommand(cmd);
                 SerialPortUtils.SendCmd(cmd);
-                OperationActuator oa = new OperationActuator();
+                EquipmentResult oa = new EquipmentResult();
                 oa.Status = true;
                 oa.Message = "设置风机成功";
+                oa.ResultCode= ResultCode.Ok;
                 return Json(oa);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                OperationActuator oa = new OperationActuator();
+                EquipmentResult oa = new EquipmentResult();
                 oa.Status = false;
                 oa.Message = "设置风机失败";
+                oa.ErrorData = exception.ToString();
+                oa.ResultCode = ResultCode.Error;
                 return Json(oa);
             }
         }

@@ -9,7 +9,7 @@ using IDAL;
 
 namespace BLL
 {
-    public class Sys_UserService : BaseService<Sys_User>, ISys_UserService
+    public partial class Sys_UserService : BaseService<Sys_User>, ISys_UserService
     {
        // public ISys_UserDal UserDal { get; set; }
         /// <summary>

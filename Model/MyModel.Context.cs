@@ -28,5 +28,8 @@ namespace Model
         public virtual DbSet<Sys_User> Sys_User { get; set; }
         public virtual DbSet<Sys_UserLogOn> Sys_UserLogOn { get; set; }
         public virtual DbSet<Sys_Log> Sys_Log { get; set; }
+        public virtual DbSet<Z_Equipment> Z_Equipment { get; set; }
+        public virtual DbSet<Z_Room> Z_Room { get; set; }
+        public virtual DbSet<Z_EquipmentLog> Z_EquipmentLog { get; set; }
     }
 }

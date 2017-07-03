@@ -1,16 +1,10 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
-using Common;
 using Common.Cache;
-using IBLL;
-
-using SmartClass.Models;
-using System.Linq;
 using System.Reflection;
-using System.Web.Compilation;
 using System.Web.Mvc;
 
-namespace SmartClass
+namespace SmartClass.Models
 {
     public class AutofacConfig
     {
@@ -24,8 +18,8 @@ namespace SmartClass
             builder.RegisterTypes(dal.GetTypes()).AsImplementedInterfaces().PropertiesAutowired();
             var common = Assembly.Load("Common");
             builder.RegisterTypes(common.GetTypes()).AsImplementedInterfaces().PropertiesAutowired();           
-            var Reddis = builder.RegisterType<RedisWrite>().Named<ICacheHelper>("Redis");
-            var Memcached = builder.RegisterType<MemcacheHelper>().Named<ICacheHelper>("Memcached");
+            builder.RegisterType<RedisWrite>().Named<ICacheHelper>("Redis");
+            builder.RegisterType<MemcacheHelper>().Named<ICacheHelper>("Memcached");
             //  builder.RegisterType<MyActionFilterAttribute>().PropertiesAutowired();
             //builder.RegisterType<MemcacheHelper>().As<ICacheHelper>().InstancePerLifetimeScope();   
             //var assemblys = BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToList();
