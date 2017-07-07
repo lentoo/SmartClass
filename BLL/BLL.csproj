@@ -51,6 +51,7 @@
     <Compile Include="Sys_UserService.cs" />
     <Compile Include="Sys_UserLogOnService.cs" />
     <Compile Include="Z_EquipmentLogService.cs" />
+    <Compile Include="Z_EquipmentService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

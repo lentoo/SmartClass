@@ -19,6 +19,11 @@ namespace BLL
             return dal.AddEntity(entity);
         }
 
+        public bool AddEntitys(IEnumerable<T> entity)
+        {
+            return dal.AddEntitys(entity);
+        }
+
         public IQueryable<T> GetEntity(Expression<Func<T, bool>> whereLambda)
         {
             return dal.GetEntitys(whereLambda);

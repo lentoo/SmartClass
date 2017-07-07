@@ -15,7 +15,6 @@ namespace SmartClass.Models
     {
         public ISys_UserService Sys_UserService { get; set; }
         public ISys_LogService Sys_LogService { get; set; }
-        Payload payload { get; set; }
         Sys_Log log { get; set; }
         string action { get; set; }
         /// <summary>
@@ -27,15 +26,15 @@ namespace SmartClass.Models
             base.OnActionExecuted(filterContext);
             action = filterContext.RouteData.Values["action"].ToString();
             JsonResult result = filterContext.Result as JsonResult;
+            string account = filterContext.HttpContext.Request["Account"];
             ModelResult mr = null;
-            string UserHostAddress = filterContext.HttpContext.Request.UserHostAddress;//IP地址
+            string userHostAddress = filterContext.HttpContext.Request.UserHostAddress;//IP地址
             if (result != null)
             {
-                if ("Logon" == action)
-                {
-                    mr = result.Data as LoginResult;
-                    log.F_Account = "admin";
-                }
+
+                mr = result.Data as LoginResult;
+                log = new Sys_Log();
+                log.F_Account = "admin";
                 #region 开启一个线程，后台处理日志信息
                 ThreadPool.QueueUserWorkItem((o =>
                 {
@@ -43,14 +42,13 @@ namespace SmartClass.Models
                     {
                         log.F_Id = Guid.NewGuid().ToString();
                         log.F_Date = DateTime.Now;
-                        log.F_IPAddress = UserHostAddress;
+                        log.F_IPAddress = userHostAddress;
                         log.F_Type = action.ToString();
                         log.F_ModuleName = "系统登录";
                         log.F_IPAddressName = "广东省河源市 电信";
                         log.F_Result = mr.Status;
                         log.F_Description = mr.Message;
                         Sys_User user = Sys_UserService.GetEntityByAccount(log.F_Account);
-                        
                         log.F_NickName = user.F_NickName;
                         //更新日志信息
                         Sys_LogService.AddEntity(log);
@@ -73,7 +71,7 @@ namespace SmartClass.Models
         {
             base.OnActionExecuting(filterContext);
             action = filterContext.RequestContext.RouteData.Values["action"].ToString();
-            log = new Sys_Log();
+
         }
     }
 }

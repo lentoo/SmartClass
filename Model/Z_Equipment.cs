@@ -15,7 +15,7 @@ namespace Model
     public partial class Z_Equipment
     {
         public string F_Id { get; set; }
-        public string F_RoomNo { get; set; }
+        public string F_RoomId { get; set; }
         public string F_EquipmentNo { get; set; }
         public string F_EquipmentType { get; set; }
         public string F_FullName { get; set; }

@@ -14,6 +14,7 @@ namespace DAL
         public static DbContext GetDbContext()
         {
             DbContext context = CallContext.GetData("dbContext") as DbContext;
+            
             if (context == null)
             {
                 context = new NFineBaseEntities();

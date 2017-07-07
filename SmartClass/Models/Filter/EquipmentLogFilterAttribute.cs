@@ -22,6 +22,8 @@ namespace SmartClass.Models.Filter
         public IZ_EquipmentService ZEquipmentService { get; set; }
         public ISys_UserService SysUserService { get; set; }
 
+        private readonly string EQUOPEN = "EquOpen";
+        private readonly string EQUCLOSE = "EQuClose";
         /// <summary>
         /// 操作前
         /// </summary>
@@ -52,7 +54,7 @@ namespace SmartClass.Models.Filter
             else    //缓存中没有token信息，则拦截请求
             {
                 var json = new JsonResult();
-                json.Data = new { ResultCode=ResultCode.Error, Message = "请重新登录" };
+                json.Data = new { ResultCode = ResultCode.Error, Message = "请重新登录" };
                 filterContext.Result = json;
             }
         }
@@ -63,14 +65,15 @@ namespace SmartClass.Models.Filter
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             base.OnActionExecuted(filterContext);
-            string action = filterContext.RouteData.Values["action"].ToString();
             JsonResult jsonResult = filterContext.Result as JsonResult;
-            string roomId = "0x" + filterContext.HttpContext.Request["classroom"];
-            string nodeId = "0x" + filterContext.HttpContext.Request["nodeAdd"];
+            string roomId = filterContext.HttpContext.Request["classroom"];
+            string nodeId = string.IsNullOrEmpty(filterContext.HttpContext.Request["nodeAdd"]) ? roomId : filterContext.HttpContext.Request["nodeAdd"];
+            string onoff = filterContext.HttpContext.Request["onoff"];
+            onoff = string.IsNullOrEmpty(onoff) ? "" : onoff;
             EquipmentResult equipmentResult = jsonResult.Data as EquipmentResult;
             if (equipmentResult != null)
             {
-                //开启线程处理后续日志操作记录
+                //开启线程处理后续日志操作
                 ThreadPool.QueueUserWorkItem(o =>
                 {
                     Z_EquipmentLog zEquipmentLog = new Z_EquipmentLog();
@@ -79,13 +82,13 @@ namespace SmartClass.Models.Filter
                     zEquipmentLog.F_Date = DateTime.Now;
                     zEquipmentLog.F_RoomNo = roomId;
                     string roomName = ZRoomService.GetEntity(z => z.F_RoomNo.ToLower() == roomId.ToLower()).Select(z => z.F_FullName).FirstOrDefault();
-                    string nodeName = ZEquipmentService.GetEntity(e => e.F_EquipmentType.ToLower() == nodeId.ToLower())
+                    string nodeName = ZEquipmentService.GetEntity(e => e.F_EquipmentNo.ToLower() == nodeId.ToLower())
                         .Select(e => e.F_FullName).FirstOrDefault();
                     Sys_User user = SysUserService.GetEntity(u => u.F_Account == payload.Account)
                       .FirstOrDefault();
                     zEquipmentLog.F_EquipmentNo = nodeId;
                     zEquipmentLog.F_Description = equipmentResult.Message;
-                    zEquipmentLog.F_LogType = action;
+                    zEquipmentLog.F_EquipmentLogType = onoff == "open" ? EQUOPEN : EQUCLOSE;
                     zEquipmentLog.F_RoomName = roomName;
                     zEquipmentLog.F_EquipmentName = nodeName;
                     zEquipmentLog.F_NickName = user == null ? "null" : user.F_NickName;

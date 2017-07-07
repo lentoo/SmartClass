@@ -60,6 +60,7 @@
     <Compile Include="Sys_LogDal.cs" />
     <Compile Include="Sys_UserDal.cs" />
     <Compile Include="Sys_UserLogOnDal.cs" />
+    <Compile Include="Z_EquipmentDal.cs" />
     <Compile Include="Z_EquipmentLogDal.cs" />
   </ItemGroup>
   <ItemGroup>

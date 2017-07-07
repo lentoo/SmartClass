@@ -26,5 +26,7 @@ namespace IDAL
         /// <param name="entity"></param>
         /// <returns></returns>
         bool AddEntity(T entity);
+
+        bool AddEntitys(IEnumerable<T> entity);
     }
 }

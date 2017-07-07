@@ -13,10 +13,11 @@ namespace Common.Cache
     {
         private static string RedisServerIP = ConfigurationManager.AppSettings["RedisServerIP"];
         private static int RedisServerPort = Convert.ToInt32(ConfigurationManager.AppSettings["RedisServerPort"]);
+
         public static RedisClient rc = new RedisClient(RedisServerIP, RedisServerPort);
         public bool AddCache<T>(string key, T value)
         {
-           return rc.Add(key, value);
+            return rc.Add(key, value);
         }
 
         public bool AddCache<T>(string key, T value, DateTime exp)

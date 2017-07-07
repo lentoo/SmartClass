@@ -86,7 +86,7 @@
             <PropertyRef Name="F_Id" />
           </Key>
           <Property Name="F_Id" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="F_RoomNo" Type="varchar" MaxLength="50" />
+          <Property Name="F_RoomId" Type="varchar" MaxLength="50" />
           <Property Name="F_EquipmentNo" Type="varchar" MaxLength="50" />
           <Property Name="F_EquipmentType" Type="varchar" MaxLength="50" />
           <Property Name="F_FullName" Type="varchar" MaxLength="50" />
@@ -114,7 +114,7 @@
           <Property Name="F_RoomName" Type="varchar" MaxLength="50" />
           <Property Name="F_EquipmentNo" Type="varchar" MaxLength="50" />
           <Property Name="F_EquipmentName" Type="varchar" MaxLength="50" />
-          <Property Name="F_LogType" Type="varchar" MaxLength="50" />
+          <Property Name="F_EquipmentLogType" Type="varchar" MaxLength="50" />
           <Property Name="F_Date" Type="datetime" />
           <Property Name="F_Account" Type="varchar" MaxLength="50" />
           <Property Name="F_NickName" Type="varchar" MaxLength="50" />
@@ -220,9 +220,9 @@
           <EntitySet Name="Sys_User" EntityType="Self.Sys_User" />
           <EntitySet Name="Sys_UserLogOn" EntityType="Self.Sys_UserLogOn" />
           <EntitySet Name="Sys_Log" EntityType="NFineBaseModel.Sys_Log" />
-          <EntitySet Name="Z_Equipment" EntityType="NFineBaseModel.Z_Equipment" />
           <EntitySet Name="Z_Room" EntityType="NFineBaseModel.Z_Room" />
           <EntitySet Name="Z_EquipmentLog" EntityType="NFineBaseModel.Z_EquipmentLog" />
+          <EntitySet Name="Z_Equipment" EntityType="NFineBaseModel.Z_Equipment" />
         </EntityContainer>
         <EntityType Name="Sys_Log">
           <Key>
@@ -241,30 +241,6 @@
           <Property Name="F_Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="F_CreatorTime" Type="DateTime" Precision="3" />
           <Property Name="F_CreatorUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Z_Equipment">
-          <Key>
-            <PropertyRef Name="F_Id" />
-          </Key>
-          <Property Name="F_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="F_RoomNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="F_EquipmentNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="F_EquipmentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="F_FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="F_EnCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="F_Model" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="F_Specifications" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="F_Brand" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="F_SortCode" Type="Int32" />
-          <Property Name="F_DeleteMark" Type="Boolean" />
-          <Property Name="F_EnabledMark" Type="Boolean" />
-          <Property Name="F_Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="F_CreatorTime" Type="DateTime" Precision="3" />
-          <Property Name="F_CreatorUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="F_LastModifyTime" Type="DateTime" Precision="3" />
-          <Property Name="F_LastModifyUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="F_DeleteTime" Type="DateTime" Precision="3" />
-          <Property Name="F_DeleteUserId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Z_Room">
           <Key>
@@ -298,7 +274,7 @@
           <Property Name="F_RoomName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="F_EquipmentNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="F_EquipmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="F_LogType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_EquipmentLogType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="F_Date" Type="DateTime" Precision="3" />
           <Property Name="F_Account" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="F_NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -306,6 +282,30 @@
           <Property Name="F_Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="F_CreatorTime" Type="DateTime" Precision="3" />
           <Property Name="F_CreatorUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Z_Equipment">
+          <Key>
+            <PropertyRef Name="F_Id" />
+          </Key>
+          <Property Name="F_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_RoomId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_EquipmentNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_EquipmentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_EnCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_Model" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="F_Specifications" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="F_Brand" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_SortCode" Type="Int32" />
+          <Property Name="F_DeleteMark" Type="Boolean" />
+          <Property Name="F_EnabledMark" Type="Boolean" />
+          <Property Name="F_Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="F_CreatorTime" Type="DateTime" Precision="3" />
+          <Property Name="F_CreatorUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_LastModifyTime" Type="DateTime" Precision="3" />
+          <Property Name="F_LastModifyUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_DeleteTime" Type="DateTime" Precision="3" />
+          <Property Name="F_DeleteUserId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -392,31 +392,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Z_Equipment">
-            <EntityTypeMapping TypeName="NFineBaseModel.Z_Equipment">
-              <MappingFragment StoreEntitySet="Z_Equipment">
-                <ScalarProperty Name="F_DeleteUserId" ColumnName="F_DeleteUserId" />
-                <ScalarProperty Name="F_DeleteTime" ColumnName="F_DeleteTime" />
-                <ScalarProperty Name="F_LastModifyUserId" ColumnName="F_LastModifyUserId" />
-                <ScalarProperty Name="F_LastModifyTime" ColumnName="F_LastModifyTime" />
-                <ScalarProperty Name="F_CreatorUserId" ColumnName="F_CreatorUserId" />
-                <ScalarProperty Name="F_CreatorTime" ColumnName="F_CreatorTime" />
-                <ScalarProperty Name="F_Description" ColumnName="F_Description" />
-                <ScalarProperty Name="F_EnabledMark" ColumnName="F_EnabledMark" />
-                <ScalarProperty Name="F_DeleteMark" ColumnName="F_DeleteMark" />
-                <ScalarProperty Name="F_SortCode" ColumnName="F_SortCode" />
-                <ScalarProperty Name="F_Brand" ColumnName="F_Brand" />
-                <ScalarProperty Name="F_Specifications" ColumnName="F_Specifications" />
-                <ScalarProperty Name="F_Model" ColumnName="F_Model" />
-                <ScalarProperty Name="F_EnCode" ColumnName="F_EnCode" />
-                <ScalarProperty Name="F_FullName" ColumnName="F_FullName" />
-                <ScalarProperty Name="F_EquipmentType" ColumnName="F_EquipmentType" />
-                <ScalarProperty Name="F_EquipmentNo" ColumnName="F_EquipmentNo" />
-                <ScalarProperty Name="F_RoomNo" ColumnName="F_RoomNo" />
-                <ScalarProperty Name="F_Id" ColumnName="F_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Z_Room">
             <EntityTypeMapping TypeName="NFineBaseModel.Z_Room">
               <MappingFragment StoreEntitySet="Z_Room">
@@ -451,11 +426,36 @@
                 <ScalarProperty Name="F_NickName" ColumnName="F_NickName" />
                 <ScalarProperty Name="F_Account" ColumnName="F_Account" />
                 <ScalarProperty Name="F_Date" ColumnName="F_Date" />
-                <ScalarProperty Name="F_LogType" ColumnName="F_LogType" />
+                <ScalarProperty Name="F_EquipmentLogType" ColumnName="F_EquipmentLogType" />
                 <ScalarProperty Name="F_EquipmentName" ColumnName="F_EquipmentName" />
                 <ScalarProperty Name="F_EquipmentNo" ColumnName="F_EquipmentNo" />
                 <ScalarProperty Name="F_RoomName" ColumnName="F_RoomName" />
                 <ScalarProperty Name="F_RoomNo" ColumnName="F_RoomNo" />
+                <ScalarProperty Name="F_Id" ColumnName="F_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Z_Equipment">
+            <EntityTypeMapping TypeName="NFineBaseModel.Z_Equipment">
+              <MappingFragment StoreEntitySet="Z_Equipment">
+                <ScalarProperty Name="F_DeleteUserId" ColumnName="F_DeleteUserId" />
+                <ScalarProperty Name="F_DeleteTime" ColumnName="F_DeleteTime" />
+                <ScalarProperty Name="F_LastModifyUserId" ColumnName="F_LastModifyUserId" />
+                <ScalarProperty Name="F_LastModifyTime" ColumnName="F_LastModifyTime" />
+                <ScalarProperty Name="F_CreatorUserId" ColumnName="F_CreatorUserId" />
+                <ScalarProperty Name="F_CreatorTime" ColumnName="F_CreatorTime" />
+                <ScalarProperty Name="F_Description" ColumnName="F_Description" />
+                <ScalarProperty Name="F_EnabledMark" ColumnName="F_EnabledMark" />
+                <ScalarProperty Name="F_DeleteMark" ColumnName="F_DeleteMark" />
+                <ScalarProperty Name="F_SortCode" ColumnName="F_SortCode" />
+                <ScalarProperty Name="F_Brand" ColumnName="F_Brand" />
+                <ScalarProperty Name="F_Specifications" ColumnName="F_Specifications" />
+                <ScalarProperty Name="F_Model" ColumnName="F_Model" />
+                <ScalarProperty Name="F_EnCode" ColumnName="F_EnCode" />
+                <ScalarProperty Name="F_FullName" ColumnName="F_FullName" />
+                <ScalarProperty Name="F_EquipmentType" ColumnName="F_EquipmentType" />
+                <ScalarProperty Name="F_EquipmentNo" ColumnName="F_EquipmentNo" />
+                <ScalarProperty Name="F_RoomId" ColumnName="F_RoomId" />
                 <ScalarProperty Name="F_Id" ColumnName="F_Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -12,7 +12,6 @@ namespace DAL
 {
     public class BaseDal<T>:IBaseDal<T> where T : class ,new()
     {
-       
         public DbContext Db
         {
             get
@@ -68,6 +67,7 @@ namespace DAL
         public bool ExceptionSql(string sql,object[]paramters)
         {
            int i= Db.Database.ExecuteSqlCommand(sql, paramters);
+            
             if (i > 0)
             {
                 return true;
@@ -76,6 +76,12 @@ namespace DAL
             {
                 return false;
             }
+        }
+
+        public bool AddEntitys(IEnumerable<T> entitys)
+        {
+            Db.Set<T>().AddRange(entitys);
+            return Db.SaveChanges() > 0;
         }
     }
 }

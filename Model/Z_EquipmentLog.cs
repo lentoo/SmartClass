@@ -19,7 +19,7 @@ namespace Model
         public string F_RoomName { get; set; }
         public string F_EquipmentNo { get; set; }
         public string F_EquipmentName { get; set; }
-        public string F_LogType { get; set; }
+        public string F_EquipmentLogType { get; set; }
         public Nullable<System.DateTime> F_Date { get; set; }
         public string F_Account { get; set; }
         public string F_NickName { get; set; }

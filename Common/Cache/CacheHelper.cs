@@ -14,30 +14,46 @@ namespace Common.Cache
     {
         public static string selectCache = ConfigurationManager.AppSettings["selectCache"];
         public static ICacheHelper Cache = AutofacDependencyResolver.Current.RequestLifetimeScope.ResolveNamed<ICacheHelper>(selectCache);
-
+        private static object cachelock = new object();
         public static void AddCache<T>(string key, T value)
         {
-            Cache.AddCache(key, value);
+            lock (cachelock)
+            {
+                Cache.AddCache(key, value);
+            }
         }
 
         public static void AddCache<T>(string key, T value, DateTime exp)
         {
-            Cache.AddCache(key, value, exp);
+            lock (cachelock)
+            {
+                Cache.AddCache(key, value, exp);
+            }
+
         }
 
         public static T GetCache<T>(string key)
         {
-            return Cache.GetCache<T>(key);
+            lock (cachelock)
+            {
+                return Cache.GetCache<T>(key);
+            }
         }
 
         public static void SetCache<T>(string key, T value, DateTime exp)
         {
-            Cache.SetCache(key, value, exp);
+            lock (cachelock)
+            {
+                Cache.SetCache(key, value, exp);
+            }
         }
 
         public static void SetCache<T>(string key, T value)
         {
-            Cache.SetCache(key, value);
+            lock (cachelock)
+            {
+                Cache.SetCache(key, value);
+            }
         }
     }
 }

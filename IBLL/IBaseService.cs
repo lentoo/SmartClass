@@ -25,7 +25,7 @@ namespace IBLL
         /// <param name="entity"></param>
         /// <returns></returns>
         bool AddEntity(T entity);
-
+        bool AddEntitys(IEnumerable<T> entity);
         /// <summary>
         /// 根据条件得到实体信息
         /// </summary>

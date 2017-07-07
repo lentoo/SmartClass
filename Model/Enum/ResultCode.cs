@@ -1,4 +1,6 @@
-﻿namespace Model
+﻿using System.ComponentModel;
+
+namespace Model
 {
     public enum ResultCode
     {
@@ -9,6 +11,7 @@
         /// <summary>
         /// 异常
         /// </summary>
-        Error=1
+        Error=1,
+  
     }
 }

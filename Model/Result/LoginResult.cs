@@ -8,6 +8,6 @@ namespace Model
 {
     public class LoginResult:ModelResult
     {
-        
+        public string AppendData { get; set; }
     }
 }

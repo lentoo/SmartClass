@@ -1,7 +1,4 @@
-﻿using Autofac;
-using Autofac.Integration.Mvc;
-
-using Common;
+﻿using Common;
 using Model;
 using SmartClass.Models;
 using System;
@@ -13,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using IBLL;
 using SmartClass.Models.Filter;
 
 namespace SmartClass.Controllers
@@ -20,148 +18,173 @@ namespace SmartClass.Controllers
     [EquipmentLogFilter]
     public class HomeController : Controller
     {
+        public IZ_EquipmentService ZEquipmentService { get; set; }
+        public IZ_RoomService ZRoomService { get; set; }
         /// <summary>
-        /// 查询教室数据
+        /// 打开
         /// </summary>
-        /// <param name="Room">教室地址</param>
-        /// <returns></returns>
-        public ActionResult Process(string classroom)
-        {
-            byte[] Cmd = new byte[] { 0x55, 0x02, 0x12, 0x34, 0x1f, 0x00, 0x01, 0x00 };
-            byte[] roomId = CmdUtils.StrToHexByte(classroom);
-            roomId.CopyTo(Cmd, 2);
-            Cmd = CmdUtils.ActuatorCommand(Cmd);
-            if (!SerialPortUtils.SendCmd(Cmd))
-            {
-            }
-            Thread.Sleep(300);
-            return Json(new { SerialPortUtils.actuators, result = true }, JsonRequestBehavior.AllowGet);
-        }
-
+        private const string OPEN = "open";
         /// <summary>
-        /// 设置空调参数
+        /// 关闭
+        /// </summary>
+        private const string CLOSE = "close";
+        /// <summary>
+        /// 停止
+        /// </summary>
+        private const string STOP = "stop";
+        /// <summary>
+        /// 在线
+        /// </summary>
+        private const string Online = "OnLine";
+        /// <summary>
+        /// 离线
+        /// </summary>
+        private const string Offline = "OffLine";
+        /// <summary>
+        /// 查询教室所有设备数据
         /// </summary>
         /// <param name="classroom">教室地址</param>
-        /// <param name="onoff">开关</param>
-        /// <param name="nodeAdd">节点地址</param>
-        /// <param name="model">模式</param>
-        /// <param name="speed">风速</param>
-        /// <param name="wd">温度</param>
         /// <returns></returns>
-        public ActionResult SetAirConditioning(string classroom, string onoff, string nodeAdd, string model, string speed, string wd)
+        public ActionResult SearchAll(string classroom)
         {
+            EquipmentResult Result = null;
             try
             {
-                #region 操作设备逻辑
-                byte b = new byte();
-                if (onoff == "01")
-                {
-                    b |= 0x1 << 7;
-                }
-                else if (onoff == "00")
-                {
-                    b |= 0x0 << 7;
-                }
-                switch (model)
-                {
-                    case "自动":
-                        b |= 0x0 << 4;
-                        break;
-                    case "制冷":
-                        b |= 0x1 << 4;
-                        break;
-                    case "制热":
-                        b |= 0x2 << 4;
-                        break;
-                    case "抽湿":
-                        b |= 0x3 << 4;
-                        break;
-                    case "送风":
-                        b |= 0x4 << 4;
-                        break;
-                }
-                switch (speed)
-                {
-                    case "0":
-                        b |= 0x0 << 2;
-                        break;
-                    case "1":
-                        b |= 0x1 << 2;
-                        break;
-                    case "2":
-                        b |= 0x2 << 2;
-                        break;
-                    case "3":
-                        b |= 0x3 << 2;
-                        break;
-                }
-                b |= 0x1 << 1;
+                var rooms = ZRoomService.GetEntity(u => u.F_RoomNo == classroom).FirstOrDefault();
+                var zeList = ZEquipmentService.GetEntity(u => u.F_RoomId == rooms.F_Id).ToList();
+                byte b;
+                byte fun = 0x1f;
+                Result = ConvertCmd(fun, classroom, "00", 0x00);
+                Result.Message = "查询设备信息成功";
+               // Thread.Sleep(300);
+                List<string> ids = SerialPortUtils.actuators.Select(u => u.Id).ToList();
+                Result.Count = zeList.Count;
+                var normalZqu = zeList.Where(u => ids.Any(id => u.F_EquipmentNo == id)).ToList();
+                Result.ExceptionCount = Result.Count - normalZqu.Count;
+                Result.NormalCount = Result.Count - Result.ExceptionCount;
+            }
+            catch
+            {
+                if (Result != null)
+                    Result.Message = "查询设备信息失败";
+            }
+            if (Result != null)
+                Result.AppendData = SerialPortUtils.actuators;
+            return Json(Result, JsonRequestBehavior.AllowGet);
+        }
 
-                byte b1 = new byte();
-                int iwd = Convert.ToInt16(wd);
-                iwd |= 0x90;
-                b1 |= (byte)iwd;
-                //发送命令
-                byte[] cmd = { 0x55, 0x02, 0, 0, 0x06, 0, 0x02, b, b1 };
-                byte[] bclassroom = CmdUtils.StrToHexByte(classroom);
-                bclassroom.CopyTo(cmd, 2);
-
-
-                byte[] bnodeAdd = CmdUtils.StrToHexByte(nodeAdd);
-                bnodeAdd.CopyTo(cmd, 5);
-                byte[] data = CmdUtils.ActuatorCommand(cmd);
-                SerialPortUtils.SendCmd(data); 
-                #endregion
-
-                EquipmentResult oa = new EquipmentResult();
-                oa.Status = true;
-                oa.ResultCode = ResultCode.Ok;
-                oa.Message = "设置空调成功";
-                return Json(oa);
+        public ActionResult SearchExc(string classroom)
+        {
+            EquipmentResult Result = null;
+            try
+            {
+                var rooms = ZRoomService.GetEntity(u => u.F_RoomNo == classroom).FirstOrDefault();
+                var zeList = ZEquipmentService.GetEntity(u => u.F_RoomId == rooms.F_Id).ToList();
+                byte b;
+                byte fun = 0x1f;
+                Result = ConvertCmd(fun, classroom, "00", 0x00);
+                Result.Message = "查询设备信息成功";
+                //Thread.Sleep(300);
+                var list = SerialPortUtils.actuators;
+                Result.Count = zeList.Count();
+                var normalZqu = zeList.Where(u => list.Any(i => u.F_EquipmentNo == i.Id && i.Online ==Online)).ToList();
+                Result.ExceptionCount = Result.Count - normalZqu.Count();
+                Result.NormalCount = Result.Count - Result.ExceptionCount;
+                Result.AppendData = SerialPortUtils.actuators.Where(u => u.Online == Offline).ToList();
             }
             catch(Exception exception)
             {
-                EquipmentResult oa = new EquipmentResult();
+                if (Result != null) { 
+                    Result.Message = "查询设备信息失败";
+                    Result.ErrorData = exception;
+                }
+            }
+            return Json(Result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        /// <summary>
+        /// 发送转换后的命令
+        /// </summary>
+        /// <param name="fun">功能码</param>
+        /// <param name="classroom">教室地址</param>
+        /// <param name="nodeAdd">节点地址</param>
+        /// <param name="onoff">开关</param>
+        /// <returns></returns>
+        private EquipmentResult ConvertCmd(byte fun, string classroom, string nodeAdd, byte onoff)
+        {
+            classroom = string.IsNullOrEmpty(classroom) ? "00" : classroom;
+            nodeAdd = string.IsNullOrEmpty(nodeAdd) ? "00" : nodeAdd;
+
+            EquipmentResult oa = new EquipmentResult();
+            try
+            {
+                byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0x22, 0x01, onoff };
+                byte[] bclassroom = CmdUtils.StrToHexByte(classroom);
+                byte[] bnodeAdd = CmdUtils.StrToHexByte(nodeAdd);
+                bclassroom.CopyTo(cmd, 2);
+                bnodeAdd.CopyTo(cmd, 5);
+                cmd = CmdUtils.ActuatorCommand(cmd);
+                SerialPortUtils.SendCmd(cmd);
+                oa.Status = true;
+                oa.ResultCode = ResultCode.Ok;
+            }
+            catch (Exception exception)
+            {
                 oa.Status = false;
-                oa.Message = "设置空调失败";
                 oa.ErrorData = exception.ToString();
                 oa.ResultCode = ResultCode.Error;
-                return Json(oa);
+                ExceptionHelper.AddException(exception);
             }
-
+            return oa;
         }
         /// <summary>
         /// 开关灯
         /// </summary>
         /// <param name="onoff"></param>
-        public ActionResult Lamp(string classroom, string nodeAdd, int onoff)
+        public ActionResult SetLamp(string classroom, string nodeAdd, string onoff)
         {
+            EquipmentResult oa = null;
             try
             {
-                byte[] cmd = { 0x55, 0x02, 0x12, 0x34, 0x01, 0x22, 0x01, 0x01 };
-                byte[] bclassroom = CmdUtils.StrToHexByte(classroom);
-                byte[] bnodeAdd = CmdUtils.StrToHexByte(nodeAdd);
-                byte bonoff = (byte)onoff;
-                bclassroom.CopyTo(cmd, 2);
-                bnodeAdd.CopyTo(cmd, 5);
-                cmd[7] = bonoff;//.CopyTo(cmd, 7);
-                cmd = CmdUtils.ActuatorCommand(cmd);
-                SerialPortUtils.SendCmd(cmd);
-                EquipmentResult oa = new EquipmentResult();
-                oa.Status = true;
+                byte b;
+                byte fun = 0x01;
+                b = (byte)(onoff == OPEN ? 0x01 : 0x00);
+                oa = ConvertCmd(fun, classroom, nodeAdd, b);
                 oa.Message = "设置灯成功";
-                oa.ResultCode = ResultCode.Ok;
-                return Json(oa,JsonRequestBehavior.AllowGet);
             }
-            catch(Exception exception)
+            catch
             {
-                EquipmentResult oa = new EquipmentResult();
-                oa.Status = false;
-                oa.Message = "设置灯失败";
-                oa.ResultCode = ResultCode.Error;
-                oa.ErrorData = exception.ToString();
-                return Json(oa, JsonRequestBehavior.AllowGet);
+                if (oa != null)
+                    oa.Message = "设置灯失败";
             }
+            return Json(oa, JsonRequestBehavior.AllowGet);
+
+        }
+        /// <summary>
+        /// 设置风机
+        /// </summary>
+        /// <param name="classroom">教室地址</param>
+        /// <param name="nodeAdd">节点地址</param>
+        /// <param name="onoff">开关</param>
+        /// <returns></returns>
+        public ActionResult SetFan(string classroom, string nodeAdd, string onoff)
+        {
+            EquipmentResult oa = null;
+            try
+            {
+                byte b;
+                byte fun = 0x02;
+                b = (byte)(onoff == OPEN ? 0x01 : 0x00);
+                oa = ConvertCmd(fun, classroom, nodeAdd, b);
+                oa.Message = "设置风机成功";
+            }
+            catch
+            {
+                if (oa != null)
+                    oa.Message = "设置风机失败";
+            }
+            return Json(oa, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -173,33 +196,46 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult SetDoor(string classroom, string nodeAdd, string onoff)
         {
+            EquipmentResult oa = null;
             try
             {
-                byte[] cmd = { 0x55, 0x02, 0, 0, 0x0A, 0x22, 0x01, 0x01 };
-                byte[] classAdd = CmdUtils.StrToHexByte(classroom);
-                classAdd.CopyTo(cmd, 2);
-                byte[] node = CmdUtils.StrToHexByte(nodeAdd);
-                node.CopyTo(cmd, 5);
-                byte[] bonoff = CmdUtils.StrToHexByte(onoff);
-                bonoff.CopyTo(cmd, 7);
-                cmd = CmdUtils.ActuatorCommand(cmd);
-                SerialPortUtils.SendCmd(cmd);
-                EquipmentResult oa = new EquipmentResult();
-                oa.Status = true;
+                byte b;
+                byte fun = 0x03;
+                b = (byte)(onoff == OPEN ? 0x01 : 0x00);
+                oa = ConvertCmd(fun, classroom, nodeAdd, b);
                 oa.Message = "设置门成功";
-                oa.ResultCode= ResultCode.Ok;
-                return Json(oa);
             }
-            catch(Exception exception)
+            catch
             {
-                EquipmentResult oa = new EquipmentResult();
-                oa.Status = false;
-                oa.Message = "设置门失败";
-                oa.ResultCode= ResultCode.Error;
-                oa.ErrorData = exception.ToString();
-                return Json(oa);
+                if (oa != null)
+                    oa.Message = "设置门失败";
             }
-
+            return Json(oa, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// 设置窗户
+        /// </summary>
+        /// <param name="classroom">教室地址</param>
+        /// <param name="nodeAdd">节点地址</param>
+        /// <param name="onoff">开关</param>
+        /// <returns></returns>
+        public ActionResult SetWindow(string classroom, string nodeAdd, string onoff)
+        {
+            EquipmentResult oa = null;
+            try
+            {
+                byte b;
+                byte fun = 0x04;
+                b = (byte)(onoff == OPEN ? 0x04 : onoff == STOP ? 0x05 : 0x00);
+                oa = ConvertCmd(fun, classroom, nodeAdd, b);
+                oa.Message = "设置窗户成功";
+            }
+            catch
+            {
+                if (oa != null)
+                    oa.Message = "设置窗户失败";
+            }
+            return Json(oa, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -211,77 +247,21 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult SetCurtain(string classroom, string nodeAdd, string onoff)
         {
+            EquipmentResult oa = null;
             try
             {
-                byte[] cmd = { 0x55, 0x02, 0, 0, 0x0C, 0, 0x01, 0x01 };
-                byte[] bClassroom = CmdUtils.StrToHexByte(classroom);
-                bClassroom.CopyTo(cmd, 2);
-                byte[] bNodeAdd = CmdUtils.StrToHexByte(nodeAdd);
-                bNodeAdd.CopyTo(cmd, 5);
-                int Ionoff;
-                int.TryParse(onoff, out Ionoff);
-                byte bOnoff = (byte)Ionoff;
-                cmd[7] = bOnoff;
-                cmd = CmdUtils.ActuatorCommand(cmd);
-                SerialPortUtils.SendCmd(cmd);
-
-                EquipmentResult oa = new EquipmentResult();
-                oa.Status = false;
+                byte b;
+                byte fun = 0x05;
+                b = (byte)(onoff == OPEN ? 0x04 : onoff == STOP ? 0x05 : 0x00);
+                oa = ConvertCmd(fun, classroom, nodeAdd, b);
                 oa.Message = "设置窗帘成功";
-                oa.ResultCode= ResultCode.Ok;
-                
-                return Json(oa);
             }
-            catch(Exception exception)
+            catch
             {
-                EquipmentResult oa = new EquipmentResult();
-                oa.Status = false;
-                oa.Message = "设置窗帘失败";
-                oa.ResultCode= ResultCode.Error;
-                oa.ErrorData = exception.ToString();
-                return Json(oa);
+                if (oa != null)
+                    oa.Message = "设置窗帘失败";
             }
-        }
-
-        /// <summary>
-        /// 设置窗户
-        /// </summary>
-        /// <param name="classroom">教室地址</param>
-        /// <param name="nodeAdd">节点地址</param>
-        /// <param name="onoff">开关</param>
-        /// <returns></returns>
-        public ActionResult SetWindow(string classroom, string nodeAdd, string onoff)
-        {
-            try
-            {
-                byte[] cmd = { 0x55, 0x02, 0, 0, 0x0B, 0, 0x01, 0x01 };
-                byte[] bClassroom = CmdUtils.StrToHexByte(classroom);
-                bClassroom.CopyTo(cmd, 2);
-                byte[] bNodeAdd = CmdUtils.StrToHexByte(nodeAdd);
-                bNodeAdd.CopyTo(cmd, 5);
-                int Ionoff;
-                int.TryParse(onoff, out Ionoff);
-                byte bOnoff = (byte)Ionoff;
-                cmd[7] = bOnoff;
-                cmd = CmdUtils.ActuatorCommand(cmd);
-                SerialPortUtils.SendCmd(cmd);
-
-                EquipmentResult oa = new EquipmentResult();
-                oa.Status = true;
-                oa.Message = "设置窗户成功";
-                oa.ResultCode= ResultCode.Ok;
-                
-                return Json(oa);
-            }
-            catch(Exception exception)
-            {
-                EquipmentResult oa = new EquipmentResult();
-                oa.Status = false;
-                oa.Message = "设置窗户失败";
-                oa.ResultCode= ResultCode.Error;
-                oa.ErrorData = exception.ToString();
-                return Json(oa);
-            }
+            return Json(oa, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -310,57 +290,154 @@ namespace SmartClass.Controllers
                 EquipmentResult oa = new EquipmentResult();
                 oa.Status = true;
                 oa.Message = "设置报警灯成功";
-                oa.ResultCode= ResultCode.Ok;
-                return Json(oa);
-            }
-            catch(Exception exception)
-            {
-                EquipmentResult oa = new EquipmentResult();
-                oa.Status = false;
-                oa.Message = "设置报警灯失败";
-                oa.ErrorData = exception.ToString();
-                oa.ResultCode= ResultCode.Error;
-                return Json(oa);
-            }
-        }
-
-        /// <summary>
-        /// 设置风机
-        /// </summary>
-        /// <param name="classroom">教室地址</param>
-        /// <param name="nodeAdd">节点地址</param>
-        /// <param name="onoff">开关</param>
-        /// <returns></returns>
-        public ActionResult SetFan(string classroom, string nodeAdd, string onoff)
-        {
-            try
-            {
-                byte[] cmd = { 0x55, 0x02, 0, 0, 0x09, 0, 0x01, 0x01 };
-                byte[] bClassroom = CmdUtils.StrToHexByte(classroom);
-                bClassroom.CopyTo(cmd, 2);
-                byte[] bNodeAdd = CmdUtils.StrToHexByte(nodeAdd);
-                bNodeAdd.CopyTo(cmd, 5);
-                int Ionoff;
-                int.TryParse(onoff, out Ionoff);
-                byte bOnoff = (byte)Ionoff;
-                cmd[7] = bOnoff;
-                cmd = CmdUtils.ActuatorCommand(cmd);
-                SerialPortUtils.SendCmd(cmd);
-                EquipmentResult oa = new EquipmentResult();
-                oa.Status = true;
-                oa.Message = "设置风机成功";
-                oa.ResultCode= ResultCode.Ok;
+                oa.ResultCode = ResultCode.Ok;
                 return Json(oa);
             }
             catch (Exception exception)
             {
                 EquipmentResult oa = new EquipmentResult();
                 oa.Status = false;
-                oa.Message = "设置风机失败";
+                oa.Message = "设置报警灯失败";
                 oa.ErrorData = exception.ToString();
                 oa.ResultCode = ResultCode.Error;
                 return Json(oa);
             }
+        }
+
+        /// <summary>
+        /// 设置空调参数
+        /// </summary>
+        /// <param name="classroom">教室地址</param>
+        /// <param name="nodeAdd">节点地址</param>
+        /// <param name="onoff">开关</param>
+        /// <param name="model">模式</param>
+        /// <param name="speed">风速</param>
+        /// <param name="wd">温度</param>
+        /// <returns></returns>
+        public ActionResult SetAirConditioning(string classroom, string nodeAdd, string onoff, string model, string speed, string wd)
+        {
+            try
+            {
+                #region 操作设备逻辑
+                byte b = new byte();
+                if (onoff == OPEN)
+                {
+                    b |= 0x1 << 6;
+                }
+                else if (onoff == CLOSE)
+                {
+                    b |= 0x0 << 6;
+                }
+                switch (model)
+                {
+                    case "自动":
+                        b |= 0x0 << 3;
+                        break;
+                    case "制冷":
+                        b |= 0x1 << 3;
+                        break;
+                    case "制热":
+                        b |= 0x2 << 3;
+                        break;
+                    case "抽湿":
+                        b |= 0x3 << 3;
+                        break;
+                    case "送风":
+                        b |= 0x4 << 3;
+                        break;
+                }
+                switch (speed)
+                {
+                    case "0":
+                        b |= 0x0 << 1;
+                        break;
+                    case "1":
+                        b |= 0x1 << 1;
+                        break;
+                    case "2":
+                        b |= 0x2 << 1;
+                        break;
+                    case "3":
+                        b |= 0x3 << 1;
+                        break;
+                }
+                // b |= 0x1 << 1;
+                b |= 0x01;
+                byte b1 = new byte();
+                int iwd = Convert.ToInt16(wd);
+                iwd |= 0x90;
+                b1 |= (byte)iwd;
+                //发送命令
+                byte[] cmd = { 0x55, 0x02, 0, 0, 0x06, 0, 0x02, b, b1 };
+                byte[] bclassroom = CmdUtils.StrToHexByte(classroom);
+                bclassroom.CopyTo(cmd, 2);
+
+
+                byte[] bnodeAdd = CmdUtils.StrToHexByte(nodeAdd);
+                bnodeAdd.CopyTo(cmd, 5);
+                byte[] data = CmdUtils.ActuatorCommand(cmd);
+                SerialPortUtils.SendCmd(data);
+                #endregion
+
+                EquipmentResult oa = new EquipmentResult();
+                oa.Status = true;
+                oa.ResultCode = ResultCode.Ok;
+                oa.Message = "设置空调成功";
+                return Json(oa);
+            }
+            catch (Exception exception)
+            {
+                EquipmentResult oa = new EquipmentResult();
+                oa.Status = false;
+                oa.Message = "设置空调失败";
+                oa.ErrorData = exception.ToString();
+                oa.ResultCode = ResultCode.Error;
+                return Json(oa);
+            }
+
+        }
+
+        /// <summary>
+        /// 初始化设备节点
+        /// </summary>
+        /// <param name="classroom">教室地址</param>
+        /// <returns></returns>
+        public ActionResult Init(string classroom)
+        {
+            EquipmentResult Result = new EquipmentResult();
+            try
+            {
+                byte b = 0x00;
+                byte fun = 0x1f;
+                Result = ConvertCmd(fun, classroom, "00", b);
+                Result.Message = "查询设备信息成功";
+            }
+            catch
+            {
+                if (Result != null)
+                    Result.Message = "查询设备信息失败";
+            }
+            Thread.Sleep(300);
+            var list = SerialPortUtils.actuators.ToList();
+            List<Z_Equipment> ZEList = new List<Z_Equipment>();
+            Z_Room room = ZRoomService.GetEntity(u => u.F_RoomNo == classroom).FirstOrDefault();
+            if (room != null)
+            {
+                foreach (var item in list)
+                {
+                    Z_Equipment zEquipment = new Z_Equipment();
+                    zEquipment.F_Id = Guid.NewGuid().ToString();
+                    zEquipment.F_RoomId = room.F_Id;
+                    zEquipment.F_EquipmentNo = item.Id;
+                    zEquipment.F_FullName = item.Name;
+                    zEquipment.F_EnabledMark = true;
+                    ZEList.Add(zEquipment);
+                }
+            }
+            ZEquipmentService.AddEntitys(ZEList);
+            Result.AppendData = list;
+            //return Json(Result, JsonRequestBehavior.AllowGet);
+            return Json(Result);
         }
     }
 }
