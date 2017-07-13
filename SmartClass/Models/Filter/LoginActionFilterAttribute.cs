@@ -18,7 +18,7 @@ namespace SmartClass.Models
         Sys_Log log { get; set; }
         string action { get; set; }
         /// <summary>
-        /// 行为执行后，记录操作记录
+        /// 行为执行后，记录登录记录
         /// </summary>
         /// <param name="filterContext"></param>
         public override void OnActionExecuted(ActionExecutedContext filterContext)
@@ -26,7 +26,8 @@ namespace SmartClass.Models
             base.OnActionExecuted(filterContext);
             action = filterContext.RouteData.Values["action"].ToString();
             JsonResult result = filterContext.Result as JsonResult;
-            string account = filterContext.HttpContext.Request["Account"];
+            //TODO 这边需要改成从请求头和Cookie获取
+            //string account = filterContext.HttpContext.Request["Account"] == null ? filterContext.HttpContext.Request.Cookies["Account"]?.Value : filterContext.HttpContext.Request["Account"];
             ModelResult mr = null;
             string userHostAddress = filterContext.HttpContext.Request.UserHostAddress;//IP地址
             if (result != null)
@@ -70,7 +71,6 @@ namespace SmartClass.Models
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-            action = filterContext.RequestContext.RouteData.Values["action"].ToString();
 
         }
     }

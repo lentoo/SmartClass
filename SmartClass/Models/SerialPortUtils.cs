@@ -8,7 +8,9 @@ using System.IO.Ports;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
+using System.Threading;
 using System.Web;
+using Microsoft.Ajax.Utilities;
 using Model;
 
 namespace SmartClass.Models
@@ -23,26 +25,18 @@ namespace SmartClass.Models
         /// </summary>
         private static SerialPort Port { get; }
 
-        private const string Online = "OnLine";
-        private const string Offline = "OffLine";
-        /// <summary>
-        /// 传感器集合
-        /// </summary>
-        public static List<SonserBase> actuators { get; set; }
+
+        private static byte[] data = new byte[1024];
+        public static bool Possession;
+        public static int offset = 0;
 
         public static int ActuatorDataLength = 2;
-        /// <summary>
-        /// 执行器
-        /// </summary>
-        private static string[] Sonsers = { "照明灯", "门", "窗帘", "窗户", "风机", "人体", "气体", "报警" };
-        /// <summary>
-        /// 传感器
-        /// </summary>
-        private static string[] Analogue = { "温度", "光照", "PM2.5", "空调", "电子钟", "投影屏" };
         /// <summary>
         /// 无线串口号
         /// </summary>
         private static string COM = ConfigurationManager.AppSettings["COM"];
+
+        public static Queue<byte[]> DataQueue = new Queue<byte[]>();
         static SerialPortUtils()
         {
             Port = new SerialPort(COM);
@@ -50,164 +44,51 @@ namespace SmartClass.Models
             Port.DataReceived += Port_DataReceived;
             Port.Open();
         }
-
         private static void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-
-            byte[] data = new byte[1024];
-            int len = Port.Read(data, 0, data.Length);
-            int index = 7;
-            if (data[4] != 0x1f)
+            int len = Port.Read(data, offset, data.Length - offset);
+            int length = 7 + data[6] + 3;   //数据包总长度
+            offset += len;
+            while (offset < length)     //当前读到的长度是否等于总长度
             {
-                return;
+                len = Port.Read(data, offset, length - offset);
+                offset += len;
             }
-            if (data[0] == 0x55)
+            if (data[offset - 1] == 0xbb) //校验包尾
             {
-                actuators = new List<SonserBase>();
-                //处理数字量数据
-                for (int i = 0; i < Sonsers.Length; i++)
+                byte[] _data = new byte[offset - 3];
+                Array.Copy(data, 0, _data, 0, offset - 3);
+                byte[] _dataCrc = Common.CRC16.Crc(_data);
+                if (_dataCrc[0] == data[offset - 3] && _dataCrc[1] == data[offset - 2]) //CRC的校验
                 {
-                    int SonserNum = data[index++];      //传感器数量
-                    int SonserOnLineNum = data[index++];  //传感器在线数
-                    ProcessActuatorData(SonserNum, ref index, data, Sonsers[i]);
+                    DataQueue.Enqueue(data);
                 }
-                //处理模拟量数据
-                for (int i = 0; i < Analogue.Length; i++)
+                else
                 {
-                    int SonserNum = data[index++];   //模拟量数量数
-                    int SonserOffLineNum = data[index++];  //模拟量在线数 
-                    ProcessAnalogueData(SonserNum, ref index, data, Analogue[i]);
+                    offset = 0;
                 }
-            }
-        }
-        /// <summary>
-        /// 执行器数据处理
-        /// </summary>
-        /// <param name="num">在线数</param>
-        /// <param name="index">下标</param>
-        /// <param name="data">数据</param>
-        /// <param name="name">传感器名称</param>
-        private static void ProcessActuatorData(int num, ref int index, byte[] data, string name)
-        {
-            for (int i = 0; i < num; i++)
-            {
-                Actuator actuator = new Actuator();
-                actuator.Id = Convert.ToString(data[index++], 16);
-                actuator.Name = name;
-                int state = data[index++];
-                actuator.State = GetState(state);
-                actuator.Online = state == 0 ? Offline : Online;
-                actuators.Add(actuator);
-            }
-        }
-
-        /// <summary>
-        /// 模拟量数据数据
-        /// </summary>
-        /// <param name="num">在线数</param>
-        /// <param name="index">下标</param>
-        /// <param name="data">数据</param>
-        /// <param name="name">传感器名称</param>
-        private static void ProcessAnalogueData(int num, ref int index, byte[] data, string name)
-        {
-
-            if (name == "温度")
-            {
-                for (int i = 0; i < num; i++)
-                {
-                    Digital digitalWD = new Digital();
-                    digitalWD.Id = Convert.ToString(data[index++], 16);
-                    double wd = Convert.ToDouble(data[index++] << 8 | data[index++]) / 10;
-                    digitalWD.value = wd + "℃";
-                    digitalWD.Name = "温度";
-                    digitalWD.Online = wd == 0 ? Offline : Online;
-                    actuators.Add(digitalWD);
-                    Digital digitalSD = new Digital();
-                    digitalSD.Id = digitalWD.Id;
-                    double sd = Convert.ToDouble(data[index++] << 8 | data[index++]) / 10;
-                    digitalSD.value = sd + "%";
-                    digitalSD.Name = "湿度";
-                    digitalSD.Online = sd == 0 ? Offline : Online;
-                    actuators.Add(digitalSD);
-                }
-            }
-            else if (name == "PM2.5")
-            {
-                for (int i = 0; i < num; i++)
-                {
-                    Digital digital = new Digital();
-                    digital.Id = Convert.ToString(data[index++], 16);
-                    double value = Convert.ToDouble(data[index++] << 8 | data[index++]) / 100;
-                    digital.value = value + "µg/m³";
-                    digital.Name = "PM2.5";
-                    digital.Online = value == 0 ? Offline : Online;
-                    actuators.Add(digital);
-                }
-            }
-            else if (name == "空调")
-            {
-                for (int i = 0; i < num; i++)
-                {
-                    Digital digital = new Digital();
-                    digital.Id = Convert.ToString(data[index++], 16);
-                    Int16 iState = data[index++];
-                    digital.state = ((iState >> 7) & 0x01) == 1 ? "开机" : "关机";
-                    digital.value = (0x0f & data[index++]) + 16 + "℃";
-                    digital.Name = name;
-                    actuators.Add(digital);
-                }
+                offset = 0;
             }
             else
             {
-                for (int i = 0; i < num; i++)
-                {
-                    Digital digital = new Digital();
-                    digital.Id = Convert.ToString(data[index++], 16);
-                    double value = data[index++];
-                    digital.value = value+ "";
-                    digital.Name = name;
-                    digital.Online = value == 0 ? Offline : Online;
-                    actuators.Add(digital);
-                }
+                SendCmd(Cmd);
+                offset = 0;
             }
         }
-        /// <summary>
-        /// 根据状态码返回状态
-        /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
-        private static string GetState(int i)
-        {
-            string state;
-            switch (i)
-            {
-                case 0:
-                    state = "不在线";
-                    break;
-                case 1:
-                    state = "关闭";
-                    break;
-                case 2:
-                    state = "打开";
-                    break;
-                case 6:
-                    state = "停止";
-                    break;
-                default:
-                    state = i + ",无此状态码";
-                    break;
-            }
-            return state;
-        }
+
+        private static byte[] Cmd = null;
         /// <summary>
         /// 向无线串口发送数据
         /// </summary>
         /// <param name="cmd">发送命令</param>
-        public static bool SendCmd(byte[] data)
+        public static bool SendCmd(byte[] cmd)
         {
             try
             {
-                Port.Write(data, 0, data.Length);
+                Cmd = cmd;
+                Possession = false;
+                Port.Write(cmd, 0, cmd.Length);
+
             }
             catch (Exception e)
             {

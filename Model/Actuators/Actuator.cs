@@ -7,6 +7,5 @@ namespace Model
 {
     public class Actuator: SonserBase
     {     
-        public string State { get; set; }
     }
 }

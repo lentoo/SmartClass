@@ -31,8 +31,19 @@ namespace SmartClass.Models.Filter
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-            string token = filterContext.HttpContext.Request["Access"];
-
+            //TODO 这边要改成从请求头中获取
+            string token;
+            token = filterContext.HttpContext.Request["Access"];
+            if (token == null)
+            {
+                token = filterContext.HttpContext.Request.Cookies["Access"]?.Value;
+            }
+            if (token == null)
+            {
+                var json = new JsonResult();
+                json.Data = new { ResultCode = ResultCode.Error, Message = "请重新登录" };
+                filterContext.Result = json;
+            }
             //从缓存中获取token信息
             Sys_UserLogOn UserLogOn = CacheHelper.GetCache<Sys_UserLogOn>(token);
             if (UserLogOn != null)

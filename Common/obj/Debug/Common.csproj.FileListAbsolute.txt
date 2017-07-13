@@ -19,3 +19,9 @@ E:\Demo\Common\bin\Debug\System.Web.Razor.xml
 E:\Demo\Common\bin\Debug\System.Web.WebPages.xml
 E:\Demo\Common\bin\Debug\System.Web.WebPages.Deployment.xml
 E:\Demo\Common\bin\Debug\System.Web.WebPages.Razor.xml
+E:\SmartClass\SmartClass\bin\Common.dll.config
+E:\SmartClass\SmartClass\bin\Common.dll
+E:\SmartClass\SmartClass\bin\Common.pdb
+E:\SmartClass\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
+E:\SmartClass\Common\obj\Debug\Common.dll
+E:\SmartClass\Common\obj\Debug\Common.pdb

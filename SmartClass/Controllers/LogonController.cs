@@ -29,6 +29,8 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult Logon(string Account, string Pwd, string imei)
         {
+
+            //TODO 最终上线要删除
             //测试初始化登录-begin
             Account = "admin";
             Pwd = "4a7d1ed414474e4033ac29ccb8653d9b";
@@ -36,7 +38,7 @@ namespace SmartClass.Controllers
             Sys_User User = UserService.GetEntityByAccount(Account);
             if (User == null)
             {
-                
+
                 return Json(new LoginResult { Message = "用户名不存在", Status = false });
             }
             Sys_UserLogOn UserLogOn = UserLogService.GetEntityByUserId(User.F_Id);
@@ -62,10 +64,15 @@ namespace SmartClass.Controllers
                     Account = Account,
                     IMEI = imei
                 };
-
+                //创建一个token
                 string token = JwtUtils.EncodingToken(payload, UserLogOn.F_UserSecretkey);
                 CacheHelper.AddCache(token, UserLogOn, DateTime.Now.AddDays(7));
-                
+                HttpCookie tokenCookie = new HttpCookie("Access");
+                tokenCookie.Value = token;
+                tokenCookie.Path = "/";
+
+                tokenCookie.Expires = DateTime.Now.AddDays(7);
+                Response.AppendCookie(tokenCookie);
                 return Json(new LoginResult
                 {
                     Message = "登录成功",

@@ -11,6 +11,6 @@ namespace Model
         /// 模拟量数值
         /// </summary>
         public string value { get; set; }
-        public string state { get; set; }
+      
     }
 }

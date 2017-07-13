@@ -1,0 +1,12 @@
+E:\SmartClass\Model\bin\Release\Model.dll.config
+E:\SmartClass\Model\bin\Release\Model.dll
+E:\SmartClass\Model\bin\Release\Model.pdb
+E:\SmartClass\Model\bin\Release\EntityFramework.dll
+E:\SmartClass\Model\bin\Release\EntityFramework.SqlServer.dll
+E:\SmartClass\Model\bin\Release\EntityFramework.xml
+E:\SmartClass\Model\bin\Release\EntityFramework.SqlServer.xml
+E:\SmartClass\Model\bin\Release\zh-Hans\EntityFramework.resources.dll
+E:\SmartClass\Model\bin\Release\zh-Hans\EntityFramework.SqlServer.resources.dll
+E:\SmartClass\Model\obj\Release\Model.csprojResolveAssemblyReference.cache
+E:\SmartClass\Model\obj\Release\Model.dll
+E:\SmartClass\Model\obj\Release\Model.pdb

@@ -11,7 +11,9 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using IBLL;
+using Model.Properties;
 using SmartClass.Models.Filter;
+using SmartClass.Models.Types;
 
 namespace SmartClass.Controllers
 {
@@ -20,26 +22,9 @@ namespace SmartClass.Controllers
     {
         public IZ_EquipmentService ZEquipmentService { get; set; }
         public IZ_RoomService ZRoomService { get; set; }
-        /// <summary>
-        /// 打开
-        /// </summary>
-        private const string OPEN = "open";
-        /// <summary>
-        /// 关闭
-        /// </summary>
-        private const string CLOSE = "close";
-        /// <summary>
-        /// 停止
-        /// </summary>
-        private const string STOP = "stop";
-        /// <summary>
-        /// 在线
-        /// </summary>
-        private const string Online = "OnLine";
-        /// <summary>
-        /// 离线
-        /// </summary>
-        private const string Offline = "OffLine";
+
+        public SerialPortService PortService = new SerialPortService();
+
         /// <summary>
         /// 查询教室所有设备数据
         /// </summary>
@@ -47,29 +32,78 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult SearchAll(string classroom)
         {
-            EquipmentResult Result = null;
+            EquipmentResult Result = new EquipmentResult();
             try
             {
-                var rooms = ZRoomService.GetEntity(u => u.F_RoomNo == classroom).FirstOrDefault();
-                var zeList = ZEquipmentService.GetEntity(u => u.F_RoomId == rooms.F_Id).ToList();
+                //查询该教室
+                Z_Room room = ZRoomService.GetEntity(u => u.F_RoomNo == classroom).FirstOrDefault();
+                if (room == null)   //没有该教室
+                {
+                    Result.Message = "教室地址有误！";
+                    Result.Message = "查询设备信息失败";
+                    return Json(Result, JsonRequestBehavior.AllowGet);
+                }
+                #region 查询教室父级信息
+                var rooms = ZRoomService.GetEntity(u => u.F_RoomNo == classroom);
+                var allRoom = ZRoomService.GetEntity(u => true);
+                var layers = from u in rooms
+                             join la in allRoom on u.F_ParentId equals la.F_Id
+                             select new
+                             {
+                                 roomName = u.F_FullName,
+                                 layerName = la.F_FullName,
+                                 la.F_ParentId,
+                                 u.F_Id
+                             };
+                var colleges = (from u in layers
+                                join c in allRoom on u.F_ParentId equals c.F_Id
+                                select new
+                                {
+                                    collegeName = c.F_FullName,
+                                    u.layerName,
+                                    u.roomName,
+                                    u.F_Id
+                                });
+                var college = colleges.FirstOrDefault();
+                #endregion
+                //获取该教室所有的设备
+                var zeList = ZEquipmentService.GetEntity(u => u.F_RoomId == room.F_Id).ToList();
                 byte b;
                 byte fun = 0x1f;
-                Result = ConvertCmd(fun, classroom, "00", 0x00);
+                //向串口发送指令
+                Result = SendConvertCmd(fun, classroom, "00", 0x00);
+
                 Result.Message = "查询设备信息成功";
-               // Thread.Sleep(300);
-                List<string> ids = SerialPortUtils.actuators.Select(u => u.Id).ToList();
-                Result.Count = zeList.Count;
-                var normalZqu = zeList.Where(u => ids.Any(id => u.F_EquipmentNo == id)).ToList();
-                Result.ExceptionCount = Result.Count - normalZqu.Count;
-                Result.NormalCount = Result.Count - Result.ExceptionCount;
+                ClassRoom classRoom = PortService.GetReturnData();
+                if (classRoom == null)  //如果为空，则在查询一次
+                {
+                    Result = SendConvertCmd(fun, classroom, "00", 0x00);
+                    classRoom = PortService.GetReturnData();
+                }
+                if (classRoom != null)
+                {
+                    classRoom.CollegeName = college.collegeName; //学院名称
+                    classRoom.LayerName = college.layerName;    //楼层名称
+                    classRoom.Name = college.roomName;          //教室名称
+                    classRoom.ClassNo = room.F_EnCode;          //教室编码
+                    classRoom.Id = room.F_RoomNo;
+                    List<string> ids = classRoom.SonserList.Select(u => u.Id).ToList();
+                    Result.Count = zeList.Count;
+                    var normalZqu = zeList.Where(u => ids.Any(id => u.F_EquipmentNo == id)).ToList();
+                    Result.ExceptionCount = Result.Count - normalZqu.Count;
+                    Result.NormalCount = Result.Count - Result.ExceptionCount;
+                    Result.AppendData = classRoom;
+                }
+                else
+                {
+                    Result.Message = "查询设备信息失败！请重试";
+                }
             }
-            catch
+            catch (Exception exception)
             {
-                if (Result != null)
-                    Result.Message = "查询设备信息失败";
+                Result.ErrorData = exception.ToString();
+                Result.Message = "查询设备信息失败";
             }
-            if (Result != null)
-                Result.AppendData = SerialPortUtils.actuators;
             return Json(Result, JsonRequestBehavior.AllowGet);
         }
 
@@ -78,23 +112,51 @@ namespace SmartClass.Controllers
             EquipmentResult Result = null;
             try
             {
-                var rooms = ZRoomService.GetEntity(u => u.F_RoomNo == classroom).FirstOrDefault();
-                var zeList = ZEquipmentService.GetEntity(u => u.F_RoomId == rooms.F_Id).ToList();
+                var room = ZRoomService.GetEntity(u => u.F_RoomNo == classroom).FirstOrDefault();
+                var rooms = ZRoomService.GetEntity(u => u.F_RoomNo == classroom);
+                var allRoom = ZRoomService.GetEntity(u => true);
+                var layers = from u in rooms
+                             join la in allRoom on u.F_ParentId equals la.F_Id
+                             select new
+                             {
+                                 roomName = u.F_FullName,
+                                 layerName = la.F_FullName,
+                                 la.F_ParentId,
+                                 u.F_Id
+                             };
+                var colleges = (from u in layers
+                                join c in allRoom on u.F_ParentId equals c.F_Id
+                                select new
+                                {
+                                    collegeName = c.F_FullName,
+                                    u.layerName,
+                                    u.roomName,
+                                    u.F_Id
+                                });
+                var college = colleges.FirstOrDefault();
+                var zeList = ZEquipmentService.GetEntity(u => u.F_RoomId == room.F_Id).ToList();
                 byte b;
                 byte fun = 0x1f;
-                Result = ConvertCmd(fun, classroom, "00", 0x00);
+                Result = SendConvertCmd(fun, classroom, "00", 0x00);
                 Result.Message = "查询设备信息成功";
-                //Thread.Sleep(300);
-                var list = SerialPortUtils.actuators;
-                Result.Count = zeList.Count();
-                var normalZqu = zeList.Where(u => list.Any(i => u.F_EquipmentNo == i.Id && i.Online ==Online)).ToList();
-                Result.ExceptionCount = Result.Count - normalZqu.Count();
-                Result.NormalCount = Result.Count - Result.ExceptionCount;
-                Result.AppendData = SerialPortUtils.actuators.Where(u => u.Online == Offline).ToList();
+                ClassRoom classRoom = PortService.GetReturnData();
+                if (classRoom != null)
+                {
+                    classRoom.CollegeName = college.collegeName;
+                    classRoom.LayerName = college.layerName;
+                    classRoom.Name = college.roomName;
+                    var list = classRoom.SonserList;
+                    Result.Count = zeList.Count();
+                    var normalZqu = zeList.Where(u => list.Any(i => u.F_EquipmentNo == i.Id && i.Online == StateType.Online)).ToList();
+                    Result.ExceptionCount = Result.Count - normalZqu.Count();
+                    Result.NormalCount = Result.Count - Result.ExceptionCount;
+                    Result.AppendData = list.Where(u => u.Online == StateType.Offline).ToList();
+                }
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
-                if (Result != null) { 
+                if (Result != null)
+                {
                     Result.Message = "查询设备信息失败";
                     Result.ErrorData = exception;
                 }
@@ -111,7 +173,7 @@ namespace SmartClass.Controllers
         /// <param name="nodeAdd">节点地址</param>
         /// <param name="onoff">开关</param>
         /// <returns></returns>
-        private EquipmentResult ConvertCmd(byte fun, string classroom, string nodeAdd, byte onoff)
+        private EquipmentResult SendConvertCmd(byte fun, string classroom, string nodeAdd, byte onoff)
         {
             classroom = string.IsNullOrEmpty(classroom) ? "00" : classroom;
             nodeAdd = string.IsNullOrEmpty(nodeAdd) ? "00" : nodeAdd;
@@ -125,7 +187,9 @@ namespace SmartClass.Controllers
                 bclassroom.CopyTo(cmd, 2);
                 bnodeAdd.CopyTo(cmd, 5);
                 cmd = CmdUtils.ActuatorCommand(cmd);
-                SerialPortUtils.SendCmd(cmd);
+
+                PortService.SendCmd(cmd);
+                //SerialPortUtils.SendCmd(cmd);
                 oa.Status = true;
                 oa.ResultCode = ResultCode.Ok;
             }
@@ -149,8 +213,8 @@ namespace SmartClass.Controllers
             {
                 byte b;
                 byte fun = 0x01;
-                b = (byte)(onoff == OPEN ? 0x01 : 0x00);
-                oa = ConvertCmd(fun, classroom, nodeAdd, b);
+                b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
+                oa = SendConvertCmd(fun, classroom, nodeAdd, b);
                 oa.Message = "设置灯成功";
             }
             catch
@@ -175,8 +239,8 @@ namespace SmartClass.Controllers
             {
                 byte b;
                 byte fun = 0x02;
-                b = (byte)(onoff == OPEN ? 0x01 : 0x00);
-                oa = ConvertCmd(fun, classroom, nodeAdd, b);
+                b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
+                oa = SendConvertCmd(fun, classroom, nodeAdd, b);
                 oa.Message = "设置风机成功";
             }
             catch
@@ -201,8 +265,8 @@ namespace SmartClass.Controllers
             {
                 byte b;
                 byte fun = 0x03;
-                b = (byte)(onoff == OPEN ? 0x01 : 0x00);
-                oa = ConvertCmd(fun, classroom, nodeAdd, b);
+                b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
+                oa = SendConvertCmd(fun, classroom, nodeAdd, b);
                 oa.Message = "设置门成功";
             }
             catch
@@ -226,8 +290,8 @@ namespace SmartClass.Controllers
             {
                 byte b;
                 byte fun = 0x04;
-                b = (byte)(onoff == OPEN ? 0x04 : onoff == STOP ? 0x05 : 0x00);
-                oa = ConvertCmd(fun, classroom, nodeAdd, b);
+                b = (byte)(onoff == StateType.OPEN ? 0x04 : onoff == StateType.STOP ? 0x05 : 0x00);
+                oa = SendConvertCmd(fun, classroom, nodeAdd, b);
                 oa.Message = "设置窗户成功";
             }
             catch
@@ -252,8 +316,8 @@ namespace SmartClass.Controllers
             {
                 byte b;
                 byte fun = 0x05;
-                b = (byte)(onoff == OPEN ? 0x04 : onoff == STOP ? 0x05 : 0x00);
-                oa = ConvertCmd(fun, classroom, nodeAdd, b);
+                b = (byte)(onoff == StateType.OPEN ? 0x04 : onoff == StateType.STOP ? 0x05 : 0x00);
+                oa = SendConvertCmd(fun, classroom, nodeAdd, b);
                 oa.Message = "设置窗帘成功";
             }
             catch
@@ -320,11 +384,11 @@ namespace SmartClass.Controllers
             {
                 #region 操作设备逻辑
                 byte b = new byte();
-                if (onoff == OPEN)
+                if (onoff == StateType.OPEN)
                 {
                     b |= 0x1 << 6;
                 }
-                else if (onoff == CLOSE)
+                else if (onoff == StateType.CLOSE)
                 {
                     b |= 0x0 << 6;
                 }
@@ -409,7 +473,7 @@ namespace SmartClass.Controllers
             {
                 byte b = 0x00;
                 byte fun = 0x1f;
-                Result = ConvertCmd(fun, classroom, "00", b);
+                Result = SendConvertCmd(fun, classroom, "00", b);
                 Result.Message = "查询设备信息成功";
             }
             catch
@@ -417,8 +481,8 @@ namespace SmartClass.Controllers
                 if (Result != null)
                     Result.Message = "查询设备信息失败";
             }
-            Thread.Sleep(300);
-            var list = SerialPortUtils.actuators.ToList();
+            ClassRoom classRoom = PortService.GetReturnData();
+            var list = classRoom.SonserList;
             List<Z_Equipment> ZEList = new List<Z_Equipment>();
             Z_Room room = ZRoomService.GetEntity(u => u.F_RoomNo == classroom).FirstOrDefault();
             if (room != null)

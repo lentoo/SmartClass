@@ -36,7 +36,7 @@ namespace DAL
         #region 查询
         public IQueryable<T> GetEntitys(Expression<Func<T, bool>> whereLambda)
         {
-            return Db.Set<T>().Where(whereLambda);
+            return Db.Set<T>().Where(whereLambda).AsNoTracking();
         }
 
         /// <summary>

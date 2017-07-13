@@ -1,0 +1,8 @@
+2017-07-13 11:15:05.0503|DEBUG|lambda_method|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 46
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 40
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 72
