@@ -81,6 +81,39 @@
           <Property Name="F_Language" Type="varchar" MaxLength="50" />
           <Property Name="F_Theme" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Z_Course">
+          <Key>
+            <PropertyRef Name="F_Id" />
+          </Key>
+          <Property Name="F_Id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="F_RoomName" Type="varchar" MaxLength="50" />
+          <Property Name="F_RoomCode" Type="varchar" MaxLength="50" />
+          <Property Name="F_CourseTimeType" Type="varchar" MaxLength="50" />
+          <Property Name="F_FullName" Type="varchar" MaxLength="50" />
+          <Property Name="F_EnCode" Type="varchar" MaxLength="50" />
+          <Property Name="F_TeacherNo" Type="varchar" MaxLength="50" />
+          <Property Name="F_TeacherName" Type="varchar" MaxLength="50" />
+          <Property Name="F_Major" Type="varchar" MaxLength="100" />
+          <Property Name="F_Grade" Type="varchar" MaxLength="50" />
+          <Property Name="F_Class" Type="varchar" MaxLength="100" />
+          <Property Name="F_StudentCount" Type="int" />
+          <Property Name="F_SchoolYear" Type="varchar" MaxLength="50" />
+          <Property Name="F_Term" Type="varchar" MaxLength="50" />
+          <Property Name="F_BeginWeek" Type="varchar" MaxLength="50" />
+          <Property Name="F_EndWeek" Type="varchar" MaxLength="50" />
+          <Property Name="F_WeekCount" Type="varchar" MaxLength="50" />
+          <Property Name="F_Week" Type="varchar" MaxLength="50" />
+          <Property Name="F_SortCode" Type="int" />
+          <Property Name="F_DeleteMark" Type="bit" />
+          <Property Name="F_EnabledMark" Type="bit" />
+          <Property Name="F_Description" Type="varchar" MaxLength="500" />
+          <Property Name="F_CreatorTime" Type="datetime" />
+          <Property Name="F_CreatorUserId" Type="varchar" MaxLength="50" />
+          <Property Name="F_LastModifyTime" Type="datetime" />
+          <Property Name="F_LastModifyUserId" Type="varchar" MaxLength="50" />
+          <Property Name="F_DeleteTime" Type="datetime" />
+          <Property Name="F_DeleteUserId" Type="varchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="Z_Equipment">
           <Key>
             <PropertyRef Name="F_Id" />
@@ -150,6 +183,7 @@
           <EntitySet Name="Sys_Log" EntityType="Self.Sys_Log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sys_User" EntityType="Self.Sys_User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sys_UserLogOn" EntityType="Self.Sys_UserLogOn" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Z_Course" EntityType="Self.Z_Course" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Z_Equipment" EntityType="Self.Z_Equipment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Z_EquipmentLog" EntityType="Self.Z_EquipmentLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Z_Room" EntityType="Self.Z_Room" Schema="dbo" store:Type="Tables" />
@@ -223,6 +257,7 @@
           <EntitySet Name="Z_Room" EntityType="NFineBaseModel.Z_Room" />
           <EntitySet Name="Z_EquipmentLog" EntityType="NFineBaseModel.Z_EquipmentLog" />
           <EntitySet Name="Z_Equipment" EntityType="NFineBaseModel.Z_Equipment" />
+          <EntitySet Name="Z_Course" EntityType="NFineBaseModel.Z_Course" />
         </EntityContainer>
         <EntityType Name="Sys_Log">
           <Key>
@@ -296,6 +331,39 @@
           <Property Name="F_Model" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="F_Specifications" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="F_Brand" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_SortCode" Type="Int32" />
+          <Property Name="F_DeleteMark" Type="Boolean" />
+          <Property Name="F_EnabledMark" Type="Boolean" />
+          <Property Name="F_Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="F_CreatorTime" Type="DateTime" Precision="3" />
+          <Property Name="F_CreatorUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_LastModifyTime" Type="DateTime" Precision="3" />
+          <Property Name="F_LastModifyUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_DeleteTime" Type="DateTime" Precision="3" />
+          <Property Name="F_DeleteUserId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Z_Course">
+          <Key>
+            <PropertyRef Name="F_Id" />
+          </Key>
+          <Property Name="F_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_RoomName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_RoomCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_CourseTimeType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_EnCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_TeacherNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_TeacherName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_Major" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="F_Grade" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_Class" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="F_StudentCount" Type="Int32" />
+          <Property Name="F_SchoolYear" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_Term" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_BeginWeek" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_EndWeek" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_WeekCount" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="F_Week" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="F_SortCode" Type="Int32" />
           <Property Name="F_DeleteMark" Type="Boolean" />
           <Property Name="F_EnabledMark" Type="Boolean" />
@@ -456,6 +524,40 @@
                 <ScalarProperty Name="F_EquipmentType" ColumnName="F_EquipmentType" />
                 <ScalarProperty Name="F_EquipmentNo" ColumnName="F_EquipmentNo" />
                 <ScalarProperty Name="F_RoomId" ColumnName="F_RoomId" />
+                <ScalarProperty Name="F_Id" ColumnName="F_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Z_Course">
+            <EntityTypeMapping TypeName="NFineBaseModel.Z_Course">
+              <MappingFragment StoreEntitySet="Z_Course">
+                <ScalarProperty Name="F_DeleteUserId" ColumnName="F_DeleteUserId" />
+                <ScalarProperty Name="F_DeleteTime" ColumnName="F_DeleteTime" />
+                <ScalarProperty Name="F_LastModifyUserId" ColumnName="F_LastModifyUserId" />
+                <ScalarProperty Name="F_LastModifyTime" ColumnName="F_LastModifyTime" />
+                <ScalarProperty Name="F_CreatorUserId" ColumnName="F_CreatorUserId" />
+                <ScalarProperty Name="F_CreatorTime" ColumnName="F_CreatorTime" />
+                <ScalarProperty Name="F_Description" ColumnName="F_Description" />
+                <ScalarProperty Name="F_EnabledMark" ColumnName="F_EnabledMark" />
+                <ScalarProperty Name="F_DeleteMark" ColumnName="F_DeleteMark" />
+                <ScalarProperty Name="F_SortCode" ColumnName="F_SortCode" />
+                <ScalarProperty Name="F_Week" ColumnName="F_Week" />
+                <ScalarProperty Name="F_WeekCount" ColumnName="F_WeekCount" />
+                <ScalarProperty Name="F_EndWeek" ColumnName="F_EndWeek" />
+                <ScalarProperty Name="F_BeginWeek" ColumnName="F_BeginWeek" />
+                <ScalarProperty Name="F_Term" ColumnName="F_Term" />
+                <ScalarProperty Name="F_SchoolYear" ColumnName="F_SchoolYear" />
+                <ScalarProperty Name="F_StudentCount" ColumnName="F_StudentCount" />
+                <ScalarProperty Name="F_Class" ColumnName="F_Class" />
+                <ScalarProperty Name="F_Grade" ColumnName="F_Grade" />
+                <ScalarProperty Name="F_Major" ColumnName="F_Major" />
+                <ScalarProperty Name="F_TeacherName" ColumnName="F_TeacherName" />
+                <ScalarProperty Name="F_TeacherNo" ColumnName="F_TeacherNo" />
+                <ScalarProperty Name="F_EnCode" ColumnName="F_EnCode" />
+                <ScalarProperty Name="F_FullName" ColumnName="F_FullName" />
+                <ScalarProperty Name="F_CourseTimeType" ColumnName="F_CourseTimeType" />
+                <ScalarProperty Name="F_RoomCode" ColumnName="F_RoomCode" />
+                <ScalarProperty Name="F_RoomName" ColumnName="F_RoomName" />
                 <ScalarProperty Name="F_Id" ColumnName="F_Id" />
               </MappingFragment>
             </EntityTypeMapping>

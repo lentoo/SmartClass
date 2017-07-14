@@ -47,3 +47,9 @@ E:\SmartClass\Common\bin\Release\zh-Hans\EntityFramework.resources.dll
 E:\SmartClass\Common\obj\Release\Common.csprojResolveAssemblyReference.cache
 E:\SmartClass\Common\obj\Release\Common.dll
 E:\SmartClass\Common\obj\Release\Common.pdb
+E:\SmartClass\Common\bin\Release\zh-Hans\System.Web.Helpers.resources.dll
+E:\SmartClass\Common\bin\Release\zh-Hans\System.Web.Mvc.resources.dll
+E:\SmartClass\Common\bin\Release\zh-Hans\System.Web.Razor.resources.dll
+E:\SmartClass\Common\bin\Release\zh-Hans\System.Web.WebPages.resources.dll
+E:\SmartClass\Common\bin\Release\zh-Hans\System.Web.WebPages.Deployment.resources.dll
+E:\SmartClass\Common\bin\Release\zh-Hans\System.Web.WebPages.Razor.resources.dll

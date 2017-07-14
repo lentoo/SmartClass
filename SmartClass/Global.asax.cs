@@ -29,9 +29,10 @@ namespace SmartClass
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);      
-           
+               
             //扫描异常信息
             MyException.ProcessException();
         }
+        
     }
 }

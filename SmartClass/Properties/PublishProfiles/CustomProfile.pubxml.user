@@ -6,7 +6,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>E:\SmartRelease\v2.2</_PublishTargetUrl>
+    <_PublishTargetUrl>E:\SmartRelease\v2.4</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="404.html">
@@ -31,31 +31,31 @@
       <publishTime>04/10/2017 15:40:32</publishTime>
     </File>
     <File Include="bin/BLL.dll">
-      <publishTime>07/13/2017 10:25:21</publishTime>
+      <publishTime>07/14/2017 10:26:16</publishTime>
     </File>
     <File Include="bin/BLL.dll.config">
-      <publishTime>07/10/2017 11:22:09</publishTime>
+      <publishTime>07/13/2017 19:28:03</publishTime>
     </File>
     <File Include="bin/BLL.pdb">
-      <publishTime>07/13/2017 10:25:21</publishTime>
+      <publishTime>07/14/2017 10:26:16</publishTime>
     </File>
     <File Include="bin/Common.dll">
-      <publishTime>07/13/2017 10:25:21</publishTime>
+      <publishTime>07/14/2017 10:26:16</publishTime>
     </File>
     <File Include="bin/Common.dll.config">
-      <publishTime>07/10/2017 11:22:09</publishTime>
+      <publishTime>07/13/2017 19:28:03</publishTime>
     </File>
     <File Include="bin/Common.pdb">
-      <publishTime>07/13/2017 10:25:21</publishTime>
+      <publishTime>07/14/2017 10:26:16</publishTime>
     </File>
     <File Include="bin/DAL.dll">
-      <publishTime>07/13/2017 10:25:21</publishTime>
+      <publishTime>07/14/2017 10:26:16</publishTime>
     </File>
     <File Include="bin/DAL.dll.config">
       <publishTime>07/10/2017 11:22:10</publishTime>
     </File>
     <File Include="bin/DAL.pdb">
-      <publishTime>07/13/2017 10:25:21</publishTime>
+      <publishTime>07/14/2017 10:26:16</publishTime>
     </File>
     <File Include="bin/Demo1.dll">
       <publishTime>05/17/2017 15:26:51</publishTime>
@@ -73,16 +73,16 @@
       <publishTime>08/22/2016 01:13:00</publishTime>
     </File>
     <File Include="bin/IBLL.dll">
-      <publishTime>07/13/2017 10:25:21</publishTime>
+      <publishTime>07/14/2017 10:26:15</publishTime>
     </File>
     <File Include="bin/IBLL.pdb">
-      <publishTime>07/13/2017 10:25:21</publishTime>
+      <publishTime>07/14/2017 10:26:15</publishTime>
     </File>
     <File Include="bin/IDAL.dll">
-      <publishTime>07/13/2017 10:25:20</publishTime>
+      <publishTime>07/14/2017 10:26:14</publishTime>
     </File>
     <File Include="bin/IDAL.pdb">
-      <publishTime>07/13/2017 10:25:20</publishTime>
+      <publishTime>07/14/2017 10:26:14</publishTime>
     </File>
     <File Include="bin/JWT.dll">
       <publishTime>05/17/2017 11:08:06</publishTime>
@@ -118,13 +118,13 @@
       <publishTime>07/25/2012 11:48:56</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>07/13/2017 10:25:20</publishTime>
+      <publishTime>07/14/2017 10:26:14</publishTime>
     </File>
     <File Include="bin/Model.dll.config">
       <publishTime>07/10/2017 11:22:11</publishTime>
     </File>
     <File Include="bin/Model.pdb">
-      <publishTime>07/13/2017 10:25:20</publishTime>
+      <publishTime>07/14/2017 10:26:14</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>06/18/2017 13:57:10</publishTime>
@@ -223,10 +223,10 @@
       <publishTime>07/03/2016 18:43:46</publishTime>
     </File>
     <File Include="bin/SmartClass.dll">
-      <publishTime>07/13/2017 14:45:08</publishTime>
+      <publishTime>07/14/2017 10:26:19</publishTime>
     </File>
     <File Include="bin/SmartClass.pdb">
-      <publishTime>07/13/2017 14:45:08</publishTime>
+      <publishTime>07/14/2017 10:26:19</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>01/28/2015 04:04:30</publishTime>
@@ -400,7 +400,7 @@
       <publishTime>07/10/2017 11:22:11</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/13/2017 10:25:26</publishTime>
+      <publishTime>07/13/2017 19:45:27</publishTime>
     </File>
   </ItemGroup>
 </Project>

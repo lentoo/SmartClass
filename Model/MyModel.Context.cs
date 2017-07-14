@@ -31,5 +31,6 @@ namespace Model
         public virtual DbSet<Z_Room> Z_Room { get; set; }
         public virtual DbSet<Z_EquipmentLog> Z_EquipmentLog { get; set; }
         public virtual DbSet<Z_Equipment> Z_Equipment { get; set; }
+        public virtual DbSet<Z_Course> Z_Course { get; set; }
     }
 }

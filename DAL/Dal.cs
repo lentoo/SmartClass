@@ -25,6 +25,11 @@ namespace DAL
 
     }
 		
+	public partial class Z_CourseDal :BaseDal<Z_Course>,IZ_CourseDal
+    {
+
+    }
+		
 	public partial class Z_EquipmentDal :BaseDal<Z_Equipment>,IZ_EquipmentDal
     {
 

@@ -8,6 +8,7 @@ using Common;
 using Common.Cache;
 using IBLL;
 using Model;
+using SmartClass.Models.Types;
 
 namespace SmartClass.Models.Filter
 {
@@ -24,6 +25,7 @@ namespace SmartClass.Models.Filter
 
         private readonly string EQUOPEN = "EquOpen";
         private readonly string EQUCLOSE = "EQuClose";
+        private readonly string EQUSEARCH = "EQuSearch";
         /// <summary>
         /// 操作前
         /// </summary>
@@ -37,36 +39,39 @@ namespace SmartClass.Models.Filter
             if (token == null)
             {
                 token = filterContext.HttpContext.Request.Cookies["Access"]?.Value;
-            }
-            if (token == null)
-            {
-                var json = new JsonResult();
-                json.Data = new { ResultCode = ResultCode.Error, Message = "请重新登录" };
-                filterContext.Result = json;
-            }
-            //从缓存中获取token信息
-            Sys_UserLogOn UserLogOn = CacheHelper.GetCache<Sys_UserLogOn>(token);
-            if (UserLogOn != null)
-            {
-                //解析token
-                object obj = JwtUtils.DecodingToken(token, UserLogOn.F_UserSecretkey);
-                if (obj is Payload)  //验证通过
-                {
-                    payload = obj as Payload;
-
-                }
-                else   //拦截请求
+                if (token == null)
                 {
                     var json = new JsonResult();
-                    json.Data = obj;
+                    json.Data = new { ResultCode = ResultCode.Error, Message = "请重新登录" };
                     filterContext.Result = json;
                 }
             }
-            else    //缓存中没有token信息，则拦截请求
+            else   
             {
-                var json = new JsonResult();
-                json.Data = new { ResultCode = ResultCode.Error, Message = "请重新登录" };
-                filterContext.Result = json;
+                //从缓存中获取token信息
+                Sys_UserLogOn UserLogOn = CacheHelper.GetCache<Sys_UserLogOn>(token);
+                if (UserLogOn != null)
+                {
+                    //解析token
+                    object obj = JwtUtils.DecodingToken(token, UserLogOn.F_UserSecretkey);
+                    if (obj is Payload)  //验证通过
+                    {
+                        payload = obj as Payload;
+
+                    }
+                    else   //拦截请求
+                    {
+                        var json = new JsonResult();
+                        json.Data = obj;
+                        filterContext.Result = json;
+                    }
+                }
+                else    //缓存中没有token信息，则拦截请求
+                {
+                    var json = new JsonResult();
+                    json.Data = new { ResultCode = ResultCode.Error, Message = "请重新登录" };
+                    filterContext.Result = json;
+                }
             }
         }
         /// <summary>
@@ -99,11 +104,13 @@ namespace SmartClass.Models.Filter
                       .FirstOrDefault();
                     zEquipmentLog.F_EquipmentNo = nodeId;
                     zEquipmentLog.F_Description = equipmentResult.Message;
-                    zEquipmentLog.F_EquipmentLogType = onoff == "open" ? EQUOPEN : EQUCLOSE;
+                    zEquipmentLog.F_EquipmentLogType = onoff == StateType.OPEN ? EQUOPEN : onoff == StateType.CLOSE ? EQUCLOSE : EQUSEARCH;
                     zEquipmentLog.F_RoomName = roomName;
                     zEquipmentLog.F_EquipmentName = nodeName;
-                    zEquipmentLog.F_NickName = user == null ? "null" : user.F_NickName;
-                    zEquipmentLog.F_FullName = user == null ? "null" : user.F_RealName;
+                    //zEquipmentLog.F_NickName = user == null ? "null" : user.F_NickName;
+                    zEquipmentLog.F_NickName = user?.F_NickName;
+                    //zEquipmentLog.F_FullName = user == null ? "null" : user.F_RealName;
+                    zEquipmentLog.F_FullName = user?.F_RealName;
                     ZEquipmentLogService.AddEntity(zEquipmentLog);
                 });
             }

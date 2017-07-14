@@ -24,6 +24,11 @@ namespace IDAL
       
     }
 	
+	public partial interface IZ_CourseDal :IBaseDal<Z_Course>
+    {
+      
+    }
+	
 	public partial interface IZ_EquipmentDal :IBaseDal<Z_Equipment>
     {
       

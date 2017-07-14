@@ -84,6 +84,9 @@
     <Compile Include="Sys_UserLogOn.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Z_Course.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Z_Equipment.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>

@@ -46,7 +46,12 @@ namespace SmartClass.Models
         }
         private static void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            Thread.Sleep(50);
             int len = Port.Read(data, offset, data.Length - offset);
+            if (data[4] != 0x1f)
+            {
+                return;
+            }
             int length = 7 + data[6] + 3;   //数据包总长度
             offset += len;
             while (offset < length)     //当前读到的长度是否等于总长度

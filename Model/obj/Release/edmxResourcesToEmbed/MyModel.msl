@@ -148,5 +148,39 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Z_Course">
+      <EntityTypeMapping TypeName="NFineBaseModel.Z_Course">
+        <MappingFragment StoreEntitySet="Z_Course">
+          <ScalarProperty Name="F_DeleteUserId" ColumnName="F_DeleteUserId" />
+          <ScalarProperty Name="F_DeleteTime" ColumnName="F_DeleteTime" />
+          <ScalarProperty Name="F_LastModifyUserId" ColumnName="F_LastModifyUserId" />
+          <ScalarProperty Name="F_LastModifyTime" ColumnName="F_LastModifyTime" />
+          <ScalarProperty Name="F_CreatorUserId" ColumnName="F_CreatorUserId" />
+          <ScalarProperty Name="F_CreatorTime" ColumnName="F_CreatorTime" />
+          <ScalarProperty Name="F_Description" ColumnName="F_Description" />
+          <ScalarProperty Name="F_EnabledMark" ColumnName="F_EnabledMark" />
+          <ScalarProperty Name="F_DeleteMark" ColumnName="F_DeleteMark" />
+          <ScalarProperty Name="F_SortCode" ColumnName="F_SortCode" />
+          <ScalarProperty Name="F_Week" ColumnName="F_Week" />
+          <ScalarProperty Name="F_WeekCount" ColumnName="F_WeekCount" />
+          <ScalarProperty Name="F_EndWeek" ColumnName="F_EndWeek" />
+          <ScalarProperty Name="F_BeginWeek" ColumnName="F_BeginWeek" />
+          <ScalarProperty Name="F_Term" ColumnName="F_Term" />
+          <ScalarProperty Name="F_SchoolYear" ColumnName="F_SchoolYear" />
+          <ScalarProperty Name="F_StudentCount" ColumnName="F_StudentCount" />
+          <ScalarProperty Name="F_Class" ColumnName="F_Class" />
+          <ScalarProperty Name="F_Grade" ColumnName="F_Grade" />
+          <ScalarProperty Name="F_Major" ColumnName="F_Major" />
+          <ScalarProperty Name="F_TeacherName" ColumnName="F_TeacherName" />
+          <ScalarProperty Name="F_TeacherNo" ColumnName="F_TeacherNo" />
+          <ScalarProperty Name="F_EnCode" ColumnName="F_EnCode" />
+          <ScalarProperty Name="F_FullName" ColumnName="F_FullName" />
+          <ScalarProperty Name="F_CourseTimeType" ColumnName="F_CourseTimeType" />
+          <ScalarProperty Name="F_RoomCode" ColumnName="F_RoomCode" />
+          <ScalarProperty Name="F_RoomName" ColumnName="F_RoomName" />
+          <ScalarProperty Name="F_Id" ColumnName="F_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -24,6 +24,11 @@ namespace IBLL
        
     }   
 	
+	public partial interface IZ_CourseService : IBaseService<Z_Course>
+    {
+       
+    }   
+	
 	public partial interface IZ_EquipmentService : IBaseService<Z_Equipment>
     {
        

@@ -11,6 +11,7 @@
         <EntityTypeShape EntityType="NFineBaseModel.Z_Room" Width="1.5" PointX="9.5" PointY="0.75" />
         <EntityTypeShape EntityType="NFineBaseModel.Z_EquipmentLog" Width="1.5" PointX="7.625" PointY="0.625" />
         <EntityTypeShape EntityType="NFineBaseModel.Z_Equipment" Width="1.5" PointX="0.625" PointY="0.875" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_Course" Width="1.5" PointX="6" PointY="4.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -22,6 +22,10 @@ namespace BLL
     {
     }   
 	
+	public partial class Z_CourseService :BaseService<Z_Course>,IZ_CourseService
+    {
+    }   
+	
 	public partial class Z_EquipmentService :BaseService<Z_Equipment>,IZ_EquipmentService
     {
     }   

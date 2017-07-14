@@ -7,7 +7,7 @@ using Model;
 
 namespace IBLL
 {
-    public partial interface IZ_EquipmentLogService : IBaseService<Z_EquipmentLog>
+    public partial interface IZ_EquipmentLogService 
     {
     }
 }

@@ -31,6 +31,7 @@ namespace SmartClass.Models
             SerialPortUtils.SendCmd(cmd);
         }
 
+        private int count = 0;
         /// <summary>
         /// 获取串口返回的数据
         /// </summary>
@@ -38,18 +39,20 @@ namespace SmartClass.Models
         public ClassRoom GetReturnData()
         {
             //等待数据初始化
-            //while (SerialPortUtils.DataQueue.Count <= 0)
-            //{
-            //    Thread.Sleep(50);
-            //}
-            if (SerialPortUtils.DataQueue.Count <= 0)
+            while (SerialPortUtils.DataQueue.Count <= 0)
             {
                 Thread.Sleep(100);
+                count++;
+                if (count == 10)
+                {
+                    count = 0;
+                    return null;
+                }
             }
-            if (SerialPortUtils.DataQueue.Count <= 0)
-            {
-                return null;
-            }
+            //if (SerialPortUtils.DataQueue.Count <= 0)
+            //{
+            //    return null;
+            //}
             byte[] _data = SerialPortUtils.DataQueue.Dequeue();
             this.data = _data;
             ClassRoom classRoom = Init();
@@ -172,7 +175,9 @@ namespace SmartClass.Models
                     digital.Id = Convert.ToString(data[index++], 16);
                     Int16 iState = data[index++];
                     digital.State = ((iState >> 7) & 0x01) == 1 ? "打开" : "关闭";
-                    digital.value = (0x0f & data[index++]) + 16 + "℃";
+                    float val = (0x0f & data[index++]);
+                    digital.value = val + 16 + "℃";
+                    digital.Online = val == 0 ? StateType.Offline : StateType.Online;
                     digital.Name = name;
                     digital.Type = type;
                     actuators.Add(digital);

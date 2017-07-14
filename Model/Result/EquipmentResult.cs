@@ -14,8 +14,8 @@ namespace Model
     public class EquipmentResult : ModelResult
     {
         public object AppendData { get; set; }
-        public int ExceptionCount { get; set; }
-        public int Count { get; set; }
-        public int NormalCount { get; set; }
+        public Int32 ExceptionCount { get; set; }
+        public Int32 Count { get; set; }
+        public Int32 NormalCount { get; set; }
     }
 }
