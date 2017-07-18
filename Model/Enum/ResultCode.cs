@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Model
+﻿namespace Model.Enum
 {
     public enum ResultCode
     {

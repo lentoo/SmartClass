@@ -6,7 +6,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>E:\SmartRelease\v2.4</_PublishTargetUrl>
+    <_PublishTargetUrl>E:\SmartRelease\v2.6_beta3</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="404.html">
@@ -31,22 +31,22 @@
       <publishTime>04/10/2017 15:40:32</publishTime>
     </File>
     <File Include="bin/BLL.dll">
-      <publishTime>07/14/2017 10:26:16</publishTime>
+      <publishTime>07/17/2017 11:41:39</publishTime>
     </File>
     <File Include="bin/BLL.dll.config">
       <publishTime>07/13/2017 19:28:03</publishTime>
     </File>
     <File Include="bin/BLL.pdb">
-      <publishTime>07/14/2017 10:26:16</publishTime>
+      <publishTime>07/17/2017 11:41:39</publishTime>
     </File>
     <File Include="bin/Common.dll">
-      <publishTime>07/14/2017 10:26:16</publishTime>
+      <publishTime>07/17/2017 11:41:39</publishTime>
     </File>
     <File Include="bin/Common.dll.config">
       <publishTime>07/13/2017 19:28:03</publishTime>
     </File>
     <File Include="bin/Common.pdb">
-      <publishTime>07/14/2017 10:26:16</publishTime>
+      <publishTime>07/17/2017 11:41:39</publishTime>
     </File>
     <File Include="bin/DAL.dll">
       <publishTime>07/14/2017 10:26:16</publishTime>
@@ -56,12 +56,6 @@
     </File>
     <File Include="bin/DAL.pdb">
       <publishTime>07/14/2017 10:26:16</publishTime>
-    </File>
-    <File Include="bin/Demo1.dll">
-      <publishTime>05/17/2017 15:26:51</publishTime>
-    </File>
-    <File Include="bin/Demo1.pdb">
-      <publishTime>05/17/2017 15:26:51</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/02/2015 09:32:26</publishTime>
@@ -86,9 +80,6 @@
     </File>
     <File Include="bin/JWT.dll">
       <publishTime>05/17/2017 11:08:06</publishTime>
-    </File>
-    <File Include="bin/log4net.dll">
-      <publishTime>03/08/2017 19:26:22</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
       <publishTime>11/30/2016 16:07:42</publishTime>
@@ -223,10 +214,10 @@
       <publishTime>07/03/2016 18:43:46</publishTime>
     </File>
     <File Include="bin/SmartClass.dll">
-      <publishTime>07/14/2017 10:26:19</publishTime>
+      <publishTime>07/17/2017 11:41:42</publishTime>
     </File>
     <File Include="bin/SmartClass.pdb">
-      <publishTime>07/14/2017 10:26:19</publishTime>
+      <publishTime>07/17/2017 11:41:42</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>01/28/2015 04:04:30</publishTime>
@@ -279,57 +270,6 @@
     <File Include="bin/zh-Hans/System.Web.WebPages.resources.dll">
       <publishTime>01/28/2015 04:04:32</publishTime>
     </File>
-    <File Include="Content/bootstrap.css">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
-    <File Include="Content/bootstrap.min.css">
-      <publishTime>05/17/2017 14:51:07</publishTime>
-    </File>
-    <File Include="Content/Css/Logon.css">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
-    <File Include="Content/error.css">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
-    <File Include="Content/images/404.png">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
-    <File Include="Content/images/404_msg.png">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
-    <File Include="Content/images/404_to_index.png">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
-    <File Include="Content/images/bg.jpg">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
-    <File Include="Content/images/error_bg.jpg">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
-    <File Include="Content/images/error_cloud.png">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
-    <File Include="Content/Js/validate.js">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
-    <File Include="Content/Site.css">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
-    <File Include="favicon.ico">
-      <publishTime>05/31/2017 11:37:33</publishTime>
-    </File>
-    <File Include="fonts/glyphicons-halflings-regular.eot">
-      <publishTime>05/17/2017 14:51:07</publishTime>
-    </File>
-    <File Include="fonts/glyphicons-halflings-regular.svg">
-      <publishTime>05/17/2017 14:51:07</publishTime>
-    </File>
-    <File Include="fonts/glyphicons-halflings-regular.ttf">
-      <publishTime>05/17/2017 14:51:07</publishTime>
-    </File>
-    <File Include="fonts/glyphicons-halflings-regular.woff">
-      <publishTime>05/17/2017 14:51:06</publishTime>
-    </File>
     <File Include="Global.asax">
       <publishTime>07/10/2017 11:22:11</publishTime>
     </File>
@@ -337,43 +277,7 @@
       <publishTime>07/10/2017 11:22:11</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>07/10/2017 11:22:12</publishTime>
-    </File>
-    <File Include="Scripts/bootstrap.js">
-      <publishTime>05/17/2017 14:51:06</publishTime>
-    </File>
-    <File Include="Scripts/bootstrap.min.js">
-      <publishTime>05/17/2017 14:51:06</publishTime>
-    </File>
-    <File Include="Scripts/jquery-1.10.2.js">
-      <publishTime>05/17/2017 14:51:07</publishTime>
-    </File>
-    <File Include="Scripts/jquery-1.10.2.min.js">
-      <publishTime>05/17/2017 14:51:07</publishTime>
-    </File>
-    <File Include="Scripts/jquery-1.10.2.min.map">
-      <publishTime>05/17/2017 14:51:07</publishTime>
-    </File>
-    <File Include="Scripts/jquery.validate.js">
-      <publishTime>05/17/2017 14:51:10</publishTime>
-    </File>
-    <File Include="Scripts/jquery.validate.min.js">
-      <publishTime>05/17/2017 14:51:10</publishTime>
-    </File>
-    <File Include="Scripts/jquery.validate.unobtrusive.js">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
-    <File Include="Scripts/jquery.validate.unobtrusive.min.js">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
-    <File Include="Scripts/modernizr-2.6.2.js">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
-    <File Include="Scripts/respond.js">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
-    <File Include="Scripts/respond.min.js">
-      <publishTime>07/10/2017 11:22:11</publishTime>
+      <publishTime>07/14/2017 14:39:37</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>07/10/2017 11:22:11</publishTime>
@@ -400,7 +304,7 @@
       <publishTime>07/10/2017 11:22:11</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/13/2017 19:45:27</publishTime>
+      <publishTime>07/17/2017 11:41:43</publishTime>
     </File>
   </ItemGroup>
 </Project>

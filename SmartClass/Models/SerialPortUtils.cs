@@ -4,6 +4,7 @@ using SmartClass.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
@@ -27,7 +28,6 @@ namespace SmartClass.Models
 
 
         private static byte[] data = new byte[1024];
-        public static bool Possession;
         public static int offset = 0;
 
         public static int ActuatorDataLength = 2;
@@ -46,7 +46,8 @@ namespace SmartClass.Models
         }
         private static void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            Thread.Sleep(50);
+            //Thread.Sleep(50);
+
             int len = Port.Read(data, offset, data.Length - offset);
             if (data[4] != 0x1f)
             {
@@ -68,10 +69,6 @@ namespace SmartClass.Models
                 {
                     DataQueue.Enqueue(data);
                 }
-                else
-                {
-                    offset = 0;
-                }
                 offset = 0;
             }
             else
@@ -91,7 +88,6 @@ namespace SmartClass.Models
             try
             {
                 Cmd = cmd;
-                Possession = false;
                 Port.Write(cmd, 0, cmd.Length);
 
             }

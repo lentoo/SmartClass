@@ -1,16 +1,13 @@
-﻿
-using Common;
+﻿using Common;
 using Common.Cache;
 using IBLL;
 using Model;
-using SmartClass.Models;
 using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Model.Result;
+using SmartClass.Models.Filter;
 
 namespace SmartClass.Controllers
 {
@@ -27,46 +24,47 @@ namespace SmartClass.Controllers
         /// 登录
         /// </summary>
         /// <returns></returns>
-        public ActionResult Logon(string Account, string Pwd, string imei)
+        public ActionResult Logon(string account, string Pwd, string imei)
         {
-
+            if (account == null) throw new ArgumentNullException(nameof(account));
+            if (Pwd == null) throw new ArgumentNullException(nameof(Pwd));
             //TODO 最终上线要删除
             //测试初始化登录-begin
-            Account = "admin";
+            account = "admin";
             Pwd = "4a7d1ed414474e4033ac29ccb8653d9b";
 
-            Sys_User User = UserService.GetEntityByAccount(Account);
-            if (User == null)
+            Sys_User user = UserService.GetEntity(u=>u.F_Account==account).FirstOrDefault();
+            if (user == null)
             {
 
                 return Json(new LoginResult { Message = "用户名不存在", Status = false });
             }
-            Sys_UserLogOn UserLogOn = UserLogService.GetEntityByUserId(User.F_Id);
+            Sys_UserLogOn userLogOn = UserLogService.GetEntityByUserId(user.F_Id);
 
-            if (UserLogOn == null)
+            if (userLogOn == null)
             {
                 return Json(new LoginResult() { Message = "查询不到密码信息", Status = false });
             }
-            string key = UserLogOn.F_UserSecretkey;
-            string _Pwd = Md5.md5(DESEncrypt.Encrypt(Pwd, key).ToLower(), 32).ToLower();
+            string key = userLogOn.F_UserSecretkey;
+            string pwd = Md5.md5(DESEncrypt.Encrypt(Pwd, key).ToLower(), 32).ToLower();
 
-            if (UserLogOn.F_UserPassword == _Pwd)    //登录成功
+            if (userLogOn.F_UserPassword == pwd) //登录成功
             {
-                if (UserLogOn.F_LastVisitTime != null)
+                if (userLogOn.F_LastVisitTime != null)
                 {
-                    UserLogOn.F_PreviousVisitTime = UserLogOn.F_LastVisitTime;
+                    userLogOn.F_PreviousVisitTime = userLogOn.F_LastVisitTime;
                 }
-                UserLogOn.F_LastVisitTime = DateTime.Now;
-                UserLogOn.F_LogOnCount = UserLogOn.F_LogOnCount + 1;
-                UserLogService.UpdateEntityInfo(UserLogOn);
+                userLogOn.F_LastVisitTime = DateTime.Now;
+                userLogOn.F_LogOnCount = userLogOn.F_LogOnCount + 1;
+                UserLogService.UpdateEntityInfo(userLogOn);
                 Payload payload = new Payload()
                 {
-                    Account = Account,
+                    Account = account,
                     IMEI = imei
                 };
                 //创建一个token
-                string token = JwtUtils.EncodingToken(payload, UserLogOn.F_UserSecretkey);
-                CacheHelper.AddCache(token, UserLogOn, DateTime.Now.AddDays(7));
+                string token = JwtUtils.EncodingToken(payload, userLogOn.F_UserSecretkey);
+                CacheHelper.AddCache(token, userLogOn, DateTime.Now.AddDays(7));
                 HttpCookie tokenCookie = new HttpCookie("Access");
                 tokenCookie.Value = token;
                 tokenCookie.Path = "/";
@@ -80,10 +78,7 @@ namespace SmartClass.Controllers
                     AppendData = token
                 }, JsonRequestBehavior.AllowGet);
             }
-            else
-            {
-                return Json(new LoginResult() { Message = "用户名密码错误", Status = false });
-            }
+            return Json(new LoginResult() {Message = "用户名密码错误", Status = false});
         }
 
         /// <summary>
@@ -92,7 +87,7 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult ValidateCode()
         {
-            Common.ValidateCode validate = new Common.ValidateCode();
+            ValidateCode validate = new ValidateCode();
             string code = validate.CreateValidateCode(4);
             byte[] data = validate.CreateValidateGraphic(code);
             Session["validateCode"] = code;

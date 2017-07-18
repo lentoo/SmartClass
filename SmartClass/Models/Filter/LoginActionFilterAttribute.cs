@@ -1,22 +1,20 @@
-﻿using Common;
-using Common.Cache;
-using IBLL;
-using Model;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading;
-using System.Web;
 using System.Web.Mvc;
+using Common;
+using IBLL;
+using Model;
+using Model.Result;
 
-namespace SmartClass.Models
+namespace SmartClass.Models.Filter
 {
     public class LoginActionFilterAttribute : ActionFilterAttribute
     {
-        public ISys_UserService Sys_UserService { get; set; }
-        public ISys_LogService Sys_LogService { get; set; }
-        Sys_Log log { get; set; }
-        string action { get; set; }
+        public ISys_UserService SysUserService { get; set; }
+        public ISys_LogService SysLogService { get; set; }
+        Sys_Log Log { get; set; }
+        string Action { get; set; }
         /// <summary>
         /// 行为执行后，记录登录记录
         /// </summary>
@@ -24,35 +22,34 @@ namespace SmartClass.Models
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             base.OnActionExecuted(filterContext);
-            action = filterContext.RouteData.Values["action"].ToString();
+            Action = filterContext.RouteData.Values["action"].ToString();
             JsonResult result = filterContext.Result as JsonResult;
             //TODO 这边需要改成从请求头和Cookie获取
             //string account = filterContext.HttpContext.Request["Account"] == null ? filterContext.HttpContext.Request.Cookies["Account"]?.Value : filterContext.HttpContext.Request["Account"];
-            ModelResult mr = null;
+            ModelResult mr;
             string userHostAddress = filterContext.HttpContext.Request.UserHostAddress;//IP地址
             if (result != null)
             {
 
                 mr = result.Data as LoginResult;
-                log = new Sys_Log();
-                log.F_Account = "admin";
+                Log = new Sys_Log { F_Account = "admin" };
                 #region 开启一个线程，后台处理日志信息
                 ThreadPool.QueueUserWorkItem((o =>
                 {
                     try
                     {
-                        log.F_Id = Guid.NewGuid().ToString();
-                        log.F_Date = DateTime.Now;
-                        log.F_IPAddress = userHostAddress;
-                        log.F_Type = action.ToString();
-                        log.F_ModuleName = "系统登录";
-                        log.F_IPAddressName = "广东省河源市 电信";
-                        log.F_Result = mr.Status;
-                        log.F_Description = mr.Message;
-                        Sys_User user = Sys_UserService.GetEntityByAccount(log.F_Account);
-                        log.F_NickName = user.F_NickName;
+                        Log.F_Id = Guid.NewGuid().ToString();
+                        Log.F_Date = DateTime.Now;
+                        Log.F_IPAddress = userHostAddress;
+                        Log.F_Type = Action.ToString();
+                        Log.F_ModuleName = "系统登录";
+                        Log.F_IPAddressName = "广东省河源市 电信";
+                        Log.F_Result = mr?.Status;
+                        Log.F_Description = mr?.Message;
+                        Sys_User user = SysUserService.GetEntity(u => u.F_Account == Log.F_Account).FirstOrDefault();
+                        Log.F_NickName = user?.F_NickName;
                         //更新日志信息
-                        Sys_LogService.AddEntity(log);
+                        SysLogService.AddEntity(Log);
 
                     }
                     catch (Exception ex)
@@ -62,16 +59,6 @@ namespace SmartClass.Models
                 }));
                 #endregion
             }
-        }
-
-        /// <summary>
-        /// 行为执行前
-        /// </summary>
-        /// <param name="filterContext"></param>
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            base.OnActionExecuting(filterContext);
-
         }
     }
 }

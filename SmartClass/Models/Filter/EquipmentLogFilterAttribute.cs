@@ -8,6 +8,8 @@ using Common;
 using Common.Cache;
 using IBLL;
 using Model;
+using Model.Enum;
+using Model.Result;
 using SmartClass.Models.Types;
 
 namespace SmartClass.Models.Filter

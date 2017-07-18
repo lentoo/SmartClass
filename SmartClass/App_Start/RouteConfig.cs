@@ -16,11 +16,12 @@ namespace SmartClass
             routes.MapRoute(
 
                 name: "Default",
-                url: "{controller}/{action}/{id}",
+                url: "api/{controller}/{action}/{id}",
                 defaults: new
                 {
                     controller = "Logon",
                     action = "Logon",
+                    
                     id = UrlParameter.Optional
                 }
             );

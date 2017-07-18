@@ -157,6 +157,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ClassesController.cs" />
+    <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogonController.cs" />
     <Compile Include="Global.asax.cs">
@@ -165,7 +166,9 @@
     <Compile Include="Models\AutofacConfig.cs" />
     <Compile Include="Models\Classes\Buildings.cs" />
     <Compile Include="Models\Classes\Floors.cs" />
+    <Compile Include="Models\Course\Course.cs" />
     <Compile Include="Models\Enum\SensorType.cs" />
+    <Compile Include="Models\Exceptions\EquipmentNoFindException.cs" />
     <Compile Include="Models\Exceptions\MyException.cs" />
     <Compile Include="Models\Filter\EquipmentLogFilterAttribute.cs" />
     <Compile Include="Models\Filter\LoginActionFilterAttribute.cs" />
@@ -186,9 +189,6 @@
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml">
-      <SubType>Designer</SubType>
-    </None>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -206,10 +206,14 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Logon\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Classes\" />
+    <Folder Include="Views\Course\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -235,9 +239,6 @@
       <Project>{3A8EAF98-646B-4E40-89F1-C22FD84EDE28}</Project>
       <Name>Model</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

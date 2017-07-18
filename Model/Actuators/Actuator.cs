@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Model
+﻿namespace Model.Actuators
 {
     public class Actuator: SonserBase
     {     

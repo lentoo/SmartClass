@@ -23,10 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SmartDAl", "SmartDAl", "{9D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SmartBLL", "SmartBLL", "{5AA9BAB6-3369-4752-B834-B6923B4A9ED0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartClassControl", "SmartClassControl\SmartClassControl.csproj", "{9CA77BA3-433A-46BE-BE3C-0DED907C5D2C}"
+EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -64,6 +63,10 @@ Global
 		{ED50B4A1-6E53-42E9-9C75-5587978280C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED50B4A1-6E53-42E9-9C75-5587978280C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED50B4A1-6E53-42E9-9C75-5587978280C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CA77BA3-433A-46BE-BE3C-0DED907C5D2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CA77BA3-433A-46BE-BE3C-0DED907C5D2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CA77BA3-433A-46BE-BE3C-0DED907C5D2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CA77BA3-433A-46BE-BE3C-0DED907C5D2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +77,9 @@ Global
 		{9FD32AB5-F1B9-4EF6-8F81-193A6B93559C} = {9D9EE6B5-6DA4-4E24-9BB2-A73B5B793C86}
 		{9926E5F0-F5BC-48C4-B844-BD5155BE5647} = {9D9EE6B5-6DA4-4E24-9BB2-A73B5B793C86}
 		{ED50B4A1-6E53-42E9-9C75-5587978280C6} = {5AA9BAB6-3369-4752-B834-B6923B4A9ED0}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true

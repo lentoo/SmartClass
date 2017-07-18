@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Threading;
 using Model;
+using Model.Actuators;
 using Model.Properties;
 using SmartClass.Models.Types;
 
@@ -19,9 +21,9 @@ namespace SmartClass.Models
         /// 模拟量传感器种类
         /// </summary>
         private string[] Analogue = ConfigurationManager.AppSettings["Analogue"].Split(',');
-        private List<SonserBase> actuators { get; set; }
+        private List<SonserBase> Actuators { get; set; }
         private static object lockObj = new object();
-        private byte[] data { get; set; }
+        private byte[] Data { get; set; }
         /// <summary>
         /// 向串口发送数据
         /// </summary>
@@ -31,30 +33,31 @@ namespace SmartClass.Models
             SerialPortUtils.SendCmd(cmd);
         }
 
-        private int count = 0;
         /// <summary>
         /// 获取串口返回的数据
         /// </summary>
         /// <returns></returns>
         public ClassRoom GetReturnData()
         {
+            Thread.Sleep(50);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             //等待数据初始化
             while (SerialPortUtils.DataQueue.Count <= 0)
             {
-                Thread.Sleep(100);
-                count++;
-                if (count == 10)
+                //stopwatch.Stop();
+                var t1 = stopwatch.Elapsed.Seconds;
+                if (t1 >= 2) //两秒后还没有数据 就退出
                 {
-                    count = 0;
                     return null;
                 }
+                //stopwatch.Start();
             }
-            //if (SerialPortUtils.DataQueue.Count <= 0)
-            //{
-            //    return null;
-            //}
-            byte[] _data = SerialPortUtils.DataQueue.Dequeue();
-            this.data = _data;
+            if (SerialPortUtils.DataQueue.Count <= 0)
+            {
+                return null;
+            }
+            byte[] data = SerialPortUtils.DataQueue.Dequeue();
             ClassRoom classRoom = Init();
             return classRoom;
         }
@@ -67,40 +70,41 @@ namespace SmartClass.Models
         {
             ClassRoom classRoom = new ClassRoom();
             int index = 7;
-            if (data[4] != 0x1f)
+            if (Data[4] != 0x1f)
             {
                 return null;
             }
-            if (data[0] == 0x55)
+            if (Data[0] == 0x55)
             {
-                string classRoomId = Convert.ToString(data[2], 16) + Convert.ToString(data[3], 16);
+                string classRoomId = Convert.ToString(Data[2], 16) + Convert.ToString(Data[3], 16);
                 classRoom.Id = classRoomId;
-                actuators = new List<SonserBase>();
+                Actuators = new List<SonserBase>();
                 //处理数字量数据
                 for (int i = 0; i < Sonsers.Length; i++)
                 {
-                    int SonserNum = data[index++];      //传感器数量
-                    int SonserOnLineNum = data[index++];  //传感器在线数
-                    ProcessActuatorData(SonserNum, ref index, data, i);
+                    int sonserNum = Data[index++];      //传感器数量
+                    int sonserOnLineNum = Data[index++];  //传感器在线数
+                    ProcessActuatorData(sonserNum, ref index, Data, i);
                 }
                 //处理模拟量数据
                 for (int i = 0; i < Analogue.Length; i++)
                 {
-                    int SonserNum = data[index++];   //模拟量数量数
-                    int SonserOffLineNum = data[index++];  //模拟量在线数 
-                    ProcessAnalogueData(SonserNum, ref index, data, i);
+                    int sonserNum = Data[index++];   //模拟量数量数
+                    int sonserOffLineNum = Data[index++];  //模拟量在线数 
+                    ProcessAnalogueData(sonserNum, ref index, Data, i);
                 }
-                classRoom.SonserList = actuators;
+                classRoom.SonserList = Actuators;
             }
             return classRoom;
         }
+
         /// <summary>
         /// 执行器数据处理
         /// </summary>
         /// <param name="num">在线数</param>
         /// <param name="index">下标</param>
         /// <param name="data">数据</param>
-        /// <param name="name">设备类型</param>
+        /// <param name="type">类型编码</param>
         private void ProcessActuatorData(int num, ref int index, byte[] data, int type)
         {
             string name = Sonsers[type];
@@ -116,7 +120,7 @@ namespace SmartClass.Models
                 actuator.State = GetState(state);
                 actuator.IsOpen = state == 1 ? false : true;
                 actuator.Online = state == 0 ? StateType.Offline : StateType.Online;
-                actuators.Add(actuator);
+                Actuators.Add(actuator);
             }
         }
         /// <summary>
@@ -125,7 +129,7 @@ namespace SmartClass.Models
         /// <param name="num">在线数</param>
         /// <param name="index">下标</param>
         /// <param name="data">数据</param>
-        /// <param name="name">设备类型</param>
+        /// <param name="type">类型编码</param>
         private void ProcessAnalogueData(int num, ref int index, byte[] data, int type)
         {
             string name = Analogue[type];
@@ -134,23 +138,24 @@ namespace SmartClass.Models
             {
                 for (int i = 0; i < num; i++)
                 {
-                    Digital digitalWD = new Digital();
-                    digitalWD.Id = Convert.ToString(data[index++], 16);
+                    Digital digitalWd = new Digital();
+                    digitalWd.Id = Convert.ToString(data[index++], 16);
                     double wd = Convert.ToDouble(data[index++] << 8 | data[index++]) / 10;
-                    digitalWD.value = wd + "℃";
-                    digitalWD.Name = "温度";
-                    digitalWD.Type = type;
-                    digitalWD.Online = wd == 0 ? StateType.Offline : StateType.Online;
-
-                    actuators.Add(digitalWD);
-                    Digital digitalSD = new Digital();
-                    digitalSD.Id = digitalWD.Id;
+                    digitalWd.value = wd + "℃";
+                    digitalWd.Name = "温度";
+                    digitalWd.Type = type;
+                    digitalWd.Online = wd == 0 ? StateType.Offline : StateType.Online;
+                    digitalWd.State = wd == 0 ? StateType.StateClose : StateType.StateOpen;
+                    Actuators.Add(digitalWd);
+                    Digital digitalSd = new Digital();
+                    digitalSd.Id = digitalWd.Id;
                     double sd = Convert.ToDouble(data[index++] << 8 | data[index++]) / 10;
-                    digitalSD.value = sd + "%";
-                    digitalSD.Name = "湿度";
-                    digitalSD.Type = type;
-                    digitalSD.Online = sd == 0 ? StateType.Offline : StateType.Online;
-                    actuators.Add(digitalSD);
+                    digitalSd.value = sd + "%";
+                    digitalSd.Name = "湿度";
+                    digitalSd.Type = type;
+                    digitalSd.Online = sd == 0 ? StateType.Offline : StateType.Online;
+                    digitalSd.State = sd == 0 ? StateType.StateClose : StateType.StateOpen;
+                    Actuators.Add(digitalSd);
                 }
             }
             else if (name == "PM2.5")
@@ -164,7 +169,8 @@ namespace SmartClass.Models
                     digital.Name = "PM2.5";
                     digital.Type = type;
                     digital.Online = value == 0 ? StateType.Offline : StateType.Online;
-                    actuators.Add(digital);
+                    digital.State = value != 0 ? StateType.StateOpen : StateType.StateClose;
+                    Actuators.Add(digital);
                 }
             }
             else if (name == "空调")
@@ -174,13 +180,13 @@ namespace SmartClass.Models
                     Digital digital = new Digital();
                     digital.Id = Convert.ToString(data[index++], 16);
                     Int16 iState = data[index++];
-                    digital.State = ((iState >> 7) & 0x01) == 1 ? "打开" : "关闭";
+                    digital.State = ((iState >> 7) & 0x01) == 1 ? StateType.StateOpen : StateType.StateClose;
                     float val = (0x0f & data[index++]);
                     digital.value = val + 16 + "℃";
                     digital.Online = val == 0 ? StateType.Offline : StateType.Online;
                     digital.Name = name;
                     digital.Type = type;
-                    actuators.Add(digital);
+                    Actuators.Add(digital);
                 }
             }
             else if (name == "光照")
@@ -194,7 +200,8 @@ namespace SmartClass.Models
                     digital.Name = name;
                     digital.Type = type;
                     digital.Online = value == 0 ? StateType.Offline : StateType.Online;
-                    actuators.Add(digital);
+                    digital.State = value != 0 ? StateType.StateOpen : StateType.StateClose;
+                    Actuators.Add(digital);
                 }
             }
             else
@@ -208,7 +215,8 @@ namespace SmartClass.Models
                     digital.Name = name;
                     digital.Type = type;
                     digital.Online = value == 0 ? StateType.Offline : StateType.Online;
-                    actuators.Add(digital);
+                    digital.State = value != 0 ? StateType.StateOpen : StateType.StateClose;
+                    Actuators.Add(digital);
                 }
             }
         }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Common
 {
@@ -27,7 +23,7 @@ namespace Common
                 }
             }
 
-            return new byte[] { (byte)(reg>>8), (byte)(reg ) };
+            return new [] { (byte)(reg>>8), (byte)(reg ) };
         }
     }
 }

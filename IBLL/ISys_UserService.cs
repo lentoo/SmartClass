@@ -9,11 +9,6 @@ namespace IBLL
 {
     public partial interface ISys_UserService:IBaseService<Sys_User>
     {
-        /// <summary>
-        /// 根据账号查找用户信息
-        /// </summary>
-        /// <param name="Account">账号</param>
-        /// <returns></returns>
-        Sys_User GetEntityByAccount(string Account);
+       // Sys_User GetEntityByAccount(string Account);
     }
 }

@@ -117,7 +117,6 @@ E:\SmartClass\SmartClass\bin\BLL.dll
 E:\SmartClass\SmartClass\bin\Common.dll
 E:\SmartClass\SmartClass\bin\DAL.dll
 E:\SmartClass\SmartClass\bin\IBLL.dll
-E:\SmartClass\SmartClass\bin\log4net.dll
 E:\SmartClass\SmartClass\bin\Microsoft.AI.Agent.Intercept.dll
 E:\SmartClass\SmartClass\bin\Microsoft.AI.DependencyCollector.dll
 E:\SmartClass\SmartClass\bin\Microsoft.AI.PerfCounterCollector.dll
@@ -156,7 +155,6 @@ E:\SmartClass\SmartClass\bin\Model.pdb
 E:\SmartClass\SmartClass\bin\Model.dll.config
 E:\SmartClass\SmartClass\bin\Autofac.xml
 E:\SmartClass\SmartClass\bin\Autofac.Integration.Mvc.xml
-E:\SmartClass\SmartClass\bin\log4net.xml
 E:\SmartClass\SmartClass\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 E:\SmartClass\SmartClass\bin\Newtonsoft.Json.xml
 E:\SmartClass\SmartClass\bin\NLog.xml

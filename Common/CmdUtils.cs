@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Common
 {
@@ -16,7 +12,7 @@ namespace Common
         public static byte[] ActuatorCommand(byte[] cmd)
         {
             //获取CRC校验码
-            byte[] crcCode = Common.CRC16.Crc(cmd);
+            byte[] crcCode = CRC16.Crc(cmd);
             byte[] data = new byte[cmd.Length + 3];
             cmd.CopyTo(data, 0);
             data[data.Length - 1] = 0xbb;
