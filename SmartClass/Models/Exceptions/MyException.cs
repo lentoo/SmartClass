@@ -33,7 +33,7 @@ namespace SmartClass.Models.Exceptions
             //将异常信息放到异常队列中
             ExceptionHelper.ExceptionQueue.Enqueue(exception);
             //TODO: 此处应该返回500错误页
-            filterContext.Result = new RedirectResult("/Home/Index");
+            //filterContext.Result = new RedirectResult("/Home/Index");
             //filterContext.HttpContext.Response.Redirect();
         }
 
@@ -42,8 +42,6 @@ namespace SmartClass.Models.Exceptions
         /// </summary>
         public static void ProcessException()
         {
-            //采用 Log4Net 日志
-            //  ILog log = LogManager.GetLogger("WebLogger");
             //采用 NLog 日志     
             ThreadPool.QueueUserWorkItem((o) =>
             {

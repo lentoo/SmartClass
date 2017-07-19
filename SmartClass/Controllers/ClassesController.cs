@@ -25,11 +25,11 @@ namespace SmartClass.Controllers
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
             list = new List<Buildings>();
-            var Buildings = ZRoomService.GetEntity(u => u.F_RoomType == "Building").ToList();
+            var buildings = ZRoomService.GetEntity(u => u.F_RoomType == "Building").ToList();
             var Floors = ZRoomService.GetEntity(u => u.F_RoomType == "Floor").ToList();
             var ClassRooms = ZRoomService.GetEntity(u => u.F_RoomType == "ClassRoom").ToList();
 
-            foreach (var item in Buildings)
+            foreach (var item in buildings)
             {
                 Buildings building = new Buildings();
                 building.Name = item.F_FullName;
@@ -57,8 +57,8 @@ namespace SmartClass.Controllers
                 }
                 building.Floors = FList;
                 list.Add(building);
-                CacheHelper.AddCache("AllClasses", list, DateTime.Now.AddDays(1));
             }
+            CacheHelper.AddCache("AllClasses", list, DateTime.Now.AddDays(1));
             return Json(list, JsonRequestBehavior.AllowGet);
         }
     }

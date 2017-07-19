@@ -6,7 +6,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>E:\SmartRelease\v2.7</_PublishTargetUrl>
+    <_PublishTargetUrl>E:\SmartRelease\v2.8beta2</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="404.html">
@@ -31,31 +31,31 @@
       <publishTime>04/10/2017 15:40:32</publishTime>
     </File>
     <File Include="bin/BLL.dll">
-      <publishTime>07/18/2017 17:16:56</publishTime>
+      <publishTime>07/19/2017 15:10:53</publishTime>
     </File>
     <File Include="bin/BLL.dll.config">
       <publishTime>07/13/2017 19:28:03</publishTime>
     </File>
     <File Include="bin/BLL.pdb">
-      <publishTime>07/18/2017 17:16:56</publishTime>
+      <publishTime>07/19/2017 15:10:53</publishTime>
     </File>
     <File Include="bin/Common.dll">
-      <publishTime>07/18/2017 17:16:56</publishTime>
+      <publishTime>07/19/2017 15:10:53</publishTime>
     </File>
     <File Include="bin/Common.dll.config">
       <publishTime>07/13/2017 19:28:03</publishTime>
     </File>
     <File Include="bin/Common.pdb">
-      <publishTime>07/18/2017 17:16:56</publishTime>
+      <publishTime>07/19/2017 15:10:53</publishTime>
     </File>
     <File Include="bin/DAL.dll">
-      <publishTime>07/18/2017 11:55:45</publishTime>
+      <publishTime>07/19/2017 11:17:55</publishTime>
     </File>
     <File Include="bin/DAL.dll.config">
       <publishTime>07/10/2017 11:22:10</publishTime>
     </File>
     <File Include="bin/DAL.pdb">
-      <publishTime>07/18/2017 11:55:45</publishTime>
+      <publishTime>07/19/2017 11:17:55</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/02/2015 09:32:26</publishTime>
@@ -204,20 +204,35 @@
     <File Include="bin/roslyn/VBCSCompiler.exe.config">
       <publishTime>06/27/2016 14:50:24</publishTime>
     </File>
+    <File Include="bin/ServiceStack.Common.dll">
+      <publishTime>07/03/2016 18:43:46</publishTime>
+    </File>
+    <File Include="bin/ServiceStack.dll">
+      <publishTime>07/03/2016 18:43:46</publishTime>
+    </File>
     <File Include="bin/ServiceStack.Interfaces.dll">
       <publishTime>07/03/2016 18:43:46</publishTime>
     </File>
+    <File Include="bin/ServiceStack.OrmLite.dll">
+      <publishTime>07/03/2016 18:43:46</publishTime>
+    </File>
+    <File Include="bin/ServiceStack.OrmLite.SqlServer.dll">
+      <publishTime>07/03/2016 18:43:46</publishTime>
+    </File>
     <File Include="bin/ServiceStack.Redis.dll">
+      <publishTime>07/03/2016 18:43:46</publishTime>
+    </File>
+    <File Include="bin/ServiceStack.ServiceInterface.dll">
       <publishTime>07/03/2016 18:43:46</publishTime>
     </File>
     <File Include="bin/ServiceStack.Text.dll">
       <publishTime>07/03/2016 18:43:46</publishTime>
     </File>
     <File Include="bin/SmartClass.dll">
-      <publishTime>07/18/2017 17:16:59</publishTime>
+      <publishTime>07/19/2017 15:18:20</publishTime>
     </File>
     <File Include="bin/SmartClass.pdb">
-      <publishTime>07/18/2017 17:16:59</publishTime>
+      <publishTime>07/19/2017 15:18:20</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>01/28/2015 04:04:30</publishTime>
@@ -277,7 +292,7 @@
       <publishTime>07/10/2017 11:22:11</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>07/14/2017 14:39:37</publishTime>
+      <publishTime>07/19/2017 00:19:16</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>07/10/2017 11:22:11</publishTime>
@@ -304,7 +319,7 @@
       <publishTime>07/10/2017 11:22:11</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/18/2017 17:17:00</publishTime>
+      <publishTime>07/19/2017 14:38:42</publishTime>
     </File>
   </ItemGroup>
 </Project>

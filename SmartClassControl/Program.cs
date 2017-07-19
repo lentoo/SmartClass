@@ -19,23 +19,42 @@ namespace SmartClassControl
 
         private static readonly string CourseAddr = ConfigurationManager.AppSettings["Course"];
         private static readonly string HaveClass = ConfigurationManager.AppSettings["HaveClass"];
-
+        private static readonly string ApiSectionTime = ConfigurationManager.AppSettings["SectionTime"];
         private static readonly string Access = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJBY2NvdW50IjoiYWRtaW4iLCJFeHAiOjAuMCwiSU1FSSI6bnVsbH0.aKQm1_xUTFnUpgAGQ2R0usV9Lj9UqdSXeZciBc-AZlU";
+        private static DateTime time12;
+        private static DateTime time34;
+        private static DateTime time56;
+        private static DateTime time78;
+        private static DateTime time910;
+        private static DateTime time14;
+        private static DateTime time58;
         static void Main(string[] args)
         {
-            ConfigurationManager.AppSettings["Host"] = "abc";
+            //ConfigurationManager.AppSettings["Host"] = "abc";
             Console.WriteLine("正在获取今天的课程信息......");
-            Task<string> task = GetToDayCourseAsync();
+            Task<string> taskSectionTime = HttpUtils.GetSectionTime(Host + ApiSectionTime);     //获取所有的节次信息
+            string strSectionTime = taskSectionTime.Result;
+
+            List<SectionTime> sectionTimes =
+                Newtonsoft.Json.JsonConvert.DeserializeObject<List<SectionTime>>(strSectionTime);
+            InitSectionTime(sectionTimes);                      //初始化节次时间
+
+            Task<string> task = GetToDayCourseAsync();          //获取今日课程信息
             string json = task.Result;
+
             Courses courses = Newtonsoft.Json.JsonConvert.DeserializeObject<Courses>(json);
             Console.WriteLine("获取成功...");
             Console.WriteLine($"今日有{courses.toDayCourses.Count}节课");
             Console.WriteLine("正在处理定时任务......");
-            ProcessCourse(courses);
-            Console.WriteLine("今日课程处理完毕，5s后自动退出程序");
-            Thread.Sleep(5000);
-            //Console.ReadKey();
 
+            ProcessCourseAsync(courses);
+
+            while (courses.toDayCourses.Count > 0)
+            {
+                //Console.ReadKey();
+            }
+            Console.WriteLine("今日任务处理完毕，按任意键退出程序");
+            Console.ReadKey();
         }
         /// <summary>
         /// 获取今日课程信息
@@ -50,13 +69,15 @@ namespace SmartClassControl
         {
             return await HttpUtils.CreateRequest(Host + HaveClass + $"?classroom={classroom}&nodeAdd={nodeAddr}&onoff={onoff}&Access={Access}");
         }
-        static void ProcessCourse(Courses courses)
+        static void ProcessCourseAsync(Courses courses)
         {
+
             List<Course> toDayCourses = courses.toDayCourses;
             foreach (Course course in toDayCourses)
             {
                 DateTime openTime = GetCourseTime(course.F_CourseTimeType);
-                
+                openTime.AddMinutes(-10);  //提前10分钟打开
+
                 DateTime closeTime =
                     course.F_CourseTimeType == CourseTimeType.Section1_4
                     ? openTime.AddHours(4)
@@ -69,7 +90,13 @@ namespace SmartClassControl
                     while (true)
                     {
                         DateTime currenTime = DateTime.Now;
-                        if (currenTime > openTime) break;  //过了打开时间
+                        if (currenTime.Hour > openTime.Hour && currenTime.Minute > openTime.Minute)//过了打开时间
+                        {
+                            Console.WriteLine("过了打开时间");
+                            toDayCourses.Remove(course);
+                            break;
+                           
+                        }
                         if (currenTime.Hour == openTime.Hour && currenTime.Minute == openTime.Minute) //开启上课命令
                         {
                             //发送上课命令
@@ -77,26 +104,26 @@ namespace SmartClassControl
                             Console.WriteLine($"{course.F_RoomNo}课室开始上课..");
                             break;
                         }
-                        else
-                        {
-                            Thread.Sleep(30000);
-                        }
+                        Thread.Sleep(30000);
                     }
                     while (true)
                     {
                         DateTime currenTime = DateTime.Now;
-                        if (currenTime > closeTime) break;
-                        if (currenTime.Hour == closeTime.Hour && currenTime.Minute == closeTime.Minute) //开启上课命令
+                        if (currenTime.Hour > closeTime.Hour && currenTime.Minute > closeTime.Minute)
+                        {
+                            Console.WriteLine("过了关闭时间");
+                            toDayCourses.Remove(course);
+                            break;
+                        }
+                        if (currenTime.Hour == closeTime.Hour && currenTime.Minute == closeTime.Minute) //开启下课命令
                         {
                             //发送下课命令
                             Task<string> task1 = SendCmd(course.F_RoomNo, "18", "close");
                             Console.WriteLine($"{course.F_RoomNo}课室下课..");
+                            toDayCourses.Remove(course);
                             return;
                         }
-                        else
-                        {
-                            Thread.Sleep(30000);
-                        }
+                        Thread.Sleep(30000);
                     }
                 });
             }
@@ -110,25 +137,65 @@ namespace SmartClassControl
             switch (type)
             {
                 case CourseTimeType.Section1_2:
-                    returnTime = new DateTime(today.Year, today.Month, today.Day, 7, 55, 0);
+                    returnTime = time12;
                     break;
                 case CourseTimeType.Section3_4:
-                    returnTime = new DateTime(today.Year, today.Month, today.Day, 9, 50, 0);
+                    returnTime = time34;
                     break;
                 case CourseTimeType.Section5_6:
-                    returnTime = new DateTime(today.Year, today.Month, today.Day, 14, 52, 0);
+                    returnTime = time56;
                     break;
                 case CourseTimeType.Section7_8:
-                    returnTime = new DateTime(today.Year, today.Month, today.Day, 16, 05, 0);
+                    returnTime = time78;
                     break;
                 case CourseTimeType.Section9_10:
-                    returnTime = new DateTime(today.Year, today.Month, today.Day, 19, 20, 0);
+                    returnTime = time910;
+                    break;
+                case CourseTimeType.Section1_4:
+                    returnTime = time14;
+                    break;
+                case CourseTimeType.Section5_8:
+                    returnTime = time58;
                     break;
                 default:
                     returnTime = DateTime.Now;
                     break;
-            }
+            };
             return returnTime;
+        }
+
+        static void InitSectionTime(List<SectionTime> Times)
+        {
+            DateTime today = DateTime.Today;
+            
+            foreach (var time in Times)
+            {
+                DateTime t= Convert.ToDateTime(time.F_Time);
+                switch (time.F_CourseTimeType)
+                {
+                    case CourseTimeType.Section1_2:
+                        time12 = t;
+                        break;
+                    case CourseTimeType.Section3_4:
+                        time34 = t;
+                        break;
+                    case CourseTimeType.Section5_6:
+                        time56 = t;
+                        break;
+                    case CourseTimeType.Section7_8:
+                        time78 = t;
+                        break;
+                    case CourseTimeType.Section9_10:
+                        time910 = t;
+                        break;
+                    case CourseTimeType.Section1_4:
+                        time14 = t;
+                        break;
+                    case CourseTimeType.Section5_8:
+                        time58 = t;
+                        break;
+                }
+            }
         }
     }
 

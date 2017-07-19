@@ -29,6 +29,7 @@ namespace SmartClass.Models.Types
         public static readonly string Offline = "OffLine";
 
         public static readonly string StateOpen = "打开";
+
         public static readonly string StateClose = "关闭";
     }
 }

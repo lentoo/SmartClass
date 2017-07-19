@@ -38,4 +38,12 @@ namespace BLL
     {
     }   
 	
+	public partial class Z_SchoolTimeService :BaseService<Z_SchoolTime>,IZ_SchoolTimeService
+    {
+    }   
+	
+	public partial class Z_SectionTimeService :BaseService<Z_SectionTime>,IZ_SectionTimeService
+    {
+    }   
+	
 }

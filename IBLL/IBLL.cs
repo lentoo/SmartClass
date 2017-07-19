@@ -44,4 +44,14 @@ namespace IBLL
        
     }   
 	
+	public partial interface IZ_SchoolTimeService : IBaseService<Z_SchoolTime>
+    {
+       
+    }   
+	
+	public partial interface IZ_SectionTimeService : IBaseService<Z_SectionTime>
+    {
+       
+    }   
+	
 }

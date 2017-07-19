@@ -188,3 +188,8 @@ E:\SmartClass\SmartClass\obj\Release\SmartClass.pdb
 E:\SmartClass\SmartClass\bin\EntityFramework.SqlServer.dll
 E:\SmartClass\SmartClass\bin\EntityFramework.SqlServer.xml
 E:\SmartClass\SmartClass\bin\zh-Hans\EntityFramework.SqlServer.resources.dll
+E:\SmartClass\SmartClass\bin\ServiceStack.Common.dll
+E:\SmartClass\SmartClass\bin\ServiceStack.dll
+E:\SmartClass\SmartClass\bin\ServiceStack.OrmLite.dll
+E:\SmartClass\SmartClass\bin\ServiceStack.OrmLite.SqlServer.dll
+E:\SmartClass\SmartClass\bin\ServiceStack.ServiceInterface.dll

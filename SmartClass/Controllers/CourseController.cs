@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using Common.Cache;
 using IBLL;
 using Model;
 using SmartClass.Models.Course;
@@ -13,6 +14,10 @@ namespace SmartClass.Controllers
     {
         public IZ_CourseService CourseService { get; set; }
         public IZ_RoomService RoomService { get; set; }
+
+        public IZ_SchoolTimeService SchoolTimeService { get; set; }
+
+        public IZ_SectionTimeService SectionTimeService { get; set; }
 
         public ActionResult GetToDayCourse()
         {
@@ -31,7 +36,9 @@ namespace SmartClass.Controllers
                 term = 2;
             }
             string searchYear = term == 1 ? (year - 1) + "-" + year : "-" + year;
-            DateTime schoolTime = new DateTime(2017, 2, 18);  //开学时间
+            Z_SchoolTime ZSchoolTime = SchoolTimeService.GetEntity(u => u.F_SchoolYear.Contains(searchYear)).FirstOrDefault(u => u.F_Term == term + "");
+            DateTime schoolTime = ZSchoolTime.F_SchoolTime;  //开学时间
+
             TimeSpan span = currenTime - schoolTime;   //距离开学过去多久了
             int days = span.Days;               //距离开学过去几天了
             int weeks = Convert.ToInt32(Math.Ceiling(days / 7.0)); //开学第几周了
@@ -65,7 +72,19 @@ namespace SmartClass.Controllers
             {
                 toDayCourses
             }, JsonRequestBehavior.AllowGet);
+        }
 
+
+        /// <summary>
+        /// 获取节次上课时间
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetSectionTime()
+        {
+            List<Z_SectionTime> list = CacheHelper.GetCache<List<Z_SectionTime>>("SectionTime");
+            list = list ?? SectionTimeService.GetEntity(u => true).ToList();
+            CacheHelper.AddCache("SectionTime", list);
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
     }
 }

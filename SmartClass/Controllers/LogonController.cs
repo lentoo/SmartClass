@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Common.Exception;
 using Model.Enum;
 using Model.Result;
 using SmartClass.Models.Filter;
@@ -21,15 +22,24 @@ namespace SmartClass.Controllers
         public ISys_UserService UserService { get; set; }
         public ISys_UserLogOnService UserLogService { get; set; }
 
+        [HttpPost]
         public ActionResult CheckToken(string access)
         {
             string token;
             token = HttpContext.Request.Headers["Access"];
             token = token ?? HttpContext.Request["Access"];
             token = token ?? HttpContext.Request.Cookies["Access"]?.Value;
+
+            LoginResult loginResult;
             if (token == null)
             {
-                return Json(new { ResultCode = ResultCode.Error, Message = "请重新登录" }, JsonRequestBehavior.AllowGet);
+                loginResult = new LoginResult()
+                {
+                    ResultCode = ResultCode.Error,
+                    Message = "请重新登录",
+                    Status = false
+                };
+                return Json(loginResult);
             }
             //从缓存中通过token获取用户信息
             Sys_UserLogOn userLogOn = CacheHelper.GetCache<Sys_UserLogOn>(token);
@@ -41,34 +51,65 @@ namespace SmartClass.Controllers
                 {
                     //payload = obj as Payload;
                     CacheHelper.SetCache(token, userLogOn, DateTime.Now.AddDays(7));
-                    return Json(new { ResultCode = ResultCode.Ok, Message = "登录成功" });
+                    loginResult = new LoginResult()
+                    {
+                        ResultCode = ResultCode.Ok,
+                        Status = false,
+                        Message = "登录成功",
+                    };
+                    return Json(loginResult);
                 }
-                return Json(new { ResultCode = ResultCode.Error, Message = "请重新登录", ErrorData = obj }, JsonRequestBehavior.AllowGet);
+                loginResult = new LoginResult()
+                {
+                    ResultCode = ResultCode.Error,
+                    Message = "请重新登录",
+                    ErrorData = obj
+                };
+                return Json(loginResult);
             }
-            return Json(new { ResultCode = ResultCode.Error, Message = "请重新登录" }, JsonRequestBehavior.AllowGet);
+            loginResult = new LoginResult()
+            {
+                ResultCode = ResultCode.Error,
+                Status = false,
+                Message = "请重新登录",
+            };
+            return Json(loginResult);
         }
         /// <summary>
         /// 登录
         /// </summary>
         /// <returns></returns>
+        [HttpPost]
         public ActionResult Logon(string account, string Pwd, string imei)
         {
+
             //TODO 最终上线要删除
             //测试初始化登录-begin
-            account = "admin";
-            Pwd = "4a7d1ed414474e4033ac29ccb8653d9b";
-
+            //account = "admin";
+            //Pwd = "4a7d1ed414474e4033ac29ccb8653d9b";
             Sys_User user = UserService.GetEntity(u => u.F_Account == account).FirstOrDefault();
+            LoginResult loginResult;
             if (user == null)
             {
-
-                return Json(new LoginResult { Message = "用户名不存在", Status = false, ResultCode = ResultCode.Error });
+                loginResult = new LoginResult()
+                {
+                    Message = "用户名不存在",
+                    Status = false,
+                    ResultCode = ResultCode.Error
+                };
+                return Json(loginResult);
             }
             Sys_UserLogOn userLogOn = UserLogService.GetEntityByUserId(user.F_Id);
 
             if (userLogOn == null)
             {
-                return Json(new LoginResult() { Message = "查询不到密码信息", Status = false, ResultCode = ResultCode.Error });
+                loginResult = new LoginResult()
+                {
+                    Message = "查询不到密码信息",
+                    Status = false,
+                    ResultCode = ResultCode.Error
+                };
+                return Json(loginResult);
             }
             string key = userLogOn.F_UserSecretkey;
             string pwd = Md5.md5(DESEncrypt.Encrypt(Pwd, key).ToLower(), 32).ToLower();
@@ -96,15 +137,18 @@ namespace SmartClass.Controllers
 
                 tokenCookie.Expires = DateTime.Now.AddDays(7);
                 Response.AppendCookie(tokenCookie);
-                return Json(new LoginResult
+                loginResult = new LoginResult
                 {
                     Message = "登录成功",
                     Status = true,
                     AppendData = token,
                     ResultCode = ResultCode.Ok
-                }, JsonRequestBehavior.AllowGet);
+                };
+                return Json(loginResult);
             }
-            return Json(new LoginResult() { Message = "用户名密码错误", Status = false, ResultCode = ResultCode.Error });
+            loginResult = new LoginResult() { Message = "用户名密码错误", Status = false, ResultCode = ResultCode.Error };
+            return Json(loginResult);
+
         }
 
         /// <summary>

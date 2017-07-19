@@ -44,4 +44,14 @@ namespace IDAL
       
     }
 	
+	public partial interface IZ_SchoolTimeDal :IBaseDal<Z_SchoolTime>
+    {
+      
+    }
+	
+	public partial interface IZ_SectionTimeDal :IBaseDal<Z_SectionTime>
+    {
+      
+    }
+	
 }

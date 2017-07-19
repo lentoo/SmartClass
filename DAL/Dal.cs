@@ -44,6 +44,16 @@ namespace DAL
     {
 
     }
+		
+	public partial class Z_SchoolTimeDal :BaseDal<Z_SchoolTime>,IZ_SchoolTimeDal
+    {
+
+    }
+		
+	public partial class Z_SectionTimeDal :BaseDal<Z_SectionTime>,IZ_SectionTimeDal
+    {
+
+    }
 	
 
 }

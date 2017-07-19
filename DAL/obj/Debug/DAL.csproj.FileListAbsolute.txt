@@ -13,3 +13,9 @@ E:\Demo\DAL\bin\Debug\Model.dll.config
 E:\Demo\DAL\bin\Debug\EntityFramework.xml
 E:\Demo\DAL\bin\Debug\EntityFramework.SqlServer.xml
 E:\Demo\DAL\bin\Debug\zh-Hans\EntityFramework.resources.dll
+E:\SmartClass\SmartClass\bin\DAL.dll.config
+E:\SmartClass\SmartClass\bin\DAL.dll
+E:\SmartClass\SmartClass\bin\DAL.pdb
+E:\SmartClass\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+E:\SmartClass\DAL\obj\Debug\DAL.dll
+E:\SmartClass\DAL\obj\Debug\DAL.pdb

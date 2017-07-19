@@ -1,0 +1,11 @@
+E:\SmartClass\SmartClassControl\bin\Release\SmartClassControl.exe.config
+E:\SmartClass\SmartClassControl\bin\Release\SmartClassControl.exe.manifest
+E:\SmartClass\SmartClassControl\bin\Release\SmartClassControl.application
+E:\SmartClass\SmartClassControl\bin\Release\SmartClassControl.exe
+E:\SmartClass\SmartClassControl\bin\Release\SmartClassControl.pdb
+E:\SmartClass\SmartClassControl\bin\Release\Newtonsoft.Json.dll
+E:\SmartClass\SmartClassControl\bin\Release\Newtonsoft.Json.xml
+E:\SmartClass\SmartClassControl\obj\Release\SmartClassControl.exe.manifest
+E:\SmartClass\SmartClassControl\obj\Release\SmartClassControl.application
+E:\SmartClass\SmartClassControl\obj\Release\SmartClassControl.exe
+E:\SmartClass\SmartClassControl\obj\Release\SmartClassControl.pdb

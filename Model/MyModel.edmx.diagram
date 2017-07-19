@@ -4,14 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="fa6d7faf39c64c78859eb3a8e85553d8" Name="Diagram1" ZoomLevel="88">
-        <EntityTypeShape EntityType="NFineBaseModel.Sys_User" Width="1.5" PointX="2.5" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="NFineBaseModel.Sys_UserLogOn" Width="1.5" PointX="4.25" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="NFineBaseModel.Sys_Log" Width="1.5" PointX="6" PointY="0.5" />
-        <EntityTypeShape EntityType="NFineBaseModel.Z_Room" Width="1.5" PointX="9.5" PointY="0.75" />
-        <EntityTypeShape EntityType="NFineBaseModel.Z_EquipmentLog" Width="1.5" PointX="7.625" PointY="0.625" />
-        <EntityTypeShape EntityType="NFineBaseModel.Z_Equipment" Width="1.5" PointX="0.625" PointY="0.875" />
-        <EntityTypeShape EntityType="NFineBaseModel.Z_Course" Width="1.5" PointX="6" PointY="4.125" />
+      <Diagram DiagramId="fa6d7faf39c64c78859eb3a8e85553d8" Name="Diagram1" ZoomLevel="77">
+        <EntityTypeShape EntityType="NFineBaseModel.Sys_User" Width="1.5" PointX="2.375" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFineBaseModel.Sys_UserLogOn" Width="1.5" PointX="4" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFineBaseModel.Sys_Log" Width="1.5" PointX="5.625" PointY="0.5" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_Room" Width="1.5" PointX="9.125" PointY="0.5" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_EquipmentLog" Width="1.5" PointX="7.375" PointY="0.5" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_Equipment" Width="1.5" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_Course" Width="1.5" PointX="11" PointY="0.625" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_SchoolTime" Width="1.5" PointX="5.625" PointY="4.375" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_SectionTime" PointX="7.25" PointY="4.625" Width="1.5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
