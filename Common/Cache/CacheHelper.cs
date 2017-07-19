@@ -55,5 +55,13 @@ namespace Common.Cache
                 Cache.SetCache(key, value);
             }
         }
+
+        public static bool DeleteCache(string key)
+        {
+            lock (cachelock)
+            {
+                return Cache.DeleteCache(key);
+            }
+        }
     }
 }

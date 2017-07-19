@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using IBLL;
@@ -19,7 +20,7 @@ namespace SmartClass.Controllers
             int year = currenTime.Year;         //今天的年
             int month = currenTime.Month;       //今天的月
             int day = currenTime.Day;           //今天的日
-            string week = ((float)currenTime.DayOfWeek).ToString();    //今天星期几
+            string week = ((float)currenTime.DayOfWeek).ToString(CultureInfo.InvariantCulture);    //今天星期几
             int term;                          //第几学期
             if (month >= 9 && month <= 2)
             {
@@ -29,7 +30,7 @@ namespace SmartClass.Controllers
             {
                 term = 2;
             }
-            string searchYear = term == 1 ? year + "-" : "-" + year;
+            string searchYear = term == 1 ? (year - 1) + "-" + year : "-" + year;
             DateTime schoolTime = new DateTime(2017, 2, 18);  //开学时间
             TimeSpan span = currenTime - schoolTime;   //距离开学过去多久了
             int days = span.Days;               //距离开学过去几天了
@@ -59,7 +60,7 @@ namespace SmartClass.Controllers
                 }
             }
             //var rooms = RoomService.GetEntity(r => toDayCourses.Any(c => c.F_RoomCode == r.F_EnCode)).ToList();
-            
+
             return Json(new
             {
                 toDayCourses

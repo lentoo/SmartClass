@@ -63,7 +63,7 @@ namespace SmartClass.Controllers
             #endregion
             //获取该教室所有的设备
             var zeList = ZEquipmentService.GetEntity(u => u.F_RoomId == room.F_Id).ToList();
-            byte fun = 0x1f;
+            byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Search"));
             //向串口发送指令
             result = SendConvertCmd(fun, classroom, null, 0x00);
 
@@ -78,7 +78,6 @@ namespace SmartClass.Controllers
                 classRoom.Id = room.F_RoomNo;
                 var list = classRoom.SonserList;
                 result.Count = zeList.Count;
-                //var normalZqu = zeList.Where(u => ids.Any(id => u.F_EquipmentNo == id)).ToList();
                 var normalZqu = classRoom.SonserList.Where(u => list.Any(l => l.Id == u.Id)).Where(u => u.Online == StateType.Online).ToList();
                 result.ExceptionCount = zeList.Count - normalZqu.Count;
                 result.NormalCount = result.Count - result.ExceptionCount;
@@ -236,8 +235,9 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult SetLamp(string classroom, string nodeAdd, string onoff)
         {
+            byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Lamp"));
             byte b;
-            byte fun = 0x01;
+            // byte fun = 0x01;
             b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
             _oa = SendConvertCmd(fun, classroom, nodeAdd, b);
             _oa.Message = _oa.Status ? "设置灯成功" : "设置灯失败";
@@ -252,9 +252,8 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult SetFan(string classroom, string nodeAdd, string onoff)
         {
-            byte b;
-            byte fun = 0x02;
-            b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
+            byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Fan"));
+            byte b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
             _oa = SendConvertCmd(fun, classroom, nodeAdd, b);
             _oa.Message = _oa.Status ? "设置风机成功" : "设置风机失败";
             return Json(_oa, JsonRequestBehavior.AllowGet);
@@ -269,9 +268,8 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult SetDoor(string classroom, string nodeAdd, string onoff)
         {
-            byte b;
-            byte fun = 0x03;
-            b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
+            byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Door"));
+            byte b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
             _oa = SendConvertCmd(fun, classroom, nodeAdd, b);
             _oa.Message = _oa.Status ? "设置门成功" : "设置门失败";
             return Json(_oa, JsonRequestBehavior.AllowGet);
@@ -285,9 +283,8 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult SetWindow(string classroom, string nodeAdd, string onoff)
         {
-            byte b;
-            byte fun = 0x04;
-            b = (byte)(onoff == StateType.OPEN ? 0x04 : onoff == StateType.STOP ? 0x05 : 0x00);
+            byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Window"));
+            byte b = (byte)(onoff == StateType.OPEN ? 0x04 : onoff == StateType.STOP ? 0x05 : 0x00);
             _oa = SendConvertCmd(fun, classroom, nodeAdd, b);
             _oa.Message = _oa.Status ? "设置窗户成功" : "设置窗户失败";
             return Json(_oa, JsonRequestBehavior.AllowGet);
@@ -302,31 +299,12 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult SetCurtain(string classroom, string nodeAdd, string onoff)
         {
-            byte b;
-            byte fun = 0x05;
-            b = (byte)(onoff == StateType.OPEN ? 0x04 : onoff == StateType.STOP ? 0x05 : 0x00);
+            byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Curtain"));
+            byte b = (byte)(onoff == StateType.OPEN ? 0x04 : onoff == StateType.STOP ? 0x05 : 0x00);
             _oa = SendConvertCmd(fun, classroom, nodeAdd, b);
             _oa.Message = _oa.Status ? "设置窗帘成功" : "设置窗帘失败";
             return Json(_oa, JsonRequestBehavior.AllowGet);
         }
-
-        /// <summary>
-        /// 控制报警灯
-        /// </summary>
-        /// <param name="classroom">教室地址</param>
-        /// <param name="nodeAdd">节点地址</param>
-        /// <param name="onoff">开关</param>
-        /// <returns></returns>
-        public ActionResult SetAlarm(string classroom, string nodeAdd, string onoff)
-        {
-            byte b;
-            byte fun = 0x0D;
-            b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
-            _oa = SendConvertCmd(fun, classroom, nodeAdd, b);
-            _oa.Message = _oa.Status ? "设置报警灯成功" : "设置报警灯失败";
-            return Json(_oa, JsonRequestBehavior.AllowGet);
-        }
-
         /// <summary>
         /// 设置空调参数
         /// </summary>
@@ -339,20 +317,15 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult SetAirConditioning(string classroom, string nodeAdd, string onoff, string model, string speed, string wd)
         {
-            #region 操作设备逻辑
-            byte b = new byte();
-            b = (byte)(onoff == StateType.OPEN ? 1 << 7 : 0 << 7);
+            byte height = (byte)(onoff == StateType.OPEN ? 1 << 7 : 0 << 7);
             Int16 m = Convert.ToInt16(model);
-            b |= (byte)(m << 4);
+            height |= (byte)(m << 4);
             Int16 s = Convert.ToInt16(speed);
-            b |= (byte)(s << 2);
-            b |= 0x01;
-            byte b1 = new byte();
-            int iwd = Convert.ToInt16(wd);
-            b1 |= (byte)iwd;
-            #endregion
-            byte fun = 0x06;
-            _oa = SendConvertCmd(fun, classroom, nodeAdd, b, b1);
+            height |= (byte)(s << 2);
+            height |= 0x01;
+            byte low = (byte)Convert.ToInt16(wd);
+            byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Air"));
+            _oa = SendConvertCmd(fun, classroom, nodeAdd, height, low);
             _oa.Message = _oa.Status ? "设置空调成功" : "设置空调失败";
             return Json(_oa, JsonRequestBehavior.AllowGet);
         }
@@ -364,14 +337,10 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult Init(string classroom)
         {
-
-
             byte b = 0x00;
             byte fun = 0x1f;
             _oa = SendConvertCmd(fun, classroom, "00", b);
             _oa.Message = _oa.Status ? "查询设备信息成功" : "查询设备信息失败";
-
-
             ClassRoom classRoom = PortService.GetReturnData();
             var list = classRoom.SonserList;
             List<Z_Equipment> zeList = new List<Z_Equipment>();

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Web;
 using System.Web.Mvc;
 using Common;
 using Common.Cache;
@@ -37,34 +34,32 @@ namespace SmartClass.Models.Filter
             base.OnActionExecuting(filterContext);
             //TODO 这边要改成从请求头中获取
             string token;
-            token = filterContext.HttpContext.Request["Access"];
+            token = filterContext.HttpContext.Request.Headers["Access"];
+            token = token ?? filterContext.HttpContext.Request["Access"];
+            token = token ?? filterContext.HttpContext.Request.Cookies["Access"]?.Value;
             if (token == null)
             {
-                token = filterContext.HttpContext.Request.Cookies["Access"]?.Value;
-                if (token == null)
-                {
-                    var json = new JsonResult();
-                    json.Data = new { ResultCode = ResultCode.Error, Message = "请重新登录" };
-                    filterContext.Result = json;
-                }
+                var json = new JsonResult();
+                json.Data = new { ResultCode = ResultCode.Error, Message = "请重新登录" };
+                filterContext.Result = json;
+
             }
-            else   
+            else
             {
                 //从缓存中获取token信息
-                Sys_UserLogOn UserLogOn = CacheHelper.GetCache<Sys_UserLogOn>(token);
-                if (UserLogOn != null)
+                Sys_UserLogOn userLogOn = CacheHelper.GetCache<Sys_UserLogOn>(token);
+                if (userLogOn != null)
                 {
                     //解析token
-                    object obj = JwtUtils.DecodingToken(token, UserLogOn.F_UserSecretkey);
+                    object obj = JwtUtils.DecodingToken(token, userLogOn.F_UserSecretkey);
                     if (obj is Payload)  //验证通过
                     {
                         payload = obj as Payload;
-
+                        //CacheHelper.SetCache(token, userLogOn, DateTime.Now.AddDays(7));
                     }
                     else   //拦截请求
                     {
-                        var json = new JsonResult();
-                        json.Data = obj;
+                        var json = new JsonResult { Data = obj };
                         filterContext.Result = json;
                     }
                 }
@@ -88,33 +83,31 @@ namespace SmartClass.Models.Filter
             string nodeId = string.IsNullOrEmpty(filterContext.HttpContext.Request["nodeAdd"]) ? roomId : filterContext.HttpContext.Request["nodeAdd"];
             string onoff = filterContext.HttpContext.Request["onoff"];
             onoff = string.IsNullOrEmpty(onoff) ? "" : onoff;
-            EquipmentResult equipmentResult = jsonResult.Data as EquipmentResult;
+            EquipmentResult equipmentResult = jsonResult?.Data as EquipmentResult;
             if (equipmentResult != null)
             {
                 //开启线程处理后续日志操作
-                ThreadPool.QueueUserWorkItem(o =>
-                {
-                    Z_EquipmentLog zEquipmentLog = new Z_EquipmentLog();
-                    zEquipmentLog.F_Id = Guid.NewGuid().ToString();
-                    zEquipmentLog.F_Account = payload.Account;
-                    zEquipmentLog.F_Date = DateTime.Now;
-                    zEquipmentLog.F_RoomNo = roomId;
-                    string roomName = ZRoomService.GetEntity(z => z.F_RoomNo.ToLower() == roomId.ToLower()).Select(z => z.F_FullName).FirstOrDefault();
-                    string nodeName = ZEquipmentService.GetEntity(e => e.F_EquipmentNo.ToLower() == nodeId.ToLower())
-                        .Select(e => e.F_FullName).FirstOrDefault();
-                    Sys_User user = SysUserService.GetEntity(u => u.F_Account == payload.Account)
-                      .FirstOrDefault();
-                    zEquipmentLog.F_EquipmentNo = nodeId;
-                    zEquipmentLog.F_Description = equipmentResult.Message;
-                    zEquipmentLog.F_EquipmentLogType = onoff == StateType.OPEN ? EQUOPEN : onoff == StateType.CLOSE ? EQUCLOSE : EQUSEARCH;
-                    zEquipmentLog.F_RoomName = roomName;
-                    zEquipmentLog.F_EquipmentName = nodeName;
-                    //zEquipmentLog.F_NickName = user == null ? "null" : user.F_NickName;
-                    zEquipmentLog.F_NickName = user?.F_NickName;
-                    //zEquipmentLog.F_FullName = user == null ? "null" : user.F_RealName;
-                    zEquipmentLog.F_FullName = user?.F_RealName;
-                    ZEquipmentLogService.AddEntity(zEquipmentLog);
-                });
+                //ThreadPool.QueueUserWorkItem(o =>
+                //{
+                Z_EquipmentLog zEquipmentLog = new Z_EquipmentLog();
+                zEquipmentLog.F_Id = Guid.NewGuid().ToString();
+                zEquipmentLog.F_Account = payload.Account;
+                zEquipmentLog.F_Date = DateTime.Now;
+                zEquipmentLog.F_RoomNo = roomId;
+                string roomName = ZRoomService.GetEntity(z => z.F_RoomNo.ToLower() == roomId.ToLower()).Select(z => z.F_FullName).FirstOrDefault();
+                string nodeName = ZEquipmentService.GetEntity(e => e.F_EquipmentNo.ToLower() == nodeId.ToLower())
+                    .Select(e => e.F_FullName).FirstOrDefault();
+                var user = SysUserService.GetEntity(u => u.F_Account == payload.Account).Select(o => new { o.F_NickName, o.F_RealName })
+                  .FirstOrDefault();
+                zEquipmentLog.F_EquipmentNo = nodeId;
+                zEquipmentLog.F_Description = equipmentResult.Message;
+                zEquipmentLog.F_EquipmentLogType = onoff == StateType.OPEN ? EQUOPEN : onoff == StateType.CLOSE ? EQUCLOSE : EQUSEARCH;
+                zEquipmentLog.F_RoomName = roomName;
+                zEquipmentLog.F_EquipmentName = nodeName;
+                zEquipmentLog.F_NickName = user?.F_NickName;
+                zEquipmentLog.F_FullName = user?.F_RealName;
+                ZEquipmentLogService.AddEntity(zEquipmentLog);
+                //});
             }
         }
     }

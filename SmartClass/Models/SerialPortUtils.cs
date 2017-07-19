@@ -1,18 +1,8 @@
-﻿using Common;
-
-using SmartClass.Models.Enum;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics;
 using System.IO.Ports;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading;
-using System.Web;
-using Microsoft.Ajax.Utilities;
-using Model;
+using Common.Exception;
 
 namespace SmartClass.Models
 {
@@ -28,7 +18,7 @@ namespace SmartClass.Models
 
 
         private static byte[] data = new byte[1024];
-        public static int offset = 0;
+        public static int Offset = 0;
 
         public static int ActuatorDataLength = 2;
         /// <summary>
@@ -46,35 +36,33 @@ namespace SmartClass.Models
         }
         private static void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            //Thread.Sleep(50);
-
-            int len = Port.Read(data, offset, data.Length - offset);
+            int len = Port.Read(data, Offset, data.Length - Offset);
             if (data[4] != 0x1f)
             {
                 return;
             }
             int length = 7 + data[6] + 3;   //数据包总长度
-            offset += len;
-            while (offset < length)     //当前读到的长度是否等于总长度
+            Offset += len;
+            while (Offset < length)     //当前读到的长度是否等于总长度
             {
-                len = Port.Read(data, offset, length - offset);
-                offset += len;
+                len = Port.Read(data, Offset, length - Offset);
+                Offset += len;
             }
-            if (data[offset - 1] == 0xbb) //校验包尾
+            if (data[Offset - 1] == 0xbb) //校验包尾
             {
-                byte[] _data = new byte[offset - 3];
-                Array.Copy(data, 0, _data, 0, offset - 3);
+                byte[] _data = new byte[Offset - 3];
+                Array.Copy(data, 0, _data, 0, Offset - 3);
                 byte[] _dataCrc = Common.CRC16.Crc(_data);
-                if (_dataCrc[0] == data[offset - 3] && _dataCrc[1] == data[offset - 2]) //CRC的校验
+                if (_dataCrc[0] == data[Offset - 3] && _dataCrc[1] == data[Offset - 2]) //CRC的校验
                 {
                     DataQueue.Enqueue(data);
                 }
-                offset = 0;
+                Offset = 0;
             }
             else
             {
                 SendCmd(Cmd);
-                offset = 0;
+                Offset = 0;
             }
         }
 

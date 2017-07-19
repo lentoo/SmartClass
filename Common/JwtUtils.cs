@@ -46,8 +46,7 @@ namespace Common
             //}
             catch (SignatureVerificationException)
             {
-                return
-                   new { Message = "Token无效" };
+                return "Token无效";
             }
         }
     }

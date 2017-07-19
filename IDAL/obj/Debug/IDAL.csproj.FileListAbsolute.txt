@@ -6,8 +6,3 @@ E:\Demo\IDAL\bin\Debug\Model.pdb
 E:\Demo\IDAL\bin\Debug\Model.dll.config
 E:\Demo\IDAL\bin\Debug\EntityFramework.xml
 E:\Demo\IDAL\bin\Debug\zh-Hans\EntityFramework.resources.dll
-E:\SmartClass\SmartClass\bin\IDAL.dll
-E:\SmartClass\SmartClass\bin\IDAL.pdb
-E:\SmartClass\IDAL\obj\Debug\IDAL.csprojResolveAssemblyReference.cache
-E:\SmartClass\IDAL\obj\Debug\IDAL.dll
-E:\SmartClass\IDAL\obj\Debug\IDAL.pdb

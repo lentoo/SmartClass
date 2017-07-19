@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Common.Cache;
 using IBLL;
 using Model.Properties;
 using SmartClass.Models.Classes;
@@ -18,10 +19,16 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult SearchAllClass()
         {
+            List<Buildings> list = CacheHelper.GetCache<List<Buildings>>("AllClasses");
+            if (list != null)
+            {
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            list = new List<Buildings>();
             var Buildings = ZRoomService.GetEntity(u => u.F_RoomType == "Building").ToList();
             var Floors = ZRoomService.GetEntity(u => u.F_RoomType == "Floor").ToList();
             var ClassRooms = ZRoomService.GetEntity(u => u.F_RoomType == "ClassRoom").ToList();
-            List<Buildings> list = new List<Buildings>();
+
             foreach (var item in Buildings)
             {
                 Buildings building = new Buildings();
@@ -50,6 +57,7 @@ namespace SmartClass.Controllers
                 }
                 building.Floors = FList;
                 list.Add(building);
+                CacheHelper.AddCache("AllClasses", list, DateTime.Now.AddDays(1));
             }
             return Json(list, JsonRequestBehavior.AllowGet);
         }

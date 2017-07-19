@@ -29,9 +29,12 @@ namespace SmartClassControl
             string json = task.Result;
             Courses courses = Newtonsoft.Json.JsonConvert.DeserializeObject<Courses>(json);
             Console.WriteLine("获取成功...");
+            Console.WriteLine($"今日有{courses.toDayCourses.Count}节课");
             Console.WriteLine("正在处理定时任务......");
             ProcessCourse(courses);
-            Console.ReadKey();
+            Console.WriteLine("今日课程处理完毕，5s后自动退出程序");
+            Thread.Sleep(5000);
+            //Console.ReadKey();
 
         }
         /// <summary>
@@ -53,29 +56,42 @@ namespace SmartClassControl
             foreach (Course course in toDayCourses)
             {
                 DateTime openTime = GetCourseTime(course.F_CourseTimeType);
-                DateTime colseTime = openTime.AddHours(2).AddMinutes(-1);
+                
+                DateTime closeTime =
+                    course.F_CourseTimeType == CourseTimeType.Section1_4
+                    ? openTime.AddHours(4)
+                    : course.F_CourseTimeType == CourseTimeType.Section5_8
+                        ? openTime.AddHours(4)
+                        : openTime.AddHours(2);
+                //openTime.AddMinutes(2);//.AddHours(2).AddMinutes(-1);
                 ThreadPool.QueueUserWorkItem((o) =>
                 {
                     while (true)
                     {
                         DateTime currenTime = DateTime.Now;
-                        if (currenTime.Hour == openTime.Hour && currenTime.Minute == openTime.Hour) //开启上课命令
+                        if (currenTime > openTime) break;  //过了打开时间
+                        if (currenTime.Hour == openTime.Hour && currenTime.Minute == openTime.Minute) //开启上课命令
                         {
                             //发送上课命令
-                            Task<string> task = SendCmd("1234", "18", "open");
-                            while (true)
-                            {
-                                if (currenTime.Hour == colseTime.Hour && currenTime.Minute == colseTime.Hour) //开启上课命令
-                                {
-                                    //发送下课命令
-                                    Task<string> task1 = SendCmd("1234", "18", "close");
-                                    return;
-                                }
-                                else
-                                {
-                                    Thread.Sleep(30000);
-                                }
-                            }
+                            Task<string> task = SendCmd(course.F_RoomNo, "18", "open");
+                            Console.WriteLine($"{course.F_RoomNo}课室开始上课..");
+                            break;
+                        }
+                        else
+                        {
+                            Thread.Sleep(30000);
+                        }
+                    }
+                    while (true)
+                    {
+                        DateTime currenTime = DateTime.Now;
+                        if (currenTime > closeTime) break;
+                        if (currenTime.Hour == closeTime.Hour && currenTime.Minute == closeTime.Minute) //开启上课命令
+                        {
+                            //发送下课命令
+                            Task<string> task1 = SendCmd(course.F_RoomNo, "18", "close");
+                            Console.WriteLine($"{course.F_RoomNo}课室下课..");
+                            return;
                         }
                         else
                         {
@@ -100,7 +116,7 @@ namespace SmartClassControl
                     returnTime = new DateTime(today.Year, today.Month, today.Day, 9, 50, 0);
                     break;
                 case CourseTimeType.Section5_6:
-                    returnTime = new DateTime(today.Year, today.Month, today.Day, 14, 15, 0);
+                    returnTime = new DateTime(today.Year, today.Month, today.Day, 14, 52, 0);
                     break;
                 case CourseTimeType.Section7_8:
                     returnTime = new DateTime(today.Year, today.Month, today.Day, 16, 05, 0);

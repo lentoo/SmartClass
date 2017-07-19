@@ -57,7 +57,7 @@ namespace SmartClass.Models
             {
                 return null;
             }
-            byte[] data = SerialPortUtils.DataQueue.Dequeue();
+            Data = SerialPortUtils.DataQueue.Dequeue();
             ClassRoom classRoom = Init();
             return classRoom;
         }
