@@ -20,7 +20,7 @@ namespace SmartClassControl
         private static readonly string CourseAddr = ConfigurationManager.AppSettings["Course"];
         private static readonly string HaveClass = ConfigurationManager.AppSettings["HaveClass"];
         private static readonly string ApiSectionTime = ConfigurationManager.AppSettings["SectionTime"];
-        private static readonly string Access = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJBY2NvdW50IjoiYWRtaW4iLCJFeHAiOjAuMCwiSU1FSSI6bnVsbH0.aKQm1_xUTFnUpgAGQ2R0usV9Lj9UqdSXeZciBc-AZlU";
+        //private static readonly string Access = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJBY2NvdW50IjoiYWRtaW4iLCJFeHAiOjAuMCwiSU1FSSI6bnVsbH0.aKQm1_xUTFnUpgAGQ2R0usV9Lj9UqdSXeZciBc-AZlU";
         private static DateTime time12;
         private static DateTime time34;
         private static DateTime time56;
@@ -28,11 +28,20 @@ namespace SmartClassControl
         private static DateTime time910;
         private static DateTime time14;
         private static DateTime time58;
+        private static string Access_Token = "";
         static void Main(string[] args)
         {
             //ConfigurationManager.AppSettings["Host"] = "abc";
+            Console.WriteLine("正在登陆，请稍后");
+
+            Task<string> logonResult = Login();
+            string result = logonResult.Result;
+            Console.WriteLine("登陆成功");
+            LoginResult lr = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResult>(result);
+            Access_Token = lr.AppendData;
             Console.WriteLine("正在获取今天的课程信息......");
             Task<string> taskSectionTime = HttpUtils.GetSectionTime(Host + ApiSectionTime);     //获取所有的节次信息
+
             string strSectionTime = taskSectionTime.Result;
 
             List<SectionTime> sectionTimes =
@@ -57,6 +66,15 @@ namespace SmartClassControl
             Console.ReadKey();
         }
         /// <summary>
+        /// 登陆
+        /// </summary>
+        /// <returns></returns>
+        static async Task<string> Login()
+        {
+            string apiLogin = ConfigurationManager.AppSettings["Logon"];
+            return await HttpUtils.CreateRequest(Host + apiLogin, "account=admin&Pwd=4a7d1ed414474e4033ac29ccb8653d9b&imei=0000");
+        }
+        /// <summary>
         /// 获取今日课程信息
         /// </summary>
         /// <returns></returns>
@@ -64,20 +82,28 @@ namespace SmartClassControl
         {
             return await HttpUtils.CreateRequest(Host + CourseAddr);
         }
-
+        /// <summary>
+        /// 发送上课开关命令
+        /// </summary>
+        /// <param name="classroom"></param>
+        /// <param name="nodeAddr"></param>
+        /// <param name="onoff"></param>
+        /// <returns></returns>
         static async Task<string> SendCmd(string classroom, string nodeAddr, string onoff)
         {
-            return await HttpUtils.CreateRequest(Host + HaveClass + $"?classroom={classroom}&nodeAdd={nodeAddr}&onoff={onoff}&Access={Access}");
+            return await HttpUtils.CreateRequest(Host + HaveClass, $"classroom={classroom}&nodeAdd={nodeAddr}&onoff={onoff}&Access={Access_Token}");
         }
+        /// <summary>
+        /// 异步处理今日课程
+        /// </summary>
+        /// <param name="courses"></param>
         static void ProcessCourseAsync(Courses courses)
         {
-
             List<Course> toDayCourses = courses.toDayCourses;
             foreach (Course course in toDayCourses)
             {
                 DateTime openTime = GetCourseTime(course.F_CourseTimeType);
                 openTime.AddMinutes(-10);  //提前10分钟打开
-
                 DateTime closeTime =
                     course.F_CourseTimeType == CourseTimeType.Section1_4
                     ? openTime.AddHours(4)
@@ -95,7 +121,6 @@ namespace SmartClassControl
                             Console.WriteLine("过了打开时间");
                             toDayCourses.Remove(course);
                             break;
-                           
                         }
                         if (currenTime.Hour == openTime.Hour && currenTime.Minute == openTime.Minute) //开启上课命令
                         {
@@ -129,6 +154,11 @@ namespace SmartClassControl
             }
         }
 
+        /// <summary>
+        /// 获取上课时间
+        /// </summary>
+        /// <param name="courseTimeType"></param>
+        /// <returns></returns>
         static DateTime GetCourseTime(string courseTimeType)
         {
             string type = courseTimeType;
@@ -164,13 +194,17 @@ namespace SmartClassControl
             return returnTime;
         }
 
+        /// <summary>
+        /// 初始化节次时间
+        /// </summary>
+        /// <param name="Times"></param>
         static void InitSectionTime(List<SectionTime> Times)
         {
             DateTime today = DateTime.Today;
-            
+
             foreach (var time in Times)
             {
-                DateTime t= Convert.ToDateTime(time.F_Time);
+                DateTime t = Convert.ToDateTime(time.F_Time);
                 switch (time.F_CourseTimeType)
                 {
                     case CourseTimeType.Section1_2:

@@ -22,7 +22,7 @@ namespace SmartClass.Models
             builder.RegisterType<RedisWrite>().Named<ICacheHelper>("Redis");
             builder.RegisterType<MemcacheHelper>().Named<ICacheHelper>("Memcached");
 
-            builder.RegisterType<NFineBaseEntities>().InstancePerLifetimeScope().PropertiesAutowired();//单例模式注入
+            //builder.RegisterType<NFineBaseEntities>().InstancePerLifetimeScope().PropertiesAutowired();//单例模式注入
 
             //  builder.RegisterType<MyActionFilterAttribute>().PropertiesAutowired();
             //builder.RegisterType<MemcacheHelper>().As<ICacheHelper>().InstancePerLifetimeScope();   

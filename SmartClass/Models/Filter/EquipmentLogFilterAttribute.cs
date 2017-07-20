@@ -8,6 +8,7 @@ using Model;
 using Model.Enum;
 using Model.Result;
 using SmartClass.Models.Types;
+using System.Threading;
 
 namespace SmartClass.Models.Filter
 {
@@ -87,27 +88,27 @@ namespace SmartClass.Models.Filter
             if (equipmentResult != null)
             {
                 //开启线程处理后续日志操作
-                //ThreadPool.QueueUserWorkItem(o =>
-                //{
-                Z_EquipmentLog zEquipmentLog = new Z_EquipmentLog();
-                zEquipmentLog.F_Id = Guid.NewGuid().ToString();
-                zEquipmentLog.F_Account = payload.Account;
-                zEquipmentLog.F_Date = DateTime.Now;
-                zEquipmentLog.F_RoomNo = roomId;
-                string roomName = ZRoomService.GetEntity(z => z.F_RoomNo.ToLower() == roomId.ToLower()).Select(z => z.F_FullName).FirstOrDefault();
-                string nodeName = ZEquipmentService.GetEntity(e => e.F_EquipmentNo.ToLower() == nodeId.ToLower())
-                    .Select(e => e.F_FullName).FirstOrDefault();
-                var user = SysUserService.GetEntity(u => u.F_Account == payload.Account).Select(o => new { o.F_NickName, o.F_RealName })
-                  .FirstOrDefault();
-                zEquipmentLog.F_EquipmentNo = nodeId;
-                zEquipmentLog.F_Description = equipmentResult.Message;
-                zEquipmentLog.F_EquipmentLogType = onoff == StateType.OPEN ? EQUOPEN : onoff == StateType.CLOSE ? EQUCLOSE : EQUSEARCH;
-                zEquipmentLog.F_RoomName = roomName;
-                zEquipmentLog.F_EquipmentName = nodeName;
-                zEquipmentLog.F_NickName = user?.F_NickName;
-                zEquipmentLog.F_FullName = user?.F_RealName;
-                ZEquipmentLogService.AddEntity(zEquipmentLog);
-                //});
+                ThreadPool.QueueUserWorkItem(oo =>
+                {
+                    Z_EquipmentLog zEquipmentLog = new Z_EquipmentLog();
+                    zEquipmentLog.F_Id = Guid.NewGuid().ToString();
+                    zEquipmentLog.F_Account = payload.Account;
+                    zEquipmentLog.F_Date = DateTime.Now;
+                    zEquipmentLog.F_RoomNo = roomId;
+                    string roomName = ZRoomService.GetEntity(z => z.F_RoomNo.ToLower() == roomId.ToLower()).Select(z => z.F_FullName).FirstOrDefault();
+                    string nodeName = ZEquipmentService.GetEntity(e => e.F_EquipmentNo.ToLower() == nodeId.ToLower())
+                        .Select(e => e.F_FullName).FirstOrDefault();
+                    var user = SysUserService.GetEntity(u => u.F_Account == payload.Account).Select(o => new { o.F_NickName, o.F_RealName })
+                      .FirstOrDefault();
+                    zEquipmentLog.F_EquipmentNo = nodeId;
+                    zEquipmentLog.F_Description = equipmentResult.Message;
+                    zEquipmentLog.F_EquipmentLogType = onoff == StateType.OPEN ? EQUOPEN : onoff == StateType.CLOSE ? EQUCLOSE : EQUSEARCH;
+                    zEquipmentLog.F_RoomName = roomName;
+                    zEquipmentLog.F_EquipmentName = nodeName;
+                    zEquipmentLog.F_NickName = user?.F_NickName;
+                    zEquipmentLog.F_FullName = user?.F_RealName;
+                    ZEquipmentLogService.AddEntity(zEquipmentLog);
+                });
             }
         }
     }

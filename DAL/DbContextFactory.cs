@@ -13,12 +13,11 @@ namespace DAL
     {
         public static DbContext GetDbContext()
         {
-            DbContext context = CallContext.GetData("dbContext") as DbContext;
+            DbContext context = CallContext.GetData("dbContext") as NFineBaseEntities;
             
             if (context == null)
             {
-                context = new NFineBaseEntities();
-               
+                context = new NFineBaseEntities();               
                 CallContext.SetData("dbContext", context);
             }
             return context;

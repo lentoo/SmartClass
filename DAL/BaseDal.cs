@@ -12,15 +12,15 @@ namespace DAL
 {
     public class BaseDal<T>:IBaseDal<T> where T : class ,new()
     {
-        //public DbContext Db
-        //{
-        //    get
-        //    {
-        //        return DbContextFactory.GetDbContext();
-        //    }
-        //}
+        public DbContext Db
+        {
+            get
+            {
+                return DbContextFactory.GetDbContext();
+            }
+        }
 
-        public NFineBaseEntities Db { get; set; } //通过Autofac 单例模式自动注入
+        //public NFineBaseEntities Db { get; set; } //通过Autofac 单例模式自动注入
 
         public bool AddEntity(T entity)
         {

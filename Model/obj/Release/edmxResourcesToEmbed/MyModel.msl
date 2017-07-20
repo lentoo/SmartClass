@@ -182,5 +182,24 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Z_SchoolTime">
+      <EntityTypeMapping TypeName="NFineBaseModel.Z_SchoolTime">
+        <MappingFragment StoreEntitySet="Z_SchoolTime">
+          <ScalarProperty Name="F_SchoolTime" ColumnName="F_SchoolTime" />
+          <ScalarProperty Name="F_Term" ColumnName="F_Term" />
+          <ScalarProperty Name="F_SchoolYear" ColumnName="F_SchoolYear" />
+          <ScalarProperty Name="F_Id" ColumnName="F_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Z_SectionTime">
+      <EntityTypeMapping TypeName="NFineBaseModel.Z_SectionTime">
+        <MappingFragment StoreEntitySet="Z_SectionTime">
+          <ScalarProperty Name="F_Time" ColumnName="F_Time" />
+          <ScalarProperty Name="F_CourseTimeType" ColumnName="F_CourseTimeType" />
+          <ScalarProperty Name="F_Id" ColumnName="F_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

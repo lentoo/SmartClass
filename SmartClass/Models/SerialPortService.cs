@@ -7,6 +7,7 @@ using Model;
 using Model.Actuators;
 using Model.Properties;
 using SmartClass.Models.Types;
+using System.IO.Ports;
 
 namespace SmartClass.Models
 {
@@ -22,7 +23,11 @@ namespace SmartClass.Models
         /// </summary>
         private string[] Analogue = ConfigurationManager.AppSettings["Analogue"].Split(',');
         private List<SonserBase> Actuators { get; set; }
-        private static object lockObj = new object();
+
+        //public delegate void Port_DataReceived(object sender, SerialDataReceivedEventArgs e);
+
+        //public event Port_DataReceived PortDataReceived;
+
         private byte[] Data { get; set; }
         /// <summary>
         /// 向串口发送数据
@@ -39,36 +44,33 @@ namespace SmartClass.Models
         /// <returns></returns>
         public ClassRoom GetReturnData()
         {
-            Thread.Sleep(50);
+
             Stopwatch stopwatch = new Stopwatch();
+
             stopwatch.Start();
             //等待数据初始化
             while (SerialPortUtils.DataQueue.Count <= 0)
             {
-                //stopwatch.Stop();
-                var t1 = stopwatch.Elapsed.Seconds;
-                if (t1 >= 2) //两秒后还没有数据 就退出
+                if (stopwatch.Elapsed.Seconds > 3)
                 {
                     return null;
                 }
-                //stopwatch.Start();
-            }
-            if (SerialPortUtils.DataQueue.Count <= 0)
-            {
-                return null;
             }
             Data = SerialPortUtils.DataQueue.Dequeue();
-            ClassRoom classRoom = Init();
+            ClassRoom classRoom = null;
+            classRoom = Init(classRoom);
+            // ClassRoom classroom = SerialPortUtils.DataQueues.Dequeue();
             return classRoom;
         }
 
+        //private ClassRoom classRoom;
         /// <summary>
         /// 对串口数据进行处理
         /// </summary>
         /// <returns></returns>
-        private ClassRoom Init()
+        public ClassRoom Init(ClassRoom classRoom)
         {
-            ClassRoom classRoom = new ClassRoom();
+            classRoom = classRoom ?? new ClassRoom();
             int index = 7;
             if (Data[4] != 0x1f)
             {
@@ -150,7 +152,7 @@ namespace SmartClass.Models
                     Digital digitalSd = new Digital();
                     digitalSd.Id = digitalWd.Id;
                     double sd = Convert.ToDouble(data[index++] << 8 | data[index++]) / 10;
-                    digitalSd.value = sd + "%";
+                    digitalSd.value = sd + " %";
                     digitalSd.Name = "湿度";
                     digitalSd.Type = type;
                     digitalSd.Online = sd == 0 ? StateType.Offline : StateType.Online;
@@ -165,7 +167,7 @@ namespace SmartClass.Models
                     Digital digital = new Digital();
                     digital.Id = Convert.ToString(data[index++], 16);
                     double value = Convert.ToDouble(data[index++] << 8 | data[index++]) / 100;
-                    digital.value = value + "µg/m³";
+                    digital.value = value + " µg/m³";
                     digital.Name = "PM2.5";
                     digital.Type = type;
                     digital.Online = value == 0 ? StateType.Offline : StateType.Online;
@@ -182,7 +184,7 @@ namespace SmartClass.Models
                     Int16 iState = data[index++];
                     digital.State = ((iState >> 7) & 0x01) == 1 ? StateType.StateOpen : StateType.StateClose;
                     float val = (0x0f & data[index++]);
-                    digital.value = val + 16 + "℃";
+                    digital.value = val + 16 + " ℃";
                     digital.Online = val == 0 ? StateType.Offline : StateType.Online;
                     digital.Name = name;
                     digital.Type = type;
@@ -196,7 +198,7 @@ namespace SmartClass.Models
                     Digital digital = new Digital();
                     digital.Id = Convert.ToString(data[index++], 16);
                     double value = data[index++] << 8 | data[index++];
-                    digital.value = value + "lx";
+                    digital.value = value + " lx";
                     digital.Name = name;
                     digital.Type = type;
                     digital.Online = value == 0 ? StateType.Offline : StateType.Online;

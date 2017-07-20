@@ -31,13 +31,12 @@ namespace SmartClass.Models.Filter
             string userHostAddress = filterContext.HttpContext.Request.UserHostAddress;//IP地址
             if (result != null)
             {
-
                 mr = result.Data as LoginResult;
                 Log = new Sys_Log { F_Account = "admin" };
-                // #region 开启一个线程，后台处理日志信息
-                //ThreadPool.QueueUserWorkItem((o =>
-                //{
-                try
+                #region 开启一个线程，后台处理日志信息
+                ThreadPool.QueueUserWorkItem((o =>
+                {
+                    try
                 {
                     Log.F_Id = Guid.NewGuid().ToString();
                     Log.F_Date = DateTime.Now;
@@ -57,8 +56,8 @@ namespace SmartClass.Models.Filter
                 {
                     ExceptionHelper.AddException(ex);
                 }
-                //}));
-                //   #endregion
+                }));
+                #endregion
             }
         }
     }

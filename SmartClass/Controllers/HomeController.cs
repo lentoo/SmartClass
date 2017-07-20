@@ -68,6 +68,7 @@ namespace SmartClass.Controllers
             result = SendConvertCmd(fun, classroom, null, 0x00);
 
             result.Message = "查询设备信息成功";
+            
             ClassRoom classRoom = PortService.GetReturnData();
             if (classRoom != null)
             {
@@ -156,7 +157,6 @@ namespace SmartClass.Controllers
                         throw new EquipmentNoFindException("没有查询到该教室有该ID的设备");
                     }
                 }
-
                 byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x01, onoff };
                 byte[] bclassroom = CmdUtils.StrToHexByte(classroom);
                 byte[] bnodeAdd = CmdUtils.StrToHexByte(nodeAdd);
@@ -317,7 +317,7 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult SetAirConditioning(string classroom, string nodeAdd, string onoff, string model, string speed, string wd)
         {
-            byte height = (byte)(onoff == StateType.OPEN ? 1 << 7 : 0 << 7);
+            byte height = (byte)(onoff == StateType.OPEN ? 1 << 7 : 0 << 7);            
             Int16 m = Convert.ToInt16(model);
             height |= (byte)(m << 4);
             Int16 s = Convert.ToInt16(speed);

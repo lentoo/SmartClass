@@ -66,6 +66,8 @@
     <EntitySet Name="Z_EquipmentLog" EntityType="NFineBaseModel.Z_EquipmentLog" />
     <EntitySet Name="Z_Equipment" EntityType="NFineBaseModel.Z_Equipment" />
     <EntitySet Name="Z_Course" EntityType="NFineBaseModel.Z_Course" />
+    <EntitySet Name="Z_SchoolTime" EntityType="NFineBaseModel.Z_SchoolTime" />
+    <EntitySet Name="Z_SectionTime" EntityType="NFineBaseModel.Z_SectionTime" />
   </EntityContainer>
   <EntityType Name="Sys_Log">
     <Key>
@@ -182,5 +184,22 @@
     <Property Name="F_LastModifyUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="F_DeleteTime" Type="DateTime" Precision="3" />
     <Property Name="F_DeleteUserId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Z_SchoolTime">
+    <Key>
+      <PropertyRef Name="F_Id" />
+    </Key>
+    <Property Name="F_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="F_SchoolYear" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="F_Term" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="F_SchoolTime" Type="DateTime" Nullable="false" Precision="0" />
+  </EntityType>
+  <EntityType Name="Z_SectionTime">
+    <Key>
+      <PropertyRef Name="F_Id" />
+    </Key>
+    <Property Name="F_Id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="F_CourseTimeType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="F_Time" Type="String" Nullable="false" />
   </EntityType>
 </Schema>
