@@ -26,6 +26,7 @@ namespace SmartClass.Models.Filter
         private readonly string EQUOPEN = "EquOpen";
         private readonly string EQUCLOSE = "EQuClose";
         private readonly string EQUSEARCH = "EQuSearch";
+        public bool isCheck = true;
         /// <summary>
         /// 操作前
         /// </summary>
@@ -79,6 +80,7 @@ namespace SmartClass.Models.Filter
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             base.OnActionExecuted(filterContext);
+            if (isCheck) return;
             JsonResult jsonResult = filterContext.Result as JsonResult;
             string roomId = filterContext.HttpContext.Request["classroom"];
             string nodeId = string.IsNullOrEmpty(filterContext.HttpContext.Request["nodeAdd"]) ? roomId : filterContext.HttpContext.Request["nodeAdd"];

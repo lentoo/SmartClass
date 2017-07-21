@@ -76,6 +76,7 @@ E:\Demo\Demo1\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
 E:\Demo\Demo1\obj\Debug\SmartClass.csprojResolveAssemblyReference.cache
 E:\Demo\Demo1\obj\Debug\SmartClass.dll
 E:\Demo\Demo1\obj\Debug\SmartClass.pdb
+E:\SmartClass\SmartClass\obj\Debug\SmartClass.csprojResolveAssemblyReference.cache
 E:\SmartClass\SmartClass\bin\ApplicationInsights.config
 E:\SmartClass\SmartClass\bin\roslyn\csc.exe
 E:\SmartClass\SmartClass\bin\roslyn\csc.exe.config
@@ -175,7 +176,6 @@ E:\SmartClass\SmartClass\bin\zh-Hans\System.Web.Razor.resources.dll
 E:\SmartClass\SmartClass\bin\zh-Hans\System.Web.WebPages.resources.dll
 E:\SmartClass\SmartClass\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll
 E:\SmartClass\SmartClass\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
-E:\SmartClass\SmartClass\obj\Debug\SmartClass.csprojResolveAssemblyReference.cache
 E:\SmartClass\SmartClass\obj\Debug\SmartClass.dll
 E:\SmartClass\SmartClass\obj\Debug\SmartClass.pdb
 E:\SmartClass\SmartClass\bin\JWT.dll

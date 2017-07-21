@@ -27,6 +27,7 @@ namespace Common
         /// <returns>16进制字节数组</returns>
         public static byte[] StrToHexByte(string str)
         {
+            str = str.Length == 1 ? 0 + str : str;
             str = str.Replace(" ", "");
             if ((str.Length % 2) != 0)
                 str += " ";

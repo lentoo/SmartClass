@@ -9,3 +9,4 @@ E:\SmartClass\SmartClassControl\obj\Debug\SmartClassControl.exe.manifest
 E:\SmartClass\SmartClassControl\obj\Debug\SmartClassControl.application
 E:\SmartClass\SmartClassControl\obj\Debug\SmartClassControl.exe
 E:\SmartClass\SmartClassControl\obj\Debug\SmartClassControl.pdb
+E:\SmartClass\SmartClassControl\obj\Debug\SmartClassControl.csprojResolveAssemblyReference.cache

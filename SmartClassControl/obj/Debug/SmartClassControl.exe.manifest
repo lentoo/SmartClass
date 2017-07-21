@@ -54,14 +54,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SmartClassControl.exe" size="17880">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SmartClassControl.exe" size="18392">
       <assemblyIdentity name="SmartClassControl" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>B2DzppRhm3Xp8tKZOxR6JZbHjfQ6jDYEogHHHtRGn74=</dsig:DigestValue>
+        <dsig:DigestValue>Jy6gdIrB4fZvu6o6MofC19QH6KXShTu63rZ5g/tmYrA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

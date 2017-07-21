@@ -46,12 +46,11 @@ namespace SmartClass.Models
         {
 
             Stopwatch stopwatch = new Stopwatch();
-
             stopwatch.Start();
             //等待数据初始化
             while (SerialPortUtils.DataQueue.Count <= 0)
             {
-                if (stopwatch.Elapsed.Seconds > 3)
+                if (stopwatch.Elapsed.Seconds > 3)//3秒后获取不到数据，则返回
                 {
                     return null;
                 }
@@ -116,12 +115,12 @@ namespace SmartClass.Models
                 Actuator actuator = new Actuator();
                 actuator.Id = Convert.ToString(data[index++], 16);
                 actuator.Name = name;
-
                 actuator.Type = type;
                 int state = data[index++];
                 actuator.State = GetState(state);
                 actuator.IsOpen = state == 1 ? false : true;
                 actuator.Online = state == 0 ? StateType.Offline : StateType.Online;
+                actuator.Controllable = name == "人体" ? false : name == "气体" ? false : true;
                 Actuators.Add(actuator);
             }
         }
@@ -148,15 +147,17 @@ namespace SmartClass.Models
                     digitalWd.Type = type;
                     digitalWd.Online = wd == 0 ? StateType.Offline : StateType.Online;
                     digitalWd.State = wd == 0 ? StateType.StateClose : StateType.StateOpen;
+                    digitalWd.Controllable = false;
                     Actuators.Add(digitalWd);
                     Digital digitalSd = new Digital();
                     digitalSd.Id = digitalWd.Id;
                     double sd = Convert.ToDouble(data[index++] << 8 | data[index++]) / 10;
-                    digitalSd.value = sd + " %";
+                    digitalSd.value = sd + "%";
                     digitalSd.Name = "湿度";
                     digitalSd.Type = type;
                     digitalSd.Online = sd == 0 ? StateType.Offline : StateType.Online;
                     digitalSd.State = sd == 0 ? StateType.StateClose : StateType.StateOpen;
+                    digitalSd.Controllable = false;
                     Actuators.Add(digitalSd);
                 }
             }
@@ -167,11 +168,12 @@ namespace SmartClass.Models
                     Digital digital = new Digital();
                     digital.Id = Convert.ToString(data[index++], 16);
                     double value = Convert.ToDouble(data[index++] << 8 | data[index++]) / 100;
-                    digital.value = value + " µg/m³";
+                    digital.value = value + "µg/m³";
                     digital.Name = "PM2.5";
                     digital.Type = type;
                     digital.Online = value == 0 ? StateType.Offline : StateType.Online;
                     digital.State = value != 0 ? StateType.StateOpen : StateType.StateClose;
+                    digital.Controllable = false;
                     Actuators.Add(digital);
                 }
             }
@@ -184,9 +186,10 @@ namespace SmartClass.Models
                     Int16 iState = data[index++];
                     digital.State = ((iState >> 7) & 0x01) == 1 ? StateType.StateOpen : StateType.StateClose;
                     float val = (0x0f & data[index++]);
-                    digital.value = val + 16 + " ℃";
+                    digital.value = val + 16 + "℃";
                     digital.Online = val == 0 ? StateType.Offline : StateType.Online;
                     digital.Name = name;
+                    digital.Controllable = true;
                     digital.Type = type;
                     Actuators.Add(digital);
                 }
@@ -203,6 +206,7 @@ namespace SmartClass.Models
                     digital.Type = type;
                     digital.Online = value == 0 ? StateType.Offline : StateType.Online;
                     digital.State = value != 0 ? StateType.StateOpen : StateType.StateClose;
+                    digital.Controllable = false;
                     Actuators.Add(digital);
                 }
             }
@@ -218,6 +222,7 @@ namespace SmartClass.Models
                     digital.Type = type;
                     digital.Online = value == 0 ? StateType.Offline : StateType.Online;
                     digital.State = value != 0 ? StateType.StateOpen : StateType.StateClose;
+                    digital.Controllable = false;
                     Actuators.Add(digital);
                 }
             }

@@ -103,13 +103,15 @@ namespace SmartClassControl
             foreach (Course course in toDayCourses)
             {
                 DateTime openTime = GetCourseTime(course.F_CourseTimeType);
-                openTime.AddMinutes(-10);  //提前10分钟打开
-                DateTime closeTime =
-                    course.F_CourseTimeType == CourseTimeType.Section1_4
-                    ? openTime.AddHours(4)
-                    : course.F_CourseTimeType == CourseTimeType.Section5_8
-                        ? openTime.AddHours(4)
-                        : openTime.AddHours(2);
+                openTime = openTime.AddMinutes(-10);  //提前10分钟打开
+
+                //DateTime closeTime =
+                //    course.F_CourseTimeType == CourseTimeType.Section1_4
+                //    ? openTime.AddHours(4)
+                //    : course.F_CourseTimeType == CourseTimeType.Section5_8
+                //        ? openTime.AddHours(4)
+                //        : openTime.AddHours(2);
+                DateTime closeTime = GetClassOver(course, toDayCourses, openTime);
                 //openTime.AddMinutes(2);//.AddHours(2).AddMinutes(-1);
                 ThreadPool.QueueUserWorkItem((o) =>
                 {
@@ -194,6 +196,42 @@ namespace SmartClassControl
             return returnTime;
         }
 
+        /// <summary>
+        /// 获取最佳关闭时间
+        /// </summary>
+        /// <param name="course"></param>
+        /// <param name="toDayCourses"></param>
+        /// <param name="openTime"></param>
+        /// <returns></returns>
+        static DateTime GetClassOver(Course course, List<Course> toDayCourses, DateTime openTime)
+        {
+            if (course == null) throw new ArgumentNullException("Course为null");
+            if (toDayCourses == null) throw new ArgumentNullException("toDayCourses为null");
+            if (course.F_CourseTimeType == CourseTimeType.Section1_2 || course.F_CourseTimeType == CourseTimeType.Section5_6)
+            {
+                foreach (var item in toDayCourses)
+                {
+                    if (course.F_RoomNo == item.F_RoomNo)   
+                    {
+                        if (course.F_CourseTimeType == CourseTimeType.Section1_2 && item.F_CourseTimeType == CourseTimeType.Section3_4)
+                        {
+                            return openTime.AddHours(4);
+                        }
+                        else if (course.F_CourseTimeType == CourseTimeType.Section5_6 && item.F_CourseTimeType == CourseTimeType.Section7_8)
+                        {
+                            return openTime.AddHours(4);
+                        }
+                    }
+                }
+                return openTime.AddHours(2);
+            }else if(course.F_CourseTimeType == CourseTimeType.Section1_4 || course.F_CourseTimeType == CourseTimeType.Section5_8)
+            {
+                return openTime.AddHours(4);
+            }else
+            {
+                return openTime.AddHours(2);
+            }
+        }
         /// <summary>
         /// 初始化节次时间
         /// </summary>

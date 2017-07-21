@@ -12,6 +12,8 @@ using Model.Result;
 using SmartClass.Models.Exceptions;
 using SmartClass.Models.Filter;
 using SmartClass.Models.Types;
+using System.Diagnostics;
+using System.Configuration;
 
 namespace SmartClass.Controllers
 {
@@ -29,6 +31,7 @@ namespace SmartClass.Controllers
         /// <param name="classroom">教室地址</param>
         /// <param name="result">记录结果</param>
         /// <returns>返回记录结果</returns>
+        [NonAction]
         private ClassRoom Search(string classroom, ref EquipmentResult result)
         {
             //查询该教室
@@ -68,7 +71,7 @@ namespace SmartClass.Controllers
             result = SendConvertCmd(fun, classroom, null, 0x00);
 
             result.Message = "查询设备信息成功";
-            
+
             ClassRoom classRoom = PortService.GetReturnData();
             if (classRoom != null)
             {
@@ -117,6 +120,7 @@ namespace SmartClass.Controllers
         /// </summary>
         /// <param name="classroom">教室地址</param>
         /// <returns></returns>
+        [HttpPost]
         public ActionResult SearchExc(string classroom)
         {
             EquipmentResult result = new EquipmentResult();
@@ -131,9 +135,30 @@ namespace SmartClass.Controllers
                 result.Message = "查询设备信息失败";
                 result.ErrorData = exception;
             }
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(result);
         }
-
+        /// <summary>
+        /// 查询教室正常设备
+        /// </summary>
+        /// <param name="classroom"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult SearchNormal(string classroom)
+        {
+            EquipmentResult result = new EquipmentResult();
+            try
+            {
+                ClassRoom classRoom = Search(classroom, ref result);
+                classRoom.SonserList = classRoom.SonserList?.Where(u => u.Online == StateType.Online).ToList();
+                result.AppendData = classRoom;
+            }
+            catch (Exception exception)
+            {
+                result.Message = "查询设备信息失败";
+                result.ErrorData = exception;
+            }
+            return Json(result);
+        }
         /// <summary>
         /// 发送转换后的命令
         /// </summary>
@@ -142,6 +167,7 @@ namespace SmartClass.Controllers
         /// <param name="nodeAdd">节点地址</param>
         /// <param name="onoff">开关</param>
         /// <returns></returns>
+        [NonAction]
         private EquipmentResult SendConvertCmd(byte fun, string classroom, string nodeAdd, byte onoff)
         {
             classroom = string.IsNullOrEmpty(classroom) ? "00" : classroom;
@@ -188,6 +214,7 @@ namespace SmartClass.Controllers
         /// <param name="height">高位</param>
         /// <param name="low">低位</param>
         /// <returns></returns>
+        [NonAction]
         private EquipmentResult SendConvertCmd(byte fun, string classroom, string nodeAdd, byte height, byte low)
         {
             classroom = string.IsNullOrEmpty(classroom) ? "00" : classroom;
@@ -317,7 +344,7 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult SetAirConditioning(string classroom, string nodeAdd, string onoff, string model, string speed, string wd)
         {
-            byte height = (byte)(onoff == StateType.OPEN ? 1 << 7 : 0 << 7);            
+            byte height = (byte)(onoff == StateType.OPEN ? 1 << 7 : 0 << 7);
             Int16 m = Convert.ToInt16(model);
             height |= (byte)(m << 4);
             Int16 s = Convert.ToInt16(speed);
@@ -373,10 +400,12 @@ namespace SmartClass.Controllers
         /// <param name="classroom">教室地址</param>
         /// <param name="nodeAdd">节点地址</param>
         /// <returns>true or false</returns>
+        [NonAction]
         private bool CheckClassEquipment(string classroom, string nodeAdd)
         {
+            string node = Convert.ToInt32(nodeAdd)+"";
             var room = ZRoomService.GetEntity(u => u.F_RoomNo == classroom);
-            var equipment = ZEquipmentService.GetEntity(u => u.F_EquipmentNo == nodeAdd);
+            var equipment = ZEquipmentService.GetEntity(u => u.F_EquipmentNo == node);
             var roomEquipment =
             (from r in room
              join e in equipment on r.F_Id equals e.F_RoomId
@@ -395,6 +424,60 @@ namespace SmartClass.Controllers
             {
                 return false;
             }
+        }
+
+        [EquipmentLogFilter(isCheck = false)]
+        public ActionResult ControlBuildingEquipment(string buildingName, string equipmentType, string onoff)
+        {
+            //buildingName = buildingName ?? throw new ArgumentNullException("buildingName为null");
+            //Stopwatch watch = new Stopwatch();
+            //watch.Start();
+            Z_Room room = ZRoomService.GetEntity(u => u.F_FullName == buildingName).FirstOrDefault();//查找该楼栋
+            var floors = ZRoomService.GetEntity(u => u.F_ParentId == room.F_Id);     //该楼栋所有楼层
+                                                                                     //List<Z_Room> 
+            var classroom = ZRoomService.GetEntity(u => floors.Any(f => f.F_Id == u.F_ParentId));  //楼层中所有教室
+            var equis = ZEquipmentService.GetEntity(e => classroom.Any(r => e.F_RoomId == r.F_Id)).Where(e => e.F_EquipmentType == equipmentType);
+            var val = (from c in classroom
+                       join e in equis on c.F_Id equals e.F_RoomId
+                       select new
+                       {
+                           c.F_RoomNo,
+                           e.F_EquipmentNo
+                       }).ToList();
+            List<byte> listByte = new List<byte>();
+            foreach (var item in val)
+            {
+                byte fun = (byte)GetFunByEquipmentType(equipmentType);
+                byte b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
+                byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x01, b };
+                byte[] bclassroom = CmdUtils.StrToHexByte(item.F_RoomNo);
+                byte[] bnodeAdd = CmdUtils.StrToHexByte(item.F_EquipmentNo);
+                bclassroom.CopyTo(cmd, 2);
+                bnodeAdd.CopyTo(cmd, 5);
+                cmd = CmdUtils.ActuatorCommand(cmd);
+                listByte.AddRange(cmd);
+            }
+            PortService.SendCmd(listByte.ToArray());
+            //watch.Stop();
+            return Json(val, JsonRequestBehavior.AllowGet);
+        }
+
+        [NonAction]
+        private int GetFunByEquipmentType(string equipmentType)
+        {
+            string fun = string.Empty;
+            var settings = ConfigurationManager.AppSettings;
+            switch (equipmentType)
+            {
+                case "1":
+                    fun = settings["Lamp"];
+                    break;
+                case "2":
+                    fun = settings["Door"];
+                        break;
+            }
+            //Convert.ToInt32(fun);
+            return Convert.ToInt32(fun);
         }
     }
 }
