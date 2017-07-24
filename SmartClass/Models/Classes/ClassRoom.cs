@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Model.Actuators;
 
-namespace Model.Properties
+namespace Models.Classes
 {
     /// <summary>
     /// 教室类

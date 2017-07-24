@@ -5,11 +5,14 @@ using System.Web;
 using System.Web.Mvc;
 using Common.Cache;
 using IBLL;
-using Model.Properties;
 using SmartClass.Models.Classes;
+using Models.Classes;
 
 namespace SmartClass.Controllers
 {
+    /// <summary>
+    /// 教室信息控制器
+    /// </summary>
     public class ClassesController : Controller
     {
         public IZ_RoomService ZRoomService { get; set; }

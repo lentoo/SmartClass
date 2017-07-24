@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Model.Properties;
+﻿using Models.Classes;
+using System.Collections.Generic;
 
 namespace SmartClass.Models.Classes
 {

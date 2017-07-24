@@ -53,7 +53,6 @@
     <Compile Include="Actuators\Actuator.cs" />
     <Compile Include="Actuators\Digital.cs" />
     <Compile Include="Actuators\SonserBase.cs" />
-    <Compile Include="Properties\ClassRoom.cs" />
     <Compile Include="Result\LoginResult.cs" />
     <Compile Include="Result\ModelResult.cs" />
     <Compile Include="MyModel.Context.cs">

@@ -5,9 +5,9 @@ using System.Diagnostics;
 using System.Threading;
 using Model;
 using Model.Actuators;
-using Model.Properties;
 using SmartClass.Models.Types;
 using System.IO.Ports;
+using Models.Classes;
 
 namespace SmartClass.Models
 {
@@ -36,6 +36,7 @@ namespace SmartClass.Models
         public void SendCmd(byte[] cmd)
         {
             SerialPortUtils.SendCmd(cmd);
+            
         }
 
         /// <summary>
@@ -44,13 +45,12 @@ namespace SmartClass.Models
         /// <returns></returns>
         public ClassRoom GetReturnData()
         {
-
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             //等待数据初始化
             while (SerialPortUtils.DataQueue.Count <= 0)
             {
-                if (stopwatch.Elapsed.Seconds > 3)//3秒后获取不到数据，则返回
+                if (stopwatch.Elapsed.Seconds >= 3)//3秒后获取不到数据，则返回
                 {
                     return null;
                 }

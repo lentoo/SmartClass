@@ -10,6 +10,9 @@ using SmartClass.Models.Course;
 
 namespace SmartClass.Controllers
 {
+    /// <summary>
+    /// 课程信息 控制器
+    /// </summary>
     public class CourseController : Controller
     {
         public IZ_CourseService CourseService { get; set; }

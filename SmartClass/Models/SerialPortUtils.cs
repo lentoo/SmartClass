@@ -4,7 +4,6 @@ using System.Configuration;
 using System.IO.Ports;
 using Common.Exception;
 using Model.Actuators;
-using Model.Properties;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Threading;
@@ -21,6 +20,7 @@ namespace SmartClass.Models
         /// </summary>
         private static SerialPort Port { get; }
 
+        
 
         private static byte[] data = new byte[1024];
         //static int Offset = 0;
@@ -37,6 +37,8 @@ namespace SmartClass.Models
             Port = new SerialPort(COM);
             Port.BaudRate = 115200;
             Port.ReadBufferSize = 1024;
+            Port.DataBits = 8;
+            Port.StopBits = StopBits.One;            
             //Port.ReadTimeout = 60000;
             Port.DataReceived += Port_DataReceived;
             Port.Open();
@@ -48,12 +50,13 @@ namespace SmartClass.Models
             try
             {
                 int len = Port.BytesToRead;
-                //int offset = 0;
                 byte[] buf = new byte[len];
                 Port.Read(buf, 0, len);
                 byteList.AddRange(buf);
+                Debug.WriteLine("读到的数据长度" + len);
                 while (byteList.Count >= 10)
                 {
+                    Debug.WriteLine(1);
                     //查找数据标头
                     if (byteList[0] == 0x55)
                     {
@@ -74,16 +77,20 @@ namespace SmartClass.Models
                                     buf = new byte[length];
                                     byteList.CopyTo(0, buf, 0, length);
                                     byteList.RemoveRange(0, length);
+
                                     DataQueue.Enqueue(buf);
+                                    break;
                                 }
-                            }else
+                            }
+                            else
                             {
                                 byteList.RemoveAt(0);
                                 byteList.RemoveAt(0);
                                 byteList.RemoveAt(0);
                                 byteList.RemoveAt(0);
                             }
-                        }else
+                        }
+                        else
                         {
                             byteList.RemoveAt(0);
                             byteList.RemoveAt(0);
@@ -145,8 +152,7 @@ namespace SmartClass.Models
         {
             try
             {
-                Cmd = cmd;
-                // Port.DiscardInBuffer();
+                Cmd = cmd;                
                 Port.Write(cmd, 0, cmd.Length);
             }
             catch (Exception e)
