@@ -36,38 +36,5 @@ namespace SmartClass.Models.Exceptions
             //filterContext.Result = new RedirectResult("/Home/Index");
             //filterContext.HttpContext.Response.Redirect();
         }
-
-        /// <summary>
-        /// 开启一个线程 扫描异常队列中的异常信息
-        /// </summary>
-        public static void ProcessException()
-        {
-            //采用 NLog 日志     
-            ThreadPool.QueueUserWorkItem((o) =>
-            {
-                while (true)
-                {
-                    if (ExceptionHelper.ExceptionQueue.Count > 0)
-                    {
-                        Exception ex = ExceptionHelper.ExceptionQueue.Dequeue();
-                        if (ex != null)
-                        {
-                            LogHelper.Debug(ex);
-                            Thread.Sleep(1000);
-                            //TODO: 采用NLog的话，自带了邮件通知系统  发送邮件通知
-                            // Common.Email.SendEmail("ERROR", ex.Message);
-                        }
-                        else
-                        {
-                            Thread.Sleep(3000);
-                        }
-                    }
-                    else
-                    {
-                        Thread.Sleep(3000);
-                    }
-                }
-            });
-        }
     }
 }

@@ -9,4 +9,3 @@ E:\SmartClass\Model\bin\Debug\zh-Hans\EntityFramework.resources.dll
 E:\SmartClass\Model\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
 E:\SmartClass\Model\obj\Debug\Model.dll
 E:\SmartClass\Model\obj\Debug\Model.pdb
-E:\SmartClass\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache

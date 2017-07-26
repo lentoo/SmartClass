@@ -12,6 +12,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using SmartClass.Models.Autofac;
+using SmartClass.Models.Job;
 
 namespace SmartClass
 {
@@ -26,10 +28,14 @@ namespace SmartClass
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);      
-               
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+
             //扫描异常信息
-            MyException.ProcessException();
+            // MyException.ProcessException();
+
+            //执行计划任务
+            QuartzConfig.InitJob();
+            QuartzConfig.StartJob();
         }
         
     }

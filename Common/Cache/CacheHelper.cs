@@ -1,23 +1,17 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace Common.Cache
 {
     public class CacheHelper
     {
-        public static string selectCache = ConfigurationManager.AppSettings["selectCache"];
-        public static ICacheHelper Cache = AutofacDependencyResolver.Current.RequestLifetimeScope.ResolveNamed<ICacheHelper>(selectCache);
-        private static object cachelock = new object();
+        private static readonly string SelectCache =AppSettingUtils.GetValue("selectCache");
+        private static readonly ICacheHelper Cache = AutofacDependencyResolver.Current.RequestLifetimeScope.ResolveNamed<ICacheHelper>(SelectCache);
+        private static readonly object Cachelock = new object();
         public static void AddCache<T>(string key, T value)
         {
-            lock (cachelock)
+            lock (Cachelock)
             {
                 Cache.AddCache(key, value);
             }
@@ -25,7 +19,7 @@ namespace Common.Cache
 
         public static void AddCache<T>(string key, T value, DateTime exp)
         {
-            lock (cachelock)
+            lock (Cachelock)
             {
                 Cache.AddCache(key, value, exp);
             }
@@ -34,7 +28,7 @@ namespace Common.Cache
 
         public static T GetCache<T>(string key)
         {
-            lock (cachelock)
+            lock (Cachelock)
             {
                 return Cache.GetCache<T>(key);
             }
@@ -42,7 +36,7 @@ namespace Common.Cache
 
         public static void SetCache<T>(string key, T value, DateTime exp)
         {
-            lock (cachelock)
+            lock (Cachelock)
             {
                 Cache.SetCache(key, value, exp);
             }
@@ -50,7 +44,7 @@ namespace Common.Cache
 
         public static void SetCache<T>(string key, T value)
         {
-            lock (cachelock)
+            lock (Cachelock)
             {
                 Cache.SetCache(key, value);
             }
@@ -58,7 +52,7 @@ namespace Common.Cache
 
         public static bool DeleteCache(string key)
         {
-            lock (cachelock)
+            lock (Cachelock)
             {
                 return Cache.DeleteCache(key);
             }

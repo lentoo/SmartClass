@@ -178,6 +178,17 @@ E:\SmartClass\SmartClass\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dl
 E:\SmartClass\SmartClass\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
 E:\SmartClass\SmartClass\obj\Debug\SmartClass.dll
 E:\SmartClass\SmartClass\obj\Debug\SmartClass.pdb
+E:\SmartClass\SmartClass\bin\Common.Logging.Core.dll
+E:\SmartClass\SmartClass\bin\Common.Logging.dll
+E:\SmartClass\SmartClass\bin\Quartz.dll
+E:\SmartClass\SmartClass\bin\Common.Logging.pdb
+E:\SmartClass\SmartClass\bin\Common.Logging.xml
+E:\SmartClass\SmartClass\bin\Common.Logging.Core.pdb
+E:\SmartClass\SmartClass\bin\Common.Logging.Core.xml
+E:\SmartClass\SmartClass\bin\Quartz.pdb
+E:\SmartClass\SmartClass\bin\Quartz.xml
+E:\SmartClass\SmartClass\bin\Autofac.Extras.Quartz.dll
+E:\SmartClass\SmartClass\bin\Autofac.Extras.Quartz.xml
 E:\SmartClass\SmartClass\bin\JWT.dll
 E:\SmartClass\SmartClass\bin\Enyim.Caching.dll
 E:\SmartClass\SmartClass\bin\BLL.pdb

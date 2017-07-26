@@ -8,11 +8,17 @@ using Model.Actuators;
 using SmartClass.Models.Types;
 using System.IO.Ports;
 using Models.Classes;
+using Model.Result;
+using Common;
+using IBLL;
+using Model.Enum;
+using SmartClass.Models.Exceptions;
 
 namespace SmartClass.Models
 {
     public class SerialPortService
     {
+        public IZ_EquipmentService ZEquipmentService { get; set; }
         /// <summary>
         /// 数字量传感器种类
         /// </summary>
@@ -269,6 +275,94 @@ namespace SmartClass.Models
             return state;
         }
 
+        /// <summary>
+        /// 发送转换后的命令
+        /// </summary>
+        /// <param name="fun">功能码</param>
+        /// <param name="classroom">教室地址</param>
+        /// <param name="nodeAdd">节点地址</param>
+        /// <param name="onoff">开关</param>
+        /// <returns></returns>
+        public EquipmentResult SendConvertCmd(byte fun, string classroom, string nodeAdd, byte onoff)
+        {
+            classroom = string.IsNullOrEmpty(classroom) ? "00" : classroom;
+            nodeAdd = string.IsNullOrEmpty(nodeAdd) ? "00" : nodeAdd;
 
+            EquipmentResult oa = new EquipmentResult();
+            try
+            {
+                if (nodeAdd != "00")    //节点地址00表示查询所有设备信息
+                {
+                    if (!ZEquipmentService.CheckClassEquipment(classroom, nodeAdd))
+                    {
+                        throw new EquipmentNoFindException("没有查询到该教室有该ID的设备");
+                    }
+                }
+                byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x01, onoff };
+                byte[] bclassroom = CmdUtils.StrToHexByte(classroom);
+                byte[] bnodeAdd = CmdUtils.StrToHexByte(nodeAdd);
+                bclassroom.CopyTo(cmd, 2);
+                bnodeAdd.CopyTo(cmd, 5);
+                cmd = CmdUtils.ActuatorCommand(cmd);
+
+                SendCmd(cmd);
+                oa.Status = true;
+                oa.ResultCode = ResultCode.Ok;
+            }
+            catch (Exception exception)
+            {
+                oa.Status = false;
+                oa.ErrorData = exception.Message;
+                oa.ResultCode = ResultCode.Error;
+                //ExceptionHelper.AddException(exception);
+            }
+            return oa;
+        }
+        /// <summary>
+        /// 发送转换后的命令
+        /// </summary>
+        /// <param name="fun">功能码</param>
+        /// <param name="classroom">教室地址</param>
+        /// <param name="nodeAdd">节点地址</param>
+        /// <param name="height">高位</param>
+        /// <param name="low">低位</param>
+        /// <returns></returns>
+        public EquipmentResult SendConvertCmd(byte fun, string classroom, string nodeAdd, byte height, byte low)
+        {
+            classroom = string.IsNullOrEmpty(classroom) ? "00" : classroom;
+            nodeAdd = string.IsNullOrEmpty(nodeAdd) ? "00" : nodeAdd;
+
+            EquipmentResult oa = new EquipmentResult();
+            try
+            {
+                if (nodeAdd != "00")
+                {
+                    if (!ZEquipmentService.CheckClassEquipment(classroom, nodeAdd))
+                    {
+                        throw new EquipmentNoFindException("没有查询到该教室有该ID的设备");
+                    }
+                }
+
+                byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x02, height, low };
+                byte[] bclassroom = CmdUtils.StrToHexByte(classroom);
+                byte[] bnodeAdd = CmdUtils.StrToHexByte(nodeAdd);
+                bclassroom.CopyTo(cmd, 2);
+                bnodeAdd.CopyTo(cmd, 5);
+                cmd = CmdUtils.ActuatorCommand(cmd);
+
+                SendCmd(cmd);
+                //SerialPortUtils.SendCmd(cmd);
+                oa.Status = true;
+                oa.ResultCode = ResultCode.Ok;
+            }
+            catch (Exception exception)
+            {
+                oa.Status = false;
+                oa.ErrorData = exception.Message;
+                oa.ResultCode = ResultCode.Error;
+                //ExceptionHelper.AddException(exception);
+            }
+            return oa;
+        }
     }
 }

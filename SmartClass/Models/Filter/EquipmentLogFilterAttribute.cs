@@ -57,7 +57,8 @@ namespace SmartClass.Models.Filter
                     if (obj is Payload)  //验证通过
                     {
                         payload = obj as Payload;
-                        //CacheHelper.SetCache(token, userLogOn, DateTime.Now.AddDays(7));
+                        //延长token时间
+                        CacheHelper.SetCache(token, userLogOn, DateTime.Now.AddDays(7));
                     }
                     else   //拦截请求
                     {

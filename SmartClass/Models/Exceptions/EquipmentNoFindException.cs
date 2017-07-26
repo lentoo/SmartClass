@@ -6,7 +6,7 @@ namespace SmartClass.Models.Exceptions
     {
         public EquipmentNoFindException(string exception) : base(exception)
         {
-        }
 
+        }
     }
 }
