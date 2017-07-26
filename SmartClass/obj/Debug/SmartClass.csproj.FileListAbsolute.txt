@@ -178,3 +178,12 @@ E:\SmartClass\SmartClass\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dl
 E:\SmartClass\SmartClass\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
 E:\SmartClass\SmartClass\obj\Debug\SmartClass.dll
 E:\SmartClass\SmartClass\obj\Debug\SmartClass.pdb
+E:\SmartClass\SmartClass\bin\JWT.dll
+E:\SmartClass\SmartClass\bin\Enyim.Caching.dll
+E:\SmartClass\SmartClass\bin\BLL.pdb
+E:\SmartClass\SmartClass\bin\BLL.dll.config
+E:\SmartClass\SmartClass\bin\Common.pdb
+E:\SmartClass\SmartClass\bin\Common.dll.config
+E:\SmartClass\SmartClass\bin\DAL.pdb
+E:\SmartClass\SmartClass\bin\DAL.dll.config
+E:\SmartClass\SmartClass\bin\Enyim.Caching.xml

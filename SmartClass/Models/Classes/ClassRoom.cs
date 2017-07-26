@@ -32,5 +32,13 @@ namespace Models.Classes
         /// 教室中的所有传感器
         /// </summary>
         public List<SonserBase> SonserList { get; set; }
+        /// <summary>
+        /// 教室中的所有异常设备
+        /// </summary>
+        public List<SonserBase> AbnormalSonserList { get; set; }
+        /// <summary>
+        /// 教室中所有正常设备
+        /// </summary>
+        public List<SonserBase> NormalSonserList { get; set; }
     }
 }

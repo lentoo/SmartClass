@@ -36,7 +36,7 @@ namespace SmartClass.Models
         public void SendCmd(byte[] cmd)
         {
             SerialPortUtils.SendCmd(cmd);
-            
+
         }
 
         /// <summary>
@@ -54,6 +54,19 @@ namespace SmartClass.Models
                 {
                     return null;
                 }
+            }
+            Data = SerialPortUtils.DataQueue.Dequeue();
+            ClassRoom classRoom = null;
+            classRoom = Init(classRoom);
+            // ClassRoom classroom = SerialPortUtils.DataQueues.Dequeue();
+            return classRoom;
+        }
+
+        public ClassRoom GetReturnDataTest()
+        {   //TODO 测试数据
+            while (SerialPortUtils.DataQueue.Count <= 0)
+            {
+                ;
             }
             Data = SerialPortUtils.DataQueue.Dequeue();
             ClassRoom classRoom = null;
@@ -255,5 +268,7 @@ namespace SmartClass.Models
             }
             return state;
         }
+
+
     }
 }

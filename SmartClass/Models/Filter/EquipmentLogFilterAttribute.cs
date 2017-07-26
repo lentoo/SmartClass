@@ -81,6 +81,7 @@ namespace SmartClass.Models.Filter
         {
             base.OnActionExecuted(filterContext);
             if (isCheck) return;
+            //操作日志记录
             JsonResult jsonResult = filterContext.Result as JsonResult;
             string roomId = filterContext.HttpContext.Request["classroom"];
             string nodeId = string.IsNullOrEmpty(filterContext.HttpContext.Request["nodeAdd"]) ? roomId : filterContext.HttpContext.Request["nodeAdd"];

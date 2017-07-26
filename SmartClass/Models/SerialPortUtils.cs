@@ -79,7 +79,6 @@ namespace SmartClass.Models
                                     byteList.RemoveRange(0, length);
 
                                     DataQueue.Enqueue(buf);
-                                    break;
                                 }
                             }
                             else

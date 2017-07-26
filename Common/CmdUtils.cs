@@ -2,10 +2,13 @@
 
 namespace Common
 {
+    /// <summary>
+    /// 命令帮助类
+    /// </summary>
     public class CmdUtils
     {
         /// <summary>
-        /// 通过命令获取CRC16转换后的执行器命令
+        /// 通过命令获取CRC16转换后的命令
         /// </summary>
         /// <param name="cmd"></param>
         /// <returns></returns>
