@@ -6,7 +6,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>E:\SmartRelease\v3.1</_PublishTargetUrl>
+    <_PublishTargetUrl>E:\SmartRelease\v3.2</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="404.html">
@@ -25,37 +25,52 @@
       <publishTime>07/10/2017 11:22:11</publishTime>
     </File>
     <File Include="bin/Autofac.dll">
-      <publishTime>08/18/2016 15:15:34</publishTime>
+      <publishTime>03/01/2017 16:36:14</publishTime>
+    </File>
+    <File Include="bin/Autofac.Extras.Quartz.dll">
+      <publishTime>05/05/2017 22:17:08</publishTime>
     </File>
     <File Include="bin/Autofac.Integration.Mvc.dll">
       <publishTime>04/10/2017 15:40:32</publishTime>
     </File>
     <File Include="bin/BLL.dll">
-      <publishTime>07/24/2017 21:15:59</publishTime>
+      <publishTime>07/27/2017 21:55:31</publishTime>
     </File>
     <File Include="bin/BLL.dll.config">
       <publishTime>07/13/2017 19:28:03</publishTime>
     </File>
     <File Include="bin/BLL.pdb">
-      <publishTime>07/24/2017 21:15:59</publishTime>
+      <publishTime>07/27/2017 21:55:31</publishTime>
     </File>
     <File Include="bin/Common.dll">
-      <publishTime>07/24/2017 21:15:59</publishTime>
+      <publishTime>07/27/2017 21:55:30</publishTime>
     </File>
     <File Include="bin/Common.dll.config">
       <publishTime>07/13/2017 19:28:03</publishTime>
     </File>
+    <File Include="bin/Common.Logging.Core.dll">
+      <publishTime>11/14/2015 13:35:30</publishTime>
+    </File>
+    <File Include="bin/Common.Logging.Core.pdb">
+      <publishTime>11/14/2015 13:35:30</publishTime>
+    </File>
+    <File Include="bin/Common.Logging.dll">
+      <publishTime>11/14/2015 13:35:30</publishTime>
+    </File>
+    <File Include="bin/Common.Logging.pdb">
+      <publishTime>11/14/2015 13:35:30</publishTime>
+    </File>
     <File Include="bin/Common.pdb">
-      <publishTime>07/24/2017 21:15:59</publishTime>
+      <publishTime>07/27/2017 21:55:30</publishTime>
     </File>
     <File Include="bin/DAL.dll">
-      <publishTime>07/24/2017 21:15:59</publishTime>
+      <publishTime>07/27/2017 21:55:30</publishTime>
     </File>
     <File Include="bin/DAL.dll.config">
       <publishTime>07/10/2017 11:22:10</publishTime>
     </File>
     <File Include="bin/DAL.pdb">
-      <publishTime>07/24/2017 21:15:59</publishTime>
+      <publishTime>07/27/2017 21:55:30</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/02/2015 09:32:26</publishTime>
@@ -67,16 +82,16 @@
       <publishTime>08/22/2016 01:13:00</publishTime>
     </File>
     <File Include="bin/IBLL.dll">
-      <publishTime>07/24/2017 21:15:59</publishTime>
+      <publishTime>07/27/2017 21:55:30</publishTime>
     </File>
     <File Include="bin/IBLL.pdb">
-      <publishTime>07/24/2017 21:15:59</publishTime>
+      <publishTime>07/27/2017 21:55:30</publishTime>
     </File>
     <File Include="bin/IDAL.dll">
-      <publishTime>07/24/2017 21:15:59</publishTime>
+      <publishTime>07/27/2017 21:55:30</publishTime>
     </File>
     <File Include="bin/IDAL.pdb">
-      <publishTime>07/24/2017 21:15:59</publishTime>
+      <publishTime>07/27/2017 21:55:30</publishTime>
     </File>
     <File Include="bin/JWT.dll">
       <publishTime>05/17/2017 11:08:06</publishTime>
@@ -109,13 +124,13 @@
       <publishTime>07/25/2012 11:48:56</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>07/24/2017 21:15:59</publishTime>
+      <publishTime>07/27/2017 21:55:29</publishTime>
     </File>
     <File Include="bin/Model.dll.config">
       <publishTime>07/10/2017 11:22:11</publishTime>
     </File>
     <File Include="bin/Model.pdb">
-      <publishTime>07/24/2017 21:15:59</publishTime>
+      <publishTime>07/27/2017 21:55:29</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>06/18/2017 13:57:10</publishTime>
@@ -125,6 +140,12 @@
     </File>
     <File Include="bin/NLog.dll">
       <publishTime>05/05/2017 21:19:28</publishTime>
+    </File>
+    <File Include="bin/Quartz.dll">
+      <publishTime>02/18/2017 09:28:06</publishTime>
+    </File>
+    <File Include="bin/Quartz.pdb">
+      <publishTime>02/18/2017 09:28:06</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/27/2016 14:50:24</publishTime>
@@ -229,10 +250,10 @@
       <publishTime>07/03/2016 18:43:46</publishTime>
     </File>
     <File Include="bin/SmartClass.dll">
-      <publishTime>07/24/2017 21:18:56</publishTime>
+      <publishTime>07/27/2017 21:55:34</publishTime>
     </File>
     <File Include="bin/SmartClass.pdb">
-      <publishTime>07/24/2017 21:18:56</publishTime>
+      <publishTime>07/27/2017 21:55:34</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>01/28/2015 04:04:30</publishTime>
@@ -292,7 +313,7 @@
       <publishTime>07/10/2017 11:22:11</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>07/19/2017 00:19:16</publishTime>
+      <publishTime>07/26/2017 11:46:05</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>07/10/2017 11:22:11</publishTime>
@@ -319,7 +340,7 @@
       <publishTime>07/10/2017 11:22:11</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/19/2017 14:38:42</publishTime>
+      <publishTime>07/27/2017 21:55:35</publishTime>
     </File>
   </ItemGroup>
 </Project>

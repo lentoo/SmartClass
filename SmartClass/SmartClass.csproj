@@ -21,7 +21,7 @@
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressUseClassicPipelineMode>true</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -225,6 +225,8 @@
     <Compile Include="Models\Job\ProcessExceptionJob.cs" />
     <Compile Include="Models\Job\QuartzConfig.cs" />
     <Compile Include="Models\Job\SearchBuildingAllRoomEquipmentJob.cs" />
+    <Compile Include="Models\Job\SynchronizeElectronicClockTimeJob.cs" />
+    <Compile Include="Models\SearchService.cs" />
     <Compile Include="Models\SerialPortService.cs" />
     <Compile Include="Models\SerialPortUtils.cs" />
     <Compile Include="Models\Types\StateType.cs" />
@@ -233,9 +235,6 @@
   <ItemGroup>
     <Content Include="404.html" />
     <Content Include="Global.asax" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

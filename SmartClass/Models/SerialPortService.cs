@@ -4,7 +4,6 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Threading;
 using Model;
-using Model.Actuators;
 using SmartClass.Models.Types;
 using System.IO.Ports;
 using Models.Classes;
@@ -13,6 +12,8 @@ using Common;
 using IBLL;
 using Model.Enum;
 using SmartClass.Models.Exceptions;
+using Model.Actuators;
+using Common.Exception;
 
 namespace SmartClass.Models
 {
@@ -22,27 +23,32 @@ namespace SmartClass.Models
         /// <summary>
         /// 数字量传感器种类
         /// </summary>
-        private string[] Sonsers = ConfigurationManager.AppSettings["Sonsers"].Split(',');
+        private string[] Digital = ConfigurationManager.AppSettings["Digital"].Split(',');
 
         /// <summary>
         /// 模拟量传感器种类
         /// </summary>
         private string[] Analogue = ConfigurationManager.AppSettings["Analogue"].Split(',');
-        private List<SonserBase> Actuators { get; set; }
 
-        //public delegate void Port_DataReceived(object sender, SerialDataReceivedEventArgs e);
-
-        //public event Port_DataReceived PortDataReceived;
+        private List<SensorBase> Sensors { get; set; }
 
         private byte[] Data { get; set; }
         /// <summary>
-        /// 向串口发送数据
+        /// 向串口发送执行数据
         /// </summary>
         /// <param name="cmd"></param>
         public void SendCmd(byte[] cmd)
         {
             SerialPortUtils.SendCmd(cmd);
 
+        }
+        /// <summary>
+        /// 向串口发送查询数据
+        /// </summary>
+        /// <param name="cmd"></param>
+        public void SendSearchCmd(byte[] cmd)
+        {
+            SerialPortUtils.SendSearchCmd(cmd);
         }
 
         /// <summary>
@@ -98,9 +104,9 @@ namespace SmartClass.Models
             {
                 string classRoomId = Convert.ToString(Data[2], 16) + Convert.ToString(Data[3], 16);
                 classRoom.Id = classRoomId;
-                Actuators = new List<SonserBase>();
+                Sensors = new List<SensorBase>();
                 //处理数字量数据
-                for (int i = 0; i < Sonsers.Length; i++)
+                for (int i = 0; i < Digital.Length; i++)
                 {
                     int sonserNum = Data[index++];      //传感器数量
                     int sonserOnLineNum = Data[index++];  //传感器在线数
@@ -113,13 +119,13 @@ namespace SmartClass.Models
                     int sonserOffLineNum = Data[index++];  //模拟量在线数 
                     ProcessAnalogueData(sonserNum, ref index, Data, i);
                 }
-                classRoom.SonserList = Actuators;
+                classRoom.SonserList = Sensors;
             }
             return classRoom;
         }
 
         /// <summary>
-        /// 执行器数据处理
+        /// 数字量数据处理
         /// </summary>
         /// <param name="num">在线数</param>
         /// <param name="index">下标</param>
@@ -127,7 +133,7 @@ namespace SmartClass.Models
         /// <param name="type">类型编码</param>
         private void ProcessActuatorData(int num, ref int index, byte[] data, int type)
         {
-            string name = Sonsers[type];
+            string name = Digital[type];
             type += 1;
             for (int i = 0; i < num; i++)
             {
@@ -140,7 +146,7 @@ namespace SmartClass.Models
                 actuator.IsOpen = state == 1 ? false : true;
                 actuator.Online = state == 0 ? StateType.Offline : StateType.Online;
                 actuator.Controllable = name == "人体" ? false : name == "气体" ? false : true;
-                Actuators.Add(actuator);
+                Sensors.Add(actuator);
             }
         }
         /// <summary>
@@ -153,99 +159,231 @@ namespace SmartClass.Models
         private void ProcessAnalogueData(int num, ref int index, byte[] data, int type)
         {
             string name = Analogue[type];
-            type += Sonsers.Length + 1;
+            type += Digital.Length + 1;
             if (name == "温度")
             {
-                for (int i = 0; i < num; i++)
-                {
-                    Digital digitalWd = new Digital();
-                    digitalWd.Id = Convert.ToString(data[index++], 16);
-                    double wd = Convert.ToDouble(data[index++] << 8 | data[index++]) / 10;
-                    digitalWd.value = wd + "℃";
-                    digitalWd.Name = "温度";
-                    digitalWd.Type = type;
-                    digitalWd.Online = wd == 0 ? StateType.Offline : StateType.Online;
-                    digitalWd.State = wd == 0 ? StateType.StateClose : StateType.StateOpen;
-                    digitalWd.Controllable = false;
-                    Actuators.Add(digitalWd);
-                    Digital digitalSd = new Digital();
-                    digitalSd.Id = digitalWd.Id;
-                    double sd = Convert.ToDouble(data[index++] << 8 | data[index++]) / 10;
-                    digitalSd.value = sd + "%";
-                    digitalSd.Name = "湿度";
-                    digitalSd.Type = type;
-                    digitalSd.Online = sd == 0 ? StateType.Offline : StateType.Online;
-                    digitalSd.State = sd == 0 ? StateType.StateClose : StateType.StateOpen;
-                    digitalSd.Controllable = false;
-                    Actuators.Add(digitalSd);
-                }
+                index = ProcessTemperatureAndHumidity(num, index, data, type);
             }
             else if (name == "PM2.5")
             {
-                for (int i = 0; i < num; i++)
-                {
-                    Digital digital = new Digital();
-                    digital.Id = Convert.ToString(data[index++], 16);
-                    double value = Convert.ToDouble(data[index++] << 8 | data[index++]) / 100;
-                    digital.value = value + "µg/m³";
-                    digital.Name = "PM2.5";
-                    digital.Type = type;
-                    digital.Online = value == 0 ? StateType.Offline : StateType.Online;
-                    digital.State = value != 0 ? StateType.StateOpen : StateType.StateClose;
-                    digital.Controllable = false;
-                    Actuators.Add(digital);
-                }
+                index = ProcessPM2_5(num, index, data, type);
             }
             else if (name == "空调")
             {
-                for (int i = 0; i < num; i++)
-                {
-                    Digital digital = new Digital();
-                    digital.Id = Convert.ToString(data[index++], 16);
-                    Int16 iState = data[index++];
-                    digital.State = ((iState >> 7) & 0x01) == 1 ? StateType.StateOpen : StateType.StateClose;
-                    float val = (0x0f & data[index++]);
-                    digital.value = val + 16 + "℃";
-                    digital.Online = val == 0 ? StateType.Offline : StateType.Online;
-                    digital.Name = name;
-                    digital.Controllable = true;
-                    digital.Type = type;
-                    Actuators.Add(digital);
-                }
+                index = ProcessAir(num, index, data, type);
             }
             else if (name == "光照")
             {
-                for (int i = 0; i < num; i++)
-                {
-                    Digital digital = new Digital();
-                    digital.Id = Convert.ToString(data[index++], 16);
-                    double value = data[index++] << 8 | data[index++];
-                    digital.value = value + " lx";
-                    digital.Name = name;
-                    digital.Type = type;
-                    digital.Online = value == 0 ? StateType.Offline : StateType.Online;
-                    digital.State = value != 0 ? StateType.StateOpen : StateType.StateClose;
-                    digital.Controllable = false;
-                    Actuators.Add(digital);
-                }
+                index = ProcessIllumination(num, index, data, type);
+            }
+            else if (name == "投影屏")
+            {
+                index = ProcessProjectionScreen(num, index, data, type);
             }
             else
             {
-                for (int i = 0; i < num; i++)
-                {
-                    Digital digital = new Digital();
-                    digital.Id = Convert.ToString(data[index++], 16);
-                    double value = data[index++];
-                    digital.value = value + "";
-                    digital.Name = name;
-                    digital.Type = type;
-                    digital.Online = value == 0 ? StateType.Offline : StateType.Online;
-                    digital.State = value != 0 ? StateType.StateOpen : StateType.StateClose;
-                    digital.Controllable = false;
-                    Actuators.Add(digital);
-                }
+                index = ProcessOther(num, index, data, type, name);
             }
         }
+
+        /// <summary>
+        /// 处理投影屏数据
+        /// </summary>
+        /// <param name="num"></param>
+        /// <param name="index"></param>
+        /// <param name="data"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private int ProcessProjectionScreen(int num, int index, byte[] data, int type)
+        {
+            for (int i = 0; i < num; i++)
+            {
+                Actuator ProjectionScreen = new Actuator();
+                ProjectionScreen.Id = Convert.ToString(data[index++], 16);
+                int state = data[index++];
+                ProjectionScreen.State = GetState(state);
+                ProjectionScreen.IsOpen = state == 1 ? false : true;
+                ProjectionScreen.Controllable = true;
+                ProjectionScreen.Name = "投影屏";
+                ProjectionScreen.Type = type;
+                ProjectionScreen.Online = state == 0 ? StateType.Offline : StateType.Online;
+                ProjectionScreen.State = state != 0 ? StateType.StateOpen : StateType.StateClose;
+                ProjectionScreen.Controllable = false;
+                Sensors.Add(ProjectionScreen);
+            }
+
+            return index;
+        }
+
+        /// <summary>
+        /// 处理温湿度数据
+        /// </summary>
+        /// <param name="num">在线数</param>
+        /// <param name="index">索引</param>
+        /// <param name="data">数据</param>
+        /// <param name="type">传感器类型</param>
+        /// <returns></returns>
+        private int ProcessTemperatureAndHumidity(int num, int index, byte[] data, int type)
+        {
+            for (int i = 0; i < num; i++)
+            {
+                Digital digitalWd = new Digital();
+                digitalWd.Id = Convert.ToString(data[index++], 16);
+                double wd = Convert.ToDouble(data[index++] << 8 | data[index++]) / 10;
+                digitalWd.Value = wd + "℃";
+                digitalWd.Name = "温度";
+                digitalWd.Type = type;
+                digitalWd.Online = wd == 0 ? StateType.Offline : StateType.Online;
+                digitalWd.State = wd == 0 ? StateType.StateClose : StateType.StateOpen;
+                digitalWd.Controllable = false;
+                Sensors.Add(digitalWd);
+                Digital digitalSd = new Digital();
+                digitalSd.Id = digitalWd.Id;
+                double sd = Convert.ToDouble(data[index++] << 8 | data[index++]) / 10;
+                digitalSd.Value = sd + "%";
+                digitalSd.Name = "湿度";
+                digitalSd.Type = type;
+                digitalSd.Online = sd == 0 ? StateType.Offline : StateType.Online;
+                digitalSd.State = sd == 0 ? StateType.StateClose : StateType.StateOpen;
+                digitalSd.Controllable = false;
+                Sensors.Add(digitalSd);
+            }
+
+            return index;
+        }
+
+        /// <summary>
+        /// 处理PM2.5的数据
+        /// </summary>
+        /// <param name="num">在线数</param>
+        /// <param name="index">索引</param>
+        /// <param name="data">数据</param>
+        /// <param name="type">传感器类型</param>
+        /// <returns></returns>
+        private int ProcessPM2_5(int num, int index, byte[] data, int type)
+        {
+            for (int i = 0; i < num; i++)
+            {
+                Digital digital = new Digital();
+                digital.Id = Convert.ToString(data[index++], 16);
+                double value = Convert.ToDouble(data[index++] << 8 | data[index++]) / 100;
+                digital.Value = value + "µg/m³";
+                digital.Name = "PM2.5";
+                digital.Type = type;
+                digital.Online = value == 0 ? StateType.Offline : StateType.Online;
+                digital.State = value != 0 ? StateType.StateOpen : StateType.StateClose;
+                digital.Controllable = false;
+                Sensors.Add(digital);
+            }
+
+            return index;
+        }
+        /// <summary>
+        /// 处理空调数据
+        /// </summary>
+        /// <param name="num">在线数</param>
+        /// <param name="index">索引</param>
+        /// <param name="data">数据</param>
+        /// <param name="type">传感器类型</param>
+        /// <returns></returns>
+        private int ProcessAir(int num, int index, byte[] data, int type)
+        {
+            for (int i = 0; i < num; i++)
+            {
+                AirConditioning airConditioning = new AirConditioning();
+                airConditioning.Id = Convert.ToString(data[index++], 16);
+                byte height = data[index++];
+                airConditioning.State = ((height >> 7) & 0x01) == 1 ? StateType.StateOpen : StateType.StateClose;
+                airConditioning.IsOpen = airConditioning.State == StateType.StateOpen;
+                byte low = data[index++];
+                if (height == 0 && low == 0) airConditioning.Online = StateType.Offline;
+                else airConditioning.Online = StateType.Online;
+                int model = height >> 4;
+                switch (model)
+                {
+                    case 0:
+                        airConditioning.Model = "自动";
+                        break;
+                    case 1:
+                        airConditioning.Model = "制冷";
+                        break;
+                    case 2:
+                        airConditioning.Model = "除湿";
+                        break;
+                    case 3:
+                        airConditioning.Model = "送风";
+                        break;
+                    case 4:
+                        airConditioning.Model = "制热";
+                        break;
+                }
+                airConditioning.Speed = height >> 2;
+                airConditioning.SweepWind = height >> 1 == 1 ? "扫风" : "不扫风";
+                float val = (0x0f & low);
+                airConditioning.Value = val + 16 + "℃";
+                airConditioning.Name = "空调";
+                airConditioning.Controllable = true;
+                airConditioning.Type = type;
+                Sensors.Add(airConditioning);
+            }
+            return index;
+        }
+
+        /// <summary>
+        /// 处理其他数字量传感器数据
+        /// </summary>
+        /// <param name="num">在线数</param>
+        /// <param name="index">索引</param>
+        /// <param name="data">数据</param>
+        /// <param name="type">传感器类型</param>
+        /// <param name="name">设备名称</param>
+        /// <returns></returns>
+        private int ProcessOther(int num, int index, byte[] data, int type, string name)
+        {
+            for (int i = 0; i < num; i++)
+            {
+                Digital digital = new Digital();
+                digital.Id = Convert.ToString(data[index++], 16);
+                double value = data[index++];
+                digital.Value = value + "";
+                digital.Name = name;
+                digital.Type = type;
+                digital.Online = value == 0 ? StateType.Offline : StateType.Online;
+                digital.State = value != 0 ? StateType.StateOpen : StateType.StateClose;
+                digital.Controllable = false;
+                Sensors.Add(digital);
+            }
+
+            return index;
+        }
+
+        /// <summary>
+        /// 处理光照传感器数据
+        /// </summary>
+        /// <param name="num">在线数</param>
+        /// <param name="index">索引</param>
+        /// <param name="data">数据</param>
+        /// <param name="type">传感器类型</param>
+        /// <returns></returns>
+        private int ProcessIllumination(int num, int index, byte[] data, int type)
+        {
+            for (int i = 0; i < num; i++)
+            {
+                Digital digital = new Digital();
+                digital.Id = Convert.ToString(data[index++], 16);
+                double value = data[index++] << 8 | data[index++];
+                digital.Value = value + " lx";
+                digital.Name = "光照";
+                digital.Type = type;
+                digital.Online = value == 0 ? StateType.Offline : StateType.Online;
+                digital.State = value != 0 ? StateType.StateOpen : StateType.StateClose;
+                digital.Controllable = false;
+                Sensors.Add(digital);
+            }
+
+            return index;
+        }
+
         /// <summary>
         /// 根据状态码返回状态
         /// </summary>
@@ -274,9 +412,42 @@ namespace SmartClass.Models
             }
             return state;
         }
-
         /// <summary>
-        /// 发送转换后的命令
+        /// 发送转换后的查询命令
+        /// </summary>
+        /// <param name="fun"></param>
+        /// <param name="classroom"></param>
+        /// <param name="nodeAdd"></param>
+        /// <param name="onoff"></param>
+        /// <returns></returns>
+        public EquipmentResult SendConvertSearchCmd(byte fun, string classroom)
+        {
+            classroom = string.IsNullOrEmpty(classroom) ? "00" : classroom;
+
+            EquipmentResult oa = new EquipmentResult();
+            try
+            {
+                byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x01, 0 };
+                byte[] bclassroom = CmdUtils.StrToHexByte(classroom);
+                byte[] bnodeAdd = CmdUtils.StrToHexByte("00");
+                bclassroom.CopyTo(cmd, 2);
+                bnodeAdd.CopyTo(cmd, 5);
+                cmd = CmdUtils.ActuatorCommand(cmd);
+                SendSearchCmd(cmd);
+                oa.Status = true;
+                oa.ResultCode = ResultCode.Ok;
+            }
+            catch (Exception exception)
+            {
+                oa.Status = false;
+                oa.ErrorData = exception.Message;
+                oa.ResultCode = ResultCode.Error;
+                ExceptionHelper.AddException(exception);
+            }
+            return oa;
+        }
+        /// <summary>
+        /// 发送转换后的执行命令
         /// </summary>
         /// <param name="fun">功能码</param>
         /// <param name="classroom">教室地址</param>
@@ -291,12 +462,10 @@ namespace SmartClass.Models
             EquipmentResult oa = new EquipmentResult();
             try
             {
-                if (nodeAdd != "00")    //节点地址00表示查询所有设备信息
+
+                if (!ZEquipmentService.CheckClassEquipment(classroom, nodeAdd))
                 {
-                    if (!ZEquipmentService.CheckClassEquipment(classroom, nodeAdd))
-                    {
-                        throw new EquipmentNoFindException("没有查询到该教室有该ID的设备");
-                    }
+                    throw new EquipmentNoFindException("没有查询到该教室有该ID的设备");
                 }
                 byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x01, onoff };
                 byte[] bclassroom = CmdUtils.StrToHexByte(classroom);
@@ -304,7 +473,6 @@ namespace SmartClass.Models
                 bclassroom.CopyTo(cmd, 2);
                 bnodeAdd.CopyTo(cmd, 5);
                 cmd = CmdUtils.ActuatorCommand(cmd);
-
                 SendCmd(cmd);
                 oa.Status = true;
                 oa.ResultCode = ResultCode.Ok;
@@ -314,7 +482,6 @@ namespace SmartClass.Models
                 oa.Status = false;
                 oa.ErrorData = exception.Message;
                 oa.ResultCode = ResultCode.Error;
-                //ExceptionHelper.AddException(exception);
             }
             return oa;
         }
@@ -335,14 +502,11 @@ namespace SmartClass.Models
             EquipmentResult oa = new EquipmentResult();
             try
             {
-                if (nodeAdd != "00")
-                {
-                    if (!ZEquipmentService.CheckClassEquipment(classroom, nodeAdd))
-                    {
-                        throw new EquipmentNoFindException("没有查询到该教室有该ID的设备");
-                    }
-                }
 
+                if (!ZEquipmentService.CheckClassEquipment(classroom, nodeAdd))
+                {
+                    throw new EquipmentNoFindException("没有查询到该教室有该ID的设备");
+                }
                 byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x02, height, low };
                 byte[] bclassroom = CmdUtils.StrToHexByte(classroom);
                 byte[] bnodeAdd = CmdUtils.StrToHexByte(nodeAdd);
@@ -351,7 +515,6 @@ namespace SmartClass.Models
                 cmd = CmdUtils.ActuatorCommand(cmd);
 
                 SendCmd(cmd);
-                //SerialPortUtils.SendCmd(cmd);
                 oa.Status = true;
                 oa.ResultCode = ResultCode.Ok;
             }
@@ -360,7 +523,6 @@ namespace SmartClass.Models
                 oa.Status = false;
                 oa.ErrorData = exception.Message;
                 oa.ResultCode = ResultCode.Error;
-                //ExceptionHelper.AddException(exception);
             }
             return oa;
         }

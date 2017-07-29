@@ -64,5 +64,21 @@ namespace SmartClass.Controllers
             CacheHelper.AddCache("AllClasses", list, DateTime.Now.AddDays(1));
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+        /// <summary>
+        /// 模糊查询教室信息，通过教室名称和编号
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public ActionResult SearchClassListByNameOrNo(string name)
+        {
+            var room = ZRoomService.GetEntity(u => u.F_FullName.Contains(name) || u.F_EnCode.Contains(name)).Select(u => new
+            {
+                value = u.F_FullName + "(" + u.F_EnCode + ")",
+                u.F_FullName,
+                u.F_EnCode,
+                u.F_RoomNo,
+            }).ToList();
+            return Json(room, JsonRequestBehavior.AllowGet);
+        }
     }
 }

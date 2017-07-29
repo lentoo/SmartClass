@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actuators\Actuator.cs" />
+    <Compile Include="Actuators\AirConditioning.cs" />
     <Compile Include="Actuators\Digital.cs" />
     <Compile Include="Actuators\SonserBase.cs" />
     <Compile Include="Result\LoginResult.cs" />

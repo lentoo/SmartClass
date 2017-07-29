@@ -22,6 +22,11 @@ namespace SmartClass.Controllers
         public ISys_UserService UserService { get; set; }
         public ISys_UserLogOnService UserLogService { get; set; }
 
+        /// <summary>
+        /// 校验用户是否登录过
+        /// </summary>
+        /// <param name="access">token</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult CheckToken(string access)
         {
@@ -82,7 +87,6 @@ namespace SmartClass.Controllers
         [HttpPost]
         public ActionResult Logon(string account, string Pwd, string imei)
         {
-
             //TODO 最终上线要删除
             //测试初始化登录-begin
             //account = "admin";
@@ -93,7 +97,7 @@ namespace SmartClass.Controllers
             {
                 loginResult = new LoginResult()
                 {
-                    Message = "用户名不存在",
+                    Message = "用户不存在",
                     Status = false,
                     ResultCode = ResultCode.Error
                 };
@@ -112,7 +116,7 @@ namespace SmartClass.Controllers
                 return Json(loginResult);
             }
             string key = userLogOn.F_UserSecretkey;
-            string pwd = Md5.md5(DESEncrypt.Encrypt(Pwd, key).ToLower(), 32).ToLower();
+            string pwd = Md5.md5(DESEncrypt.Encrypt(Pwd, key).ToLower()).ToLower();
 
             if (userLogOn.F_UserPassword == pwd) //登录成功
             {

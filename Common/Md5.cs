@@ -1,11 +1,4 @@
-﻿/*******************************************************************************
- * Copyright © 2016 NFine.Framework 版权所有
- * Author: NFine
- * Description: NFine快速开发平台
- * Website：http://www.nfine.cn
-*********************************************************************************/
-
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
 namespace Common
@@ -21,20 +14,17 @@ namespace Common
         /// <param name="str">加密字符</param>
         /// <param name="code">加密位数16/32</param>
         /// <returns></returns>
-        public static string md5(string str, int code)
-        {
-            string strEncrypt = string.Empty;
-            if (code == 16)
+        public static string md5(string str)
+        {            
+            MD5 md5 = MD5.Create();
+            byte[] buff = md5.ComputeHash(Encoding.UTF8.GetBytes(str));
+            StringBuilder sb = new StringBuilder();
+            foreach (var b in buff)
             {
-                strEncrypt = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5").Substring(8, 16);
+                sb.Append(b.ToString("x2"));
             }
-
-            if (code == 32)
-            {
-                strEncrypt = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5");
-            }
-
-            return strEncrypt;
+            md5.Clear();
+            return sb.ToString();
         }
     }
 }

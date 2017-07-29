@@ -108,7 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettingUtils.cs" />
-    <Compile Include="Base64Helper.cs" />
     <Compile Include="Cache\CacheHelper.cs" />
     <Compile Include="Cache\ICacheHelper.cs" />
     <Compile Include="Cache\MemcacheHelper.cs" />
@@ -118,7 +117,6 @@
     <Compile Include="DESEncrypt.cs" />
     <Compile Include="Email.cs" />
     <Compile Include="Exception\ExceptionHelper.cs" />
-    <Compile Include="JsonSerialize.cs" />
     <Compile Include="JwtUtils.cs" />
     <Compile Include="Logged\ILogHelper.cs" />
     <Compile Include="Logged\NLogHelper.cs" />

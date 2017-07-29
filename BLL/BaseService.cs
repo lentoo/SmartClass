@@ -11,7 +11,6 @@ namespace BLL
 {
     public class BaseService<T> : IBaseService<T> where T : class, new()
     {
-        //public IBaseDal<T> dal = new BaseDal<T>();
         public IBaseDal<T> dal { get; set; }
 
         public bool AddEntity(T entity)

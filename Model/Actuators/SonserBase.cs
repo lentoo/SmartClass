@@ -1,6 +1,6 @@
 ﻿namespace Model.Actuators
 {
-    public class SonserBase
+    public class SensorBase
     {
         public string Id { get; set; }
         public string Name { get; set; }

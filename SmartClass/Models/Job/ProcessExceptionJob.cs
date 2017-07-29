@@ -16,6 +16,9 @@ namespace SmartClass.Models.Job
     /// </summary>
     public class ProcessExceptionJob : IJob
     {
+        /// <summary>
+        /// NLog日志类 Autofac自动注入
+        /// </summary>
         public ILogHelper LogHelper { get; set; }
         public ProcessExceptionJob(ILogHelper LogHelper)
         {
@@ -23,10 +26,11 @@ namespace SmartClass.Models.Job
         }
         public void Execute(IJobExecutionContext context)
         {
-            Debug.WriteLine("来扫描了  ");
-            Debug.WriteLine(LogHelper == null);
             ProcessExceptionInfo();
         }
+        /// <summary>
+        /// 异常处理方法
+        /// </summary>
         public void ProcessExceptionInfo()
         {
             //判断异常队列是否有异常信息

@@ -22,14 +22,31 @@ namespace SmartClass.Models.Job
         {
             sched = DependencyResolver.Current.GetService<IScheduler>();
 
-            IJobDetail job1 = JobBuilder.Create<SearchBuildingAllRoomEquipmentJob>().Build();
-            ISimpleTrigger trigger = (ISimpleTrigger)TriggerBuilder.Create().WithSimpleSchedule(o => o.WithIntervalInMinutes(10).WithRepeatCount(int.MaxValue)).Build();
-            sched.ScheduleJob(job1, trigger);
+            //#region 查询楼栋设备Job
+            ////创建一个任务
+            //IJobDetail job1 = JobBuilder.Create<SearchBuildingAllRoomEquipmentJob>().Build();
+            ////触发时间  每10分钟
+            //ISimpleTrigger trigger = (ISimpleTrigger)TriggerBuilder.Create()//.WithCronSchedule("0 0 ")
+            //    .WithSimpleSchedule(o => o.WithIntervalInMinutes(10).WithRepeatCount(int.MaxValue))
+            //    .Build();
+            ////添加到任务管理者
+            //sched.ScheduleJob(job1, trigger);
+            //#endregion
 
+            #region 处理异常信息Job
             IJobDetail exceptionJob = JobBuilder.Create<ProcessExceptionJob>().Build();
+            //每10s处理一次
             ISimpleTrigger triggerExceptionJob = (ISimpleTrigger)TriggerBuilder.Create().WithSimpleSchedule(o => o.WithIntervalInSeconds(10).WithRepeatCount(int.MaxValue)).Build();
             sched.ScheduleJob(exceptionJob, triggerExceptionJob);
-           
+            #endregion
+
+            #region 同步电子钟Job
+            IJobDetail electronicClockJob = JobBuilder.Create<SynchronizeElectronicClockTimeJob>().Build();
+            //每周六早上8点同步一次
+            ICronTrigger clockTrigger = (ICronTrigger)TriggerBuilder.Create().WithCronSchedule("0 0 8 ? * 6 *").StartNow().Build();
+            //ISimpleTrigger t = (ISimpleTrigger)TriggerBuilder.Create().WithSimpleSchedule(o => o.WithIntervalInSeconds(20)).StartNow().Build();
+            sched.ScheduleJob(electronicClockJob, clockTrigger);
+            #endregion
         }
         /// <summary>
         /// 暂停所有任务计划

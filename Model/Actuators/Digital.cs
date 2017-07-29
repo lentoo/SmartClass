@@ -1,11 +1,11 @@
 ﻿namespace Model.Actuators
 {
-    public class Digital:SonserBase
+    public class Digital:SensorBase
     {
         /// <summary>
         /// 模拟量数值
         /// </summary>
-        public string value { get; set; }
+        public string Value { get; set; }
       
     }
 }

@@ -193,3 +193,14 @@ E:\SmartClass\SmartClass\bin\ServiceStack.dll
 E:\SmartClass\SmartClass\bin\ServiceStack.OrmLite.dll
 E:\SmartClass\SmartClass\bin\ServiceStack.OrmLite.SqlServer.dll
 E:\SmartClass\SmartClass\bin\ServiceStack.ServiceInterface.dll
+E:\SmartClass\SmartClass\bin\Autofac.Extras.Quartz.dll
+E:\SmartClass\SmartClass\bin\Common.Logging.Core.dll
+E:\SmartClass\SmartClass\bin\Common.Logging.dll
+E:\SmartClass\SmartClass\bin\Quartz.dll
+E:\SmartClass\SmartClass\bin\Autofac.Extras.Quartz.xml
+E:\SmartClass\SmartClass\bin\Common.Logging.pdb
+E:\SmartClass\SmartClass\bin\Common.Logging.xml
+E:\SmartClass\SmartClass\bin\Common.Logging.Core.pdb
+E:\SmartClass\SmartClass\bin\Common.Logging.Core.xml
+E:\SmartClass\SmartClass\bin\Quartz.pdb
+E:\SmartClass\SmartClass\bin\Quartz.xml

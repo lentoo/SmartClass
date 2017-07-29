@@ -19,9 +19,7 @@ namespace SmartClass.Models
         /// 无线串口
         /// </summary>
         private static SerialPort Port { get; }
-
         
-
         private static byte[] data = new byte[1024];
         //static int Offset = 0;
 
@@ -31,20 +29,18 @@ namespace SmartClass.Models
         private static string COM = ConfigurationManager.AppSettings["COM"];
 
         public static Queue<byte[]> DataQueue = new Queue<byte[]>();
-        //SerialPortService service = new SerialPortService();
         static SerialPortUtils()
         {
             Port = new SerialPort(COM);
             Port.BaudRate = 115200;
             Port.ReadBufferSize = 1024;
             Port.DataBits = 8;
-            Port.StopBits = StopBits.One;            
+            Port.StopBits = StopBits.One;
             //Port.ReadTimeout = 60000;
             Port.DataReceived += Port_DataReceived;
             Port.Open();
         }
         static List<byte> byteList = new List<byte>();
-        // static byte[] data = new byte[1024];
         private static void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             try
@@ -105,44 +101,31 @@ namespace SmartClass.Models
             {
                 ExceptionHelper.AddException(exception);
             }
-
-            #region 注释代码
-
-
-            //int Offset = 0;
-            //byte[] data = new byte[1024];
-
-            //int size = Port.BytesToRead;
-            //int len = Port.Read(data, Offset, data.Length - Offset);
-            //int length = 7 + data[6] + 3;   //数据包总长度
-            //Offset += len;
-            //while (Offset < length)     //当前读到的长度是否等于总长度
-            //{
-            //    len = Port.Read(data, Offset, length - Offset);
-            //    length = 7 + data[6] + 3;
-            //    Offset += len;
-            //}
-            //if (data[4] != 0x1f) return;
-            //if (data[Offset - 1] == 0xbb) //校验包尾
-            //{
-            //    byte[] _data = new byte[Offset - 3];
-            //    Array.Copy(data, 0, _data, 0, Offset - 3);
-            //    byte[] _dataCrc = Common.CRC16.Crc(_data);
-            //    if (_dataCrc[0] == data[Offset - 3] && _dataCrc[1] == data[Offset - 2]) //CRC的校验
-            //    {
-            //        DataQueue.Enqueue(data);
-            //    }
-            //    else
-            //    {
-            //        Offset = 0;
-            //    }
-            //}
-            //Offset = 0;
-            //Port.DiscardInBuffer();
-            #endregion
         }
 
         private static byte[] Cmd = null;
+        private static object lockObject = new object();
+        /// <summary>
+        /// 向无线串口发送查询数据
+        /// </summary>
+        /// <param name="cmd">发送命令</param>
+        public static bool SendSearchCmd(byte[] cmd)
+        {
+            try
+            {
+                lock (lockObject)
+                {
+                    Cmd = cmd;
+                    Port.Write(cmd, 0, cmd.Length);
+                    Thread.Sleep(300);
+                }
+            }
+            catch (Exception e)
+            {
+                ExceptionHelper.AddException(e);
+            }
+            return true;
+        }
         /// <summary>
         /// 向无线串口发送数据
         /// </summary>
@@ -151,7 +134,7 @@ namespace SmartClass.Models
         {
             try
             {
-                Cmd = cmd;                
+                Cmd = cmd;
                 Port.Write(cmd, 0, cmd.Length);
             }
             catch (Exception e)

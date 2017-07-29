@@ -26,6 +26,7 @@ namespace SmartClass.Models.Autofac
             builder.RegisterType<MemcacheHelper>().Named<ICacheHelper>("Memcached");
 
             builder.RegisterType<ServiceGetter>().As<IServiceGetter>();
+            builder.RegisterType<SearchService>().AsSelf();
             builder.RegisterType<SerialPortService>().AsSelf().PropertiesAutowired();
             //注册定时任务模块
             builder.RegisterModule(new QuartzAutofacFactoryModule());

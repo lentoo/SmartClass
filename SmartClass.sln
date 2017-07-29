@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SmartBLL", "SmartBLL", "{5A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartClassControl", "SmartClassControl\SmartClassControl.csproj", "{9CA77BA3-433A-46BE-BE3C-0DED907C5D2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{3D9C16E8-AF6F-4716-99D2-B88554D924C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{9CA77BA3-433A-46BE-BE3C-0DED907C5D2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CA77BA3-433A-46BE-BE3C-0DED907C5D2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CA77BA3-433A-46BE-BE3C-0DED907C5D2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D9C16E8-AF6F-4716-99D2-B88554D924C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D9C16E8-AF6F-4716-99D2-B88554D924C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D9C16E8-AF6F-4716-99D2-B88554D924C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D9C16E8-AF6F-4716-99D2-B88554D924C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

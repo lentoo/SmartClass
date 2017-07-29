@@ -10,5 +10,6 @@ namespace SmartClass.Models.Classes
     {
         public string Name { get; set; }
         public List<Floors> Floors { get; set; }
+        public bool AbnormalEquipment { get; set; }
     }
 }
