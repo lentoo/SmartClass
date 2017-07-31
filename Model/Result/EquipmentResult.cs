@@ -3,7 +3,7 @@
 namespace Model.Result
 {
     /// <summary>
-    /// 操作执行器
+    /// 操作执行器结果
     /// </summary>
     public class EquipmentResult : ModelResult
     {

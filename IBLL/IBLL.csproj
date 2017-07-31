@@ -49,10 +49,10 @@
     <Compile Include="ISys_LogService.cs" />
     <Compile Include="ISys_UserService.cs" />
     <Compile Include="ISys_UserLogOnService.cs" />
-    <Compile Include="IZ_CourseService.cs" />
     <Compile Include="IZ_EquipmentService.cs" />
     <Compile Include="IZ_EquipmentLogService.cs" />
     <Compile Include="IZ_RoomService.cs" />
+    <Compile Include="IZ_SectionTimeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

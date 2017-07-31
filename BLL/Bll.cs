@@ -20,13 +20,13 @@ namespace BLL
 	
 	public partial class Sys_UserLogOnService :BaseService<Sys_UserLogOn>,ISys_UserLogOnService
     {
-    }   
-	
-	public partial class Z_CourseService :BaseService<Z_Course>,IZ_CourseService
-    {
-    }   
-	
-	public partial class Z_EquipmentService :BaseService<Z_Equipment>,IZ_EquipmentService
+    }
+
+    public partial class Z_CourseService : BaseService<Z_Course>, IZ_CourseService
+    {       
+    }
+
+    public partial class Z_EquipmentService :BaseService<Z_Equipment>,IZ_EquipmentService
     {
     }   
 	
@@ -40,10 +40,10 @@ namespace BLL
 	
 	public partial class Z_SchoolTimeService :BaseService<Z_SchoolTime>,IZ_SchoolTimeService
     {
-    }   
-	
-	public partial class Z_SectionTimeService :BaseService<Z_SectionTime>,IZ_SectionTimeService
-    {
-    }   
-	
+    }
+
+    public partial class Z_SectionTimeService : BaseService<Z_SectionTime>, IZ_SectionTimeService
+    {       
+    }
+
 }

@@ -79,7 +79,6 @@ E:\Demo\SmartClass\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
 E:\Demo\SmartClass\obj\Release\SmartClass.csprojResolveAssemblyReference.cache
 E:\Demo\SmartClass\obj\Release\SmartClass.dll
 E:\Demo\SmartClass\obj\Release\SmartClass.pdb
-E:\SmartClass\SmartClass\bin\ApplicationInsights.config
 E:\SmartClass\SmartClass\bin\roslyn\csc.exe
 E:\SmartClass\SmartClass\bin\roslyn\csc.exe.config
 E:\SmartClass\SmartClass\bin\roslyn\csc.rsp

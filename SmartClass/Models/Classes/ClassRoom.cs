@@ -17,9 +17,9 @@ namespace Models.Classes
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// 所属学院名称
+        /// 所属l楼栋名称
         /// </summary>
-        public string CollegeName { get; set; }
+        public string BuildingName { get; set; }
         /// <summary>
         /// 层
         /// </summary>
@@ -40,5 +40,14 @@ namespace Models.Classes
         /// 教室中所有正常设备
         /// </summary>
         public List<SensorBase> NormalSonserList { get; set; }
+
+        /// <summary>
+        /// 是否有异常设备
+        /// </summary>
+        public bool AbnormalEquipment { get; set; }
+        /// <summary>
+        /// 异常教室数量
+        /// </summary>
+        public int ExceptionCount { get; set; }
     }
 }

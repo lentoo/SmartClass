@@ -1,0 +1,147 @@
+2017-07-31 10:12:24.8031|DEBUG|Common.Logged.NLogHelper|System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 SmartClass.Models.Job.SearchBuildingAllRoomEquipmentJob.SearchBuildingAllRoomEquipmentInfo1(String buildingName, Z_Room room) 位置 E:\SmartClass\SmartClass\Models\Job\SearchBuildingAllRoomEquipmentJob.cs:行号 124
+   在 SmartClass.Models.Job.SearchBuildingAllRoomEquipmentJob.Execute(IJobExecutionContext context) 位置 E:\SmartClass\SmartClass\Models\Job\SearchBuildingAllRoomEquipmentJob.cs:行号 58
+2017-07-31 10:53:31.7683|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 139
+2017-07-31 10:54:21.7678|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 139
+2017-07-31 10:55:01.7676|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 139
+2017-07-31 10:55:51.7673|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 139
+2017-07-31 10:56:31.7681|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 139
+2017-07-31 10:57:21.7676|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 139
+2017-07-31 10:58:01.7676|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 139
+2017-07-31 10:58:51.7676|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 139
+2017-07-31 10:59:31.7677|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 139
+2017-07-31 11:00:21.7674|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 139
+2017-07-31 11:01:01.7678|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 139
+2017-07-31 11:01:51.7733|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 139
+2017-07-31 11:02:31.7675|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 139
+2017-07-31 11:03:21.7683|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 139
+2017-07-31 11:04:01.7674|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 139
+2017-07-31 11:05:11.7678|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 139

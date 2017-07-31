@@ -1,19 +1,14 @@
-﻿using Autofac;
-using Autofac.Integration.Mvc;
-using Autofac.Integration;
-using SmartClass.Models;
-using SmartClass.Models.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
+﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using SmartClass.Models.Autofac;
 using SmartClass.Models.Job;
+using Model;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Core.Mapping;
+using System.Data.Entity.Core.Metadata.Edm;
 
 namespace SmartClass
 {
@@ -36,7 +31,21 @@ namespace SmartClass
             //执行计划任务
             QuartzConfig.InitJob();
             QuartzConfig.StartJob();
+
+            //EF Pre-Generated Mapping Views（预生成映射视图）
+            using (var dbcontext = new NFineBaseEntities())
+            {
+                var objectContext = ((IObjectContextAdapter)dbcontext).ObjectContext;
+                var mappingCollection = (StorageMappingItemCollection)objectContext.MetadataWorkspace.GetItemCollection(DataSpace.CSSpace);
+                mappingCollection.GenerateViews(new List<EdmSchemaError>());
+            }
         }
         
+        public override void Dispose()
+        {
+            base.Dispose();
+            //停止所有任务
+            QuartzConfig.StopJob();
+        }
     }
 }

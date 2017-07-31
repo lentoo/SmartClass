@@ -7,6 +7,7 @@ using IBLL;
 using Model;
 using Common;
 using Common.Exception;
+using Common.Extended;
 
 namespace SmartClass.Models.Job
 {
@@ -29,21 +30,21 @@ namespace SmartClass.Models.Job
         private void SynchronizeElectronicClockTime()
         {
             //查询所有的教室
-            List<Z_Room> rooms = roomService.GetEntity(r => r.F_RoomType == "ClassRoom").ToList() ;
+            List<Z_Room> rooms = roomService.GetEntity(r => r.F_RoomType == "ClassRoom").ToList();
 
             foreach (var room in rooms)
             {
                 Process(room.F_RoomNo, "00");
             }
         }
-        private void Process(string classroom,string nodeAdd)
+        private void Process(string classroom, string nodeAdd)
         {
             try
             {
                 byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Clock"));
 
-                byte[] classAddr = CmdUtils.StrToHexByte(classroom);
-                byte[] nodeAddr = CmdUtils.StrToHexByte(nodeAdd);
+                byte[] classAddr =classroom.StrToHexByte();
+                byte[] nodeAddr = nodeAdd.StrToHexByte();
                 DateTime currentTime = DateTime.Now;                //获取当前时间
                                                                     //转换时间格式
                 string year = (currentTime.Year % 100).ToString();
@@ -53,9 +54,9 @@ namespace SmartClass.Models.Job
                 string minute = currentTime.Minute < 10 ? "0" + currentTime.Minute : currentTime.Minute.ToString();
                 string second = currentTime.Second < 10 ? "0" + currentTime.Second : currentTime.Second.ToString();
                 string date = $"{year} {month} {day}";      //日期部分
-                byte[] yMd = CmdUtils.StrToHexByte(date);   //将日期部分转为byte[]类型
+                byte[] yMd = date.StrToHexByte();   //将日期部分转为byte[]类型
                 string time = $"{hour} {minute} {second}";  //时间部分
-                byte[] hms = CmdUtils.StrToHexByte(time);   //将时间部分转为byte[]类型
+                byte[] hms = time.StrToHexByte();   //将时间部分转为byte[]类型
                 byte week = (byte)(Convert.ToInt32(currentTime.DayOfWeek.ToString("d")));
 
                 byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x0D, 0, 0, 0, week, 0, 0, 0, 0x23, 0, 0, 0x70, 0, 0 };
@@ -63,7 +64,7 @@ namespace SmartClass.Models.Job
                 nodeAddr.CopyTo(cmd, 5);
                 yMd.CopyTo(cmd, 7);
                 hms.CopyTo(cmd, 11);
-                cmd = CmdUtils.ActuatorCommand(cmd);
+                cmd = cmd.ActuatorCommand();
                 PortService.SendCmd(cmd);
             }
             catch (Exception exception)

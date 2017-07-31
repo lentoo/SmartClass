@@ -14,6 +14,7 @@ using Model.Enum;
 using SmartClass.Models.Exceptions;
 using Model.Actuators;
 using Common.Exception;
+using Common.Extended;
 
 namespace SmartClass.Models
 {
@@ -298,6 +299,7 @@ namespace SmartClass.Models
                 byte low = data[index++];
                 if (height == 0 && low == 0) airConditioning.Online = StateType.Offline;
                 else airConditioning.Online = StateType.Online;
+                airConditioning.IsOpen = height >> 7 == 1;
                 int model = height >> 4;
                 switch (model)
                 {
@@ -317,7 +319,7 @@ namespace SmartClass.Models
                         airConditioning.Model = "制热";
                         break;
                 }
-                airConditioning.Speed = height >> 2;
+                airConditioning.Speed = (height >> 2) & 3;
                 airConditioning.SweepWind = height >> 1 == 1 ? "扫风" : "不扫风";
                 float val = (0x0f & low);
                 airConditioning.Value = val + 16 + "℃";
@@ -428,11 +430,11 @@ namespace SmartClass.Models
             try
             {
                 byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x01, 0 };
-                byte[] bclassroom = CmdUtils.StrToHexByte(classroom);
-                byte[] bnodeAdd = CmdUtils.StrToHexByte("00");
+                byte[] bclassroom = classroom.StrToHexByte();
+                byte[] bnodeAdd = "00".StrToHexByte();
                 bclassroom.CopyTo(cmd, 2);
                 bnodeAdd.CopyTo(cmd, 5);
-                cmd = CmdUtils.ActuatorCommand(cmd);
+                cmd = cmd.ActuatorCommand();
                 SendSearchCmd(cmd);
                 oa.Status = true;
                 oa.ResultCode = ResultCode.Ok;
@@ -468,11 +470,11 @@ namespace SmartClass.Models
                     throw new EquipmentNoFindException("没有查询到该教室有该ID的设备");
                 }
                 byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x01, onoff };
-                byte[] bclassroom = CmdUtils.StrToHexByte(classroom);
-                byte[] bnodeAdd = CmdUtils.StrToHexByte(nodeAdd);
+                byte[] bclassroom = classroom.StrToHexByte();
+                byte[] bnodeAdd = nodeAdd.StrToHexByte();
                 bclassroom.CopyTo(cmd, 2);
                 bnodeAdd.CopyTo(cmd, 5);
-                cmd = CmdUtils.ActuatorCommand(cmd);
+                cmd = cmd.ActuatorCommand();
                 SendCmd(cmd);
                 oa.Status = true;
                 oa.ResultCode = ResultCode.Ok;
@@ -508,11 +510,11 @@ namespace SmartClass.Models
                     throw new EquipmentNoFindException("没有查询到该教室有该ID的设备");
                 }
                 byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x02, height, low };
-                byte[] bclassroom = CmdUtils.StrToHexByte(classroom);
-                byte[] bnodeAdd = CmdUtils.StrToHexByte(nodeAdd);
+                byte[] bclassroom = classroom.StrToHexByte();
+                byte[] bnodeAdd = nodeAdd.StrToHexByte();
                 bclassroom.CopyTo(cmd, 2);
                 bnodeAdd.CopyTo(cmd, 5);
-                cmd = CmdUtils.ActuatorCommand(cmd);
+                cmd = cmd.ActuatorCommand();
 
                 SendCmd(cmd);
                 oa.Status = true;

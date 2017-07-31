@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Common.Cache;
 using IBLL;
 using Model;
-using SmartClass.Models.Course;
+using SmartClass.Models.Courses;
 
 namespace SmartClass.Controllers
 {
@@ -68,8 +68,7 @@ namespace SmartClass.Controllers
                 {
                     toDayCourses.Add(course);
                 }
-            }
-            //var rooms = RoomService.GetEntity(r => toDayCourses.Any(c => c.F_RoomCode == r.F_EnCode)).ToList();
+            }            
 
             return Json(new
             {

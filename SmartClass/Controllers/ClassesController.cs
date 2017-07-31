@@ -49,7 +49,7 @@ namespace SmartClass.Controllers
 
                         ClassRoom classRoom = new ClassRoom();
                         classRoom.Id = rooms.F_RoomNo;
-                        classRoom.CollegeName = item.F_FullName;
+                        classRoom.BuildingName = item.F_FullName;
                         classRoom.LayerName = f.F_FullName;
                         classRoom.Name = rooms.F_FullName;
                         classRoom.ClassNo = rooms.F_EnCode;

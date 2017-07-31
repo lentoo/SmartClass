@@ -216,7 +216,7 @@
     <Compile Include="Models\Classes\Buildings.cs" />
     <Compile Include="Models\Classes\ClassRoom.cs" />
     <Compile Include="Models\Classes\Floors.cs" />
-    <Compile Include="Models\Course\Course.cs" />
+    <Compile Include="Models\Courses\Course.cs" />
     <Compile Include="Models\Enum\SensorType.cs" />
     <Compile Include="Models\Exceptions\EquipmentNoFindException.cs" />
     <Compile Include="Models\Exceptions\MyException.cs" />
@@ -226,6 +226,7 @@
     <Compile Include="Models\Job\QuartzConfig.cs" />
     <Compile Include="Models\Job\SearchBuildingAllRoomEquipmentJob.cs" />
     <Compile Include="Models\Job\SynchronizeElectronicClockTimeJob.cs" />
+    <Compile Include="Models\Job\TimingProcessDailyCoursesJob.cs" />
     <Compile Include="Models\SearchService.cs" />
     <Compile Include="Models\SerialPortService.cs" />
     <Compile Include="Models\SerialPortUtils.cs" />
@@ -233,7 +234,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="404.html" />
     <Content Include="Global.asax" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

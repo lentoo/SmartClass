@@ -10,6 +10,7 @@ using Common.Exception;
 using Model.Enum;
 using Model.Result;
 using SmartClass.Models.Filter;
+using Common.Extended;
 
 namespace SmartClass.Controllers
 {
@@ -116,7 +117,7 @@ namespace SmartClass.Controllers
                 return Json(loginResult);
             }
             string key = userLogOn.F_UserSecretkey;
-            string pwd = Md5.md5(DESEncrypt.Encrypt(Pwd, key).ToLower()).ToLower();
+            string pwd = DESEncrypt.Encrypt(Pwd, key).ToLower().ToMd5().ToLower();
 
             if (userLogOn.F_UserPassword == pwd) //登录成功
             {
@@ -137,10 +138,10 @@ namespace SmartClass.Controllers
                 CacheHelper.AddCache(token, userLogOn, DateTime.Now.AddDays(7));
                 HttpCookie tokenCookie = new HttpCookie("Access");
                 tokenCookie.Value = token;
+                tokenCookie.Domain= "/";
                 tokenCookie.Path = "/";
-
                 tokenCookie.Expires = DateTime.Now.AddDays(7);
-                Response.AppendCookie(tokenCookie);
+                Response.Cookies.Add(tokenCookie);
                 loginResult = new LoginResult
                 {
                     Message = "登录成功",

@@ -7,6 +7,7 @@ using Model.Actuators;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Threading;
+using Common.Extended;
 
 namespace SmartClass.Models
 {
@@ -67,7 +68,7 @@ namespace SmartClass.Models
                                 }
                                 byte[] _data = new byte[length - 3];
                                 Array.Copy(byteList.ToArray(), 0, _data, 0, length - 3);
-                                byte[] _dataCrc = Common.CRC16.Crc(_data);
+                                byte[] _dataCrc =_data.Crc();
                                 if (_dataCrc[0] == byteList[length - 3] && _dataCrc[1] == byteList[length - 2]) //CRC的校验
                                 {
                                     buf = new byte[length];

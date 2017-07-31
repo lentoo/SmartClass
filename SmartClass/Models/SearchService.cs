@@ -51,7 +51,7 @@ namespace SmartClass.Models
             }
             if (classRoom != null)
             {
-                classRoom.Name = room?.F_FullName;
+                classRoom.Name = room.F_FullName;
                 classRoom.ClassNo = room.F_EnCode;          //教室编码
                 classRoom.Id = room.F_RoomNo;
                 var list = classRoom.SonserList;
