@@ -127,7 +127,7 @@ namespace SmartClass.Models.Job
                         {
                             classRoom.LayerName = floor.F_FullName;
                             classRoom.BuildingName = building.F_FullName;
-                            classRoom.Name = item.F_FullName;
+                            classRoom.Name = item.F_FullName;  
                             classRoom.ClassNo = item.F_RoomNo;
                             if (classRoom.AbnormalSonserList.Count > 0)
                             {
