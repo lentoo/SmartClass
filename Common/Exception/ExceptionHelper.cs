@@ -18,9 +18,5 @@ namespace Common.Exception
             //ExceptionQueue.Enqueue(e);
             ExceptionQueue.Enqueue(e);
         }
-        //public static string GetException()
-        //{
-        //    return ExceptionQueue.Dequeue;
-        //}
     }
 }

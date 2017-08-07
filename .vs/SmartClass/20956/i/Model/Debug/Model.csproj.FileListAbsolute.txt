@@ -1,0 +1,5 @@
+E:\SmartClass\.vs\SmartClass\20956\b\Model\bin\Debug\Model.dll.config
+E:\SmartClass\.vs\SmartClass\20956\b\Model\bin\Debug\Model.dll
+E:\SmartClass\.vs\SmartClass\20956\b\Model\bin\Debug\Model.pdb
+E:\SmartClass\.vs\SmartClass\20956\i\Model\Debug\Model.dll
+E:\SmartClass\.vs\SmartClass\20956\i\Model\Debug\Model.pdb

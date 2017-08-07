@@ -74,6 +74,12 @@ namespace Common.Cache
         {
             return mc.Remove(key);
         }
+
+        public bool DeleteCache<T>(T value)
+        {
+            //未实现该方法
+            return false;
+        }
     }
     public sealed class MemCached
     {

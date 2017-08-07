@@ -12,7 +12,7 @@ namespace DAL
 {
     public class BaseDal<T>:IBaseDal<T> where T : class ,new()
     {
-        public DbContext Db
+        public DbContext dbContext
         {
             get
             {
@@ -23,9 +23,9 @@ namespace DAL
         //public NFineBaseEntities Db { get; set; } //通过Autofac 单例模式自动注入
 
         public bool AddEntity(T entity)
-        {
-            Db.Set<T>().Add(entity);
-            if (Db.SaveChanges() > 0)
+        {            
+            dbContext.Set<T>().Add(entity);
+            if (dbContext.SaveChanges() > 0)
             {
                 return true;
             }
@@ -38,7 +38,7 @@ namespace DAL
         #region 查询
         public IQueryable<T> GetEntitys(Expression<Func<T, bool>> whereLambda)
         {
-            return Db.Set<T>().Where(whereLambda).AsNoTracking();
+            return dbContext.Set<T>().Where(whereLambda).AsNoTracking();
         }
 
         /// <summary>
@@ -48,8 +48,8 @@ namespace DAL
         /// <returns></returns>
         public bool UpdateEntityInfo(T entity)
         {
-            Db.Entry(entity).State =EntityState.Modified;
-            if (Db.SaveChanges() > 0)
+            dbContext.Entry(entity).State =EntityState.Modified;
+            if (dbContext.SaveChanges() > 0)
             {
                 return true;
             }
@@ -68,7 +68,7 @@ namespace DAL
         /// <returns></returns>
         public bool ExceptionSql(string sql,object[]paramters)
         {
-           int i= Db.Database.ExecuteSqlCommand(sql, paramters);
+           int i= dbContext.Database.ExecuteSqlCommand(sql, paramters);
             
             if (i > 0)
             {
@@ -82,8 +82,8 @@ namespace DAL
 
         public bool AddEntitys(IEnumerable<T> entitys)
         {
-            Db.Set<T>().AddRange(entitys);
-            return Db.SaveChanges() > 0;
+            dbContext.Set<T>().AddRange(entitys);
+            return dbContext.SaveChanges() > 0;
         }
     }
 }

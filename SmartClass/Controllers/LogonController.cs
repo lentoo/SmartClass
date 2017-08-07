@@ -21,6 +21,7 @@ namespace SmartClass.Controllers
     public class LogonController : Controller
     {
         public ISys_UserService UserService { get; set; }
+        public ICacheHelper Cache { get; set; }
         public ISys_UserLogOnService UserLogService { get; set; }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace SmartClass.Controllers
                 return Json(loginResult);
             }
             //从缓存中通过token获取用户信息
-            Sys_UserLogOn userLogOn = CacheHelper.GetCache<Sys_UserLogOn>(token);
+            Sys_UserLogOn userLogOn = Cache.GetCache<Sys_UserLogOn>(token);
             if (userLogOn != null)
             {
                 //解析token
@@ -56,7 +57,7 @@ namespace SmartClass.Controllers
                 if (obj is Payload)  //验证通过
                 {
                     //payload = obj as Payload;
-                    CacheHelper.SetCache(token, userLogOn, DateTime.Now.AddDays(7));
+                    Cache.SetCache(token, userLogOn, DateTime.Now.AddDays(7));
                     loginResult = new LoginResult()
                     {
                         ResultCode = ResultCode.Ok,
@@ -135,7 +136,7 @@ namespace SmartClass.Controllers
                 };
                 //创建一个token
                 string token = JwtUtils.EncodingToken(payload, userLogOn.F_UserSecretkey);
-                CacheHelper.AddCache(token, userLogOn, DateTime.Now.AddDays(7));
+                Cache.AddCache(token, userLogOn, DateTime.Now.AddDays(7));
                 HttpCookie tokenCookie = new HttpCookie("Access");
                 tokenCookie.Value = token;
                 tokenCookie.Domain= "/";

@@ -1,0 +1,6 @@
+E:\SmartClass\.vs\SmartClass\20956\b\SmartClass\bin\Common.dll.config
+E:\SmartClass\.vs\SmartClass\20956\b\SmartClass\bin\Common.dll
+E:\SmartClass\.vs\SmartClass\20956\b\SmartClass\bin\Common.pdb
+E:\SmartClass\.vs\SmartClass\20956\i\Common\Debug\Common.dll
+E:\SmartClass\.vs\SmartClass\20956\i\Common\Debug\Common.pdb
+E:\SmartClass\.vs\SmartClass\20956\i\Common\Debug\Common.csprojResolveAssemblyReference.cache

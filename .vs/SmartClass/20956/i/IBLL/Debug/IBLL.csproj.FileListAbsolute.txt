@@ -1,0 +1,5 @@
+E:\SmartClass\.vs\SmartClass\20956\b\IBLL\bin\Debug\IBLL.dll
+E:\SmartClass\.vs\SmartClass\20956\b\IBLL\bin\Debug\IBLL.pdb
+E:\SmartClass\.vs\SmartClass\20956\i\IBLL\Debug\IBLL.dll
+E:\SmartClass\.vs\SmartClass\20956\i\IBLL\Debug\IBLL.pdb
+E:\SmartClass\.vs\SmartClass\20956\i\IBLL\Debug\IBLL.csprojResolveAssemblyReference.cache

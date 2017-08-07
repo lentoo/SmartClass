@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>二维码</title>
+    <script src="/Scripts/jquery-1.10.2.js"></script>
+    <script src="/Scripts/jquery.signalR-2.2.2.js"></script>
+    <script src="/SignalR/hubs" type="text/javascript"></script>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        img {
+            display: block;
+            width: 80%;
+            height: 80%;
+            margin: 0 auto;
+        }
+    </style>
+   
+    <script>
+        $(function () {
+            "use strict"
+            var char = $.connection['QRCodeHub'];
+            var messageList = $('#messagelist')
+            char.client.Reciver = function (name, message) {
+                messagelist.append('<li><strong>' + name + '</strong>：' + message + '</li></br>');
+            }
+            $.connection.hub.start().done(function () {
+                connectionServer(char)
+            });
+            $('#btn').click(function () {
+                char.server.search(GetGuid());
+            });
+        });
+        function connectionServer(char) {
+            char.server.connection(GetGuid());
+        }
+        function GetGuid() {
+            var guid = localStorage.getItem('Guid');
+            if (guid == null) {
+                guid = localStorage.setItem("Guid", newGuid());
+            }
+            return guid;
+        }
+
+        function newGuid() {
+            var guid = "";
+            for (var i = 1; i <= 32; i++) {
+                var n = Math.floor(Math.random() * 16.0).toString(16);
+                guid += n;
+                if ((i == 8) || (i == 12) || (i == 16) || (i == 20))
+                    guid += "-";
+            }
+            return guid;
+        }
+    </script>
+</head>
+<body>
+    <ul id="messagelist"></ul>
+    <button id="btn">接收</button>
+</body>
+</html>

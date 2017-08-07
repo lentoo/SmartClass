@@ -54,6 +54,8 @@
     <Compile Include="Actuators\AirConditioning.cs" />
     <Compile Include="Actuators\Digital.cs" />
     <Compile Include="Actuators\SonserBase.cs" />
+    <Compile Include="Courses\Course.cs" />
+    <Compile Include="Result\AttendanceResult.cs" />
     <Compile Include="Result\LoginResult.cs" />
     <Compile Include="Result\ModelResult.cs" />
     <Compile Include="MyModel.Context.cs">
@@ -84,13 +86,34 @@
     <Compile Include="Sys_UserLogOn.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Z_Attendance.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Z_AttendanceDetails.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Z_Class.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Z_ClassCompute.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Z_Course.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Z_Department.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Z_Equipment.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Z_EquipmentLog.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Z_Grade.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Z_Profession.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Z_Room.cs">
@@ -100,6 +123,9 @@
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Z_SectionTime.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Z_Student.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>

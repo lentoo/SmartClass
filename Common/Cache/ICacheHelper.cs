@@ -50,5 +50,12 @@ namespace Common.Cache
         /// <param name="key"></param>
         /// <returns></returns>
         bool DeleteCache(string key);
+        /// <summary>
+        /// 通过值删除缓存数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        bool DeleteCache<T>(T value);
     }
 }

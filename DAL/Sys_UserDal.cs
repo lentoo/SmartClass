@@ -20,7 +20,7 @@ namespace DAL
         /// <returns></returns>
         public Sys_User GetEntityByAccount(string Account)
         {
-            Sys_User user = Db.Set<Sys_User>().Where(u => u.F_Account == Account).FirstOrDefault();
+            Sys_User user = dbContext.Set<Sys_User>().Where(u => u.F_Account == Account).FirstOrDefault();
             return user;
         }
     }

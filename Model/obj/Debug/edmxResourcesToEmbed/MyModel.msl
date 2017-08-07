@@ -126,6 +126,7 @@
     <EntitySetMapping Name="Z_Equipment">
       <EntityTypeMapping TypeName="NFineBaseModel.Z_Equipment">
         <MappingFragment StoreEntitySet="Z_Equipment">
+          <ScalarProperty Name="F_UID" ColumnName="F_UID" />
           <ScalarProperty Name="F_DeleteUserId" ColumnName="F_DeleteUserId" />
           <ScalarProperty Name="F_DeleteTime" ColumnName="F_DeleteTime" />
           <ScalarProperty Name="F_LastModifyUserId" ColumnName="F_LastModifyUserId" />
@@ -198,6 +199,131 @@
           <ScalarProperty Name="F_Time" ColumnName="F_Time" />
           <ScalarProperty Name="F_CourseTimeType" ColumnName="F_CourseTimeType" />
           <ScalarProperty Name="F_Id" ColumnName="F_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Z_Attendance">
+      <EntityTypeMapping TypeName="NFineBaseModel.Z_Attendance">
+        <MappingFragment StoreEntitySet="Z_Attendance">
+          <ScalarProperty Name="F_ClassNo" ColumnName="F_ClassNo" />
+          <ScalarProperty Name="F_Flag" ColumnName="F_Flag" />
+          <ScalarProperty Name="F_CourseNo" ColumnName="F_CourseNo" />
+          <ScalarProperty Name="F_TNum" ColumnName="F_TNum" />
+          <ScalarProperty Name="F_InitiatedTime" ColumnName="F_InitiatedTime" />
+          <ScalarProperty Name="F_ClassRoomNo" ColumnName="F_ClassRoomNo" />
+          <ScalarProperty Name="F_ID" ColumnName="F_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Z_AttendanceDetails">
+      <EntityTypeMapping TypeName="NFineBaseModel.Z_AttendanceDetails">
+        <MappingFragment StoreEntitySet="Z_AttendanceDetails">
+          <ScalarProperty Name="F_Result" ColumnName="F_Result" />
+          <ScalarProperty Name="F_Flag" ColumnName="F_Flag" />
+          <ScalarProperty Name="F_ClassNo" ColumnName="F_ClassNo" />
+          <ScalarProperty Name="F_AttenTime" ColumnName="F_AttenTime" />
+          <ScalarProperty Name="F_StuNo" ColumnName="F_StuNo" />
+          <ScalarProperty Name="F_StuName" ColumnName="F_StuName" />
+          <ScalarProperty Name="Z_A_F_ID" ColumnName="Z_A_F_ID" />
+          <ScalarProperty Name="F_ID" ColumnName="F_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Z_Class">
+      <EntityTypeMapping TypeName="NFineBaseModel.Z_Class">
+        <MappingFragment StoreEntitySet="Z_Class">
+          <ScalarProperty Name="F_ClassNo" ColumnName="F_ClassNo" />
+          <ScalarProperty Name="F_ClassName" ColumnName="F_ClassName" />
+          <ScalarProperty Name="Z_G_F_ID" ColumnName="Z_G_F_ID" />
+          <ScalarProperty Name="Z_P_F_ID" ColumnName="Z_P_F_ID" />
+          <ScalarProperty Name="F_Id" ColumnName="F_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Z_ClassCompute">
+      <EntityTypeMapping TypeName="NFineBaseModel.Z_ClassCompute">
+        <MappingFragment StoreEntitySet="Z_ClassCompute">
+          <ScalarProperty Name="F_ComputeMac" ColumnName="F_ComputeMac" />
+          <ScalarProperty Name="F_RoomId" ColumnName="F_RoomId" />
+          <ScalarProperty Name="F_Id" ColumnName="F_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Z_Department">
+      <EntityTypeMapping TypeName="NFineBaseModel.Z_Department">
+        <MappingFragment StoreEntitySet="Z_Department">
+          <ScalarProperty Name="F_DeleteUserId" ColumnName="F_DeleteUserId" />
+          <ScalarProperty Name="F_DeleteTime" ColumnName="F_DeleteTime" />
+          <ScalarProperty Name="F_LastModifyUserId" ColumnName="F_LastModifyUserId" />
+          <ScalarProperty Name="F_LastModifyTime" ColumnName="F_LastModifyTime" />
+          <ScalarProperty Name="F_CreatorUserId" ColumnName="F_CreatorUserId" />
+          <ScalarProperty Name="F_CreatorTime" ColumnName="F_CreatorTime" />
+          <ScalarProperty Name="F_Description" ColumnName="F_Description" />
+          <ScalarProperty Name="F_EnabledMark" ColumnName="F_EnabledMark" />
+          <ScalarProperty Name="F_DeleteMark" ColumnName="F_DeleteMark" />
+          <ScalarProperty Name="F_SortCode" ColumnName="F_SortCode" />
+          <ScalarProperty Name="F_ClassName" ColumnName="F_ClassName" />
+          <ScalarProperty Name="F_ID" ColumnName="F_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Z_Grade">
+      <EntityTypeMapping TypeName="NFineBaseModel.Z_Grade">
+        <MappingFragment StoreEntitySet="Z_Grade">
+          <ScalarProperty Name="F_DeleteUserId" ColumnName="F_DeleteUserId" />
+          <ScalarProperty Name="F_DeleteTime" ColumnName="F_DeleteTime" />
+          <ScalarProperty Name="F_LastModifyUserId" ColumnName="F_LastModifyUserId" />
+          <ScalarProperty Name="F_LastModifyTime" ColumnName="F_LastModifyTime" />
+          <ScalarProperty Name="F_CreatorUserId" ColumnName="F_CreatorUserId" />
+          <ScalarProperty Name="F_CreatorTime" ColumnName="F_CreatorTime" />
+          <ScalarProperty Name="F_Description" ColumnName="F_Description" />
+          <ScalarProperty Name="F_EnabledMark" ColumnName="F_EnabledMark" />
+          <ScalarProperty Name="F_DeleteMark" ColumnName="F_DeleteMark" />
+          <ScalarProperty Name="F_SortCode" ColumnName="F_SortCode" />
+          <ScalarProperty Name="F_GradeName" ColumnName="F_GradeName" />
+          <ScalarProperty Name="F_ID" ColumnName="F_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Z_Profession">
+      <EntityTypeMapping TypeName="NFineBaseModel.Z_Profession">
+        <MappingFragment StoreEntitySet="Z_Profession">
+          <ScalarProperty Name="F_DeleteUserId" ColumnName="F_DeleteUserId" />
+          <ScalarProperty Name="F_DeleteTime" ColumnName="F_DeleteTime" />
+          <ScalarProperty Name="F_LastModifyUserId" ColumnName="F_LastModifyUserId" />
+          <ScalarProperty Name="F_LastModifyTime" ColumnName="F_LastModifyTime" />
+          <ScalarProperty Name="F_CreatorUserId" ColumnName="F_CreatorUserId" />
+          <ScalarProperty Name="F_CreatorTime" ColumnName="F_CreatorTime" />
+          <ScalarProperty Name="F_Description" ColumnName="F_Description" />
+          <ScalarProperty Name="F_EnabledMark" ColumnName="F_EnabledMark" />
+          <ScalarProperty Name="F_DeleteMark" ColumnName="F_DeleteMark" />
+          <ScalarProperty Name="F_SortCode" ColumnName="F_SortCode" />
+          <ScalarProperty Name="F_ProName" ColumnName="F_ProName" />
+          <ScalarProperty Name="Z_D_F_ID" ColumnName="Z_D_F_ID" />
+          <ScalarProperty Name="F_ID" ColumnName="F_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Z_Student">
+      <EntityTypeMapping TypeName="NFineBaseModel.Z_Student">
+        <MappingFragment StoreEntitySet="Z_Student">
+          <ScalarProperty Name="F_DeleteUserId" ColumnName="F_DeleteUserId" />
+          <ScalarProperty Name="F_DeleteTime" ColumnName="F_DeleteTime" />
+          <ScalarProperty Name="F_LastModifyUserId" ColumnName="F_LastModifyUserId" />
+          <ScalarProperty Name="F_LastModifyTime" ColumnName="F_LastModifyTime" />
+          <ScalarProperty Name="F_CreatorUserId" ColumnName="F_CreatorUserId" />
+          <ScalarProperty Name="F_CreatorTime" ColumnName="F_CreatorTime" />
+          <ScalarProperty Name="F_Description" ColumnName="F_Description" />
+          <ScalarProperty Name="F_EnabledMark" ColumnName="F_EnabledMark" />
+          <ScalarProperty Name="F_DeleteMark" ColumnName="F_DeleteMark" />
+          <ScalarProperty Name="F_SortCode" ColumnName="F_SortCode" />
+          <ScalarProperty Name="F_WeChat" ColumnName="F_WeChat" />
+          <ScalarProperty Name="F_StuPassword" ColumnName="F_StuPassword" />
+          <ScalarProperty Name="F_StuPhone" ColumnName="F_StuPhone" />
+          <ScalarProperty Name="F_StuNo" ColumnName="F_StuNo" />
+          <ScalarProperty Name="Z_C_F_Id" ColumnName="Z_C_F_Id" />
+          <ScalarProperty Name="F_StuName" ColumnName="F_StuName" />
+          <ScalarProperty Name="F_ID" ColumnName="F_ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

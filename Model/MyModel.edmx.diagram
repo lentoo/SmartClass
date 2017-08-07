@@ -4,8 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="fa6d7faf39c64c78859eb3a8e85553d8" Name="Diagram1" ZoomLevel="77">
-        <EntityTypeShape EntityType="NFineBaseModel.Sys_User" Width="1.5" PointX="2.375" PointY="0.5" IsExpanded="true" />
+      <Diagram DiagramId="fa6d7faf39c64c78859eb3a8e85553d8" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="NFineBaseModel.Sys_User" Width="1.5" PointX="2.25" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="NFineBaseModel.Sys_UserLogOn" Width="1.5" PointX="4" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="NFineBaseModel.Sys_Log" Width="1.5" PointX="5.625" PointY="0.5" />
         <EntityTypeShape EntityType="NFineBaseModel.Z_Room" Width="1.5" PointX="9.125" PointY="0.5" />
@@ -13,7 +13,20 @@
         <EntityTypeShape EntityType="NFineBaseModel.Z_Equipment" Width="1.5" PointX="0.5" PointY="0.5" />
         <EntityTypeShape EntityType="NFineBaseModel.Z_Course" Width="1.5" PointX="11" PointY="0.625" />
         <EntityTypeShape EntityType="NFineBaseModel.Z_SchoolTime" Width="1.5" PointX="5.625" PointY="4.375" />
-        <EntityTypeShape EntityType="NFineBaseModel.Z_SectionTime" PointX="7.25" PointY="4.625" Width="1.5" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_SectionTime" PointX="7.375" PointY="4.625" Width="1.5" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_Attendance" Width="1.5" PointX="9.75" PointY="8" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_AttendanceDetails" Width="1.5" PointX="12" PointY="8" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_Class" Width="1.5" PointX="5.25" PointY="9" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_ClassCompute" Width="1.5" PointX="9.75" PointY="11.75" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_Department" Width="1.5" PointX="0.75" PointY="8.5" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_Grade" Width="1.5" PointX="5.125" PointY="11.75" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_Profession" Width="1.5" PointX="3" PointY="8.375" />
+        <AssociationConnector Association="NFineBaseModel.FK_Z_ATTEND_RELATIONS_Z_ATTEND" />
+        <AssociationConnector Association="NFineBaseModel.FK_Z_CLASS_RELATIONS_Z_GRADE" />
+        <AssociationConnector Association="NFineBaseModel.FK_Z_CLASS_RELATIONS_Z_PROFES" />
+        <AssociationConnector Association="NFineBaseModel.FK_Z_PROFES_RELATIONS_Z_DEPART" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_Student" Width="1.5" PointX="7.5" PointY="8.125" />
+        <AssociationConnector Association="NFineBaseModel.FK_Z_STUDEN_RELATIONS_Z_CLASS" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

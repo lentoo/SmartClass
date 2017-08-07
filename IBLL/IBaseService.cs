@@ -11,7 +11,7 @@ namespace IBLL
     public interface IBaseService<T> where T : class ,new()
     {
         IBaseDal<T> dal { get; set; }
-
+        
         /// <summary>
         ///  修改实体信息
         /// </summary>

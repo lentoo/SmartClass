@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -46,6 +47,7 @@ namespace Common.Extended
             md5.Clear();
             return sb.ToString();
         }
+
     }
     /// <summary>
     /// 对byte[]类型方法扩展

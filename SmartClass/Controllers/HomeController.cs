@@ -19,6 +19,8 @@ using Common.Cache;
 using Common.Exception;
 using Common.Extended;
 using SmartClass.Models.Classes;
+using Model.Actuators;
+using SmartClass.Models.Enum;
 
 namespace SmartClass.Controllers
 {
@@ -32,6 +34,7 @@ namespace SmartClass.Controllers
         /// 设备服务
         /// </summary>
         public IZ_EquipmentService ZEquipmentService { get; set; }
+        public ICacheHelper Cache { get; set; }
         /// <summary>
         /// 课室服务
         /// </summary>
@@ -46,79 +49,6 @@ namespace SmartClass.Controllers
         /// </summary>
         EquipmentResult EResult = new EquipmentResult();
 
-        #region 移植到SearchSerive类中
-        ///// <summary>
-        ///// 查询的教室设备节点信息
-        ///// </summary>
-        ///// <param name="classroom">教室</param>
-        ///// <param name="result">记录结果</param>
-        ///// <returns>返回记录结果</returns>
-        //[NonAction]
-        //private ClassRoom Search(Z_Room room, ref EquipmentResult result)
-        //{
-
-        //    #region 查询教室父级信息
-        //    //var rooms = ZRoomService.GetEntity(u => u.F_RoomNo == classroom);
-        //    //var allRoom = ZRoomService.GetEntity(u => true);
-        //    //var layers = from u in rooms
-        //    //             join la in allRoom on u.F_ParentId equals la.F_Id
-        //    //             select new
-        //    //             {
-        //    //                 roomName = u.F_FullName,
-        //    //                 layerName = la.F_FullName,
-        //    //                 la.F_ParentId,
-        //    //                 u.F_Id
-        //    //             };
-        //    //var colleges = (from u in layers
-        //    //                join c in allRoom on u.F_ParentId equals c.F_Id
-        //    //                select new
-        //    //                {
-        //    //                    collegeName = c.F_FullName,
-        //    //                    u.layerName,
-        //    //                    u.roomName,
-        //    //                    u.F_Id
-        //    //                });
-        //    //var college = colleges.FirstOrDefault();
-        //    #endregion
-
-        //    //获取该教室所有的设备
-        //    var zeList = ZEquipmentService.GetEntity(u => u.F_RoomId == room.F_Id).ToList();
-        //    byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Search"));
-        //    //向串口发送指令
-        //    result = PortService.SendConvertCmd(fun, room.F_RoomNo, null, 0x00);
-
-        //    result.Message = "查询设备信息成功";
-
-        //    ClassRoom classRoom = PortService.GetReturnData();
-        //    if (classRoom == null)
-        //    {
-        //        Thread.Sleep(1000);
-        //        //向串口发送指令
-        //        result = PortService.SendConvertCmd(fun, room.F_RoomNo, null, 0x00);
-        //    }
-        //    if (classRoom != null)
-        //    {
-        //        //classRoom.CollegeName = college?.collegeName; //学院名称
-        //        //classRoom.LayerName = college?.layerName;    //楼层名称
-        //        //classRoom.Name = college?.roomName;          //教室名称
-        //        classRoom.Name = room?.F_FullName;
-        //        classRoom.ClassNo = room.F_EnCode;          //教室编码
-        //        classRoom.Id = room.F_RoomNo;
-        //        classRoom.SonserList = classRoom.SonserList.Where(s => zeList.Any(ze => ze.F_EquipmentNo == s.Id)).ToList();
-        //        classRoom.AbnormalSonserList = classRoom.SonserList.Where(u => u.Online == StateType.Offline).ToList();
-        //        classRoom.NormalSonserList = classRoom.SonserList.Where(u => u.Online == StateType.Online).ToList();
-        //        result.Count = classRoom.SonserList.Count;
-        //        result.ExceptionCount = classRoom.AbnormalSonserList.Count;
-        //        result.NormalCount = classRoom.NormalSonserList.Count;
-        //    }
-        //    else
-        //    {
-        //        result.Message = "查询设备信息失败！请重试";
-        //    }
-        //    return classRoom;
-        //} 
-        #endregion
-
         /// <summary>
         /// 查询教室所有设备数据
         /// </summary>
@@ -131,6 +61,7 @@ namespace SmartClass.Controllers
             {
                 //查询该教室
                 Z_Room room = ZRoomService.GetEntity(u => u.F_RoomNo == classroom).FirstOrDefault();
+
                 if (room == null)   //没有该教室
                 {
                     result.Message = "教室地址有误！";
@@ -138,6 +69,9 @@ namespace SmartClass.Controllers
                 else
                 {
                     ClassRoom classRoom = searchService.Search(room, ref result);
+                    //将该教室的灯情况保存下来
+                    List<SensorBase> sensorBase = classRoom.SonserList.Where(u => u.Type == 1).ToList();
+
                     result.AppendData = classRoom;
                 }
             }
@@ -188,7 +122,6 @@ namespace SmartClass.Controllers
             return Json(result);
         }
 
-
         /// <summary>
         /// 开关灯
         /// </summary>
@@ -200,12 +133,47 @@ namespace SmartClass.Controllers
         {
             byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Lamp"));
             byte b;
-            // byte fun = 0x01;
-            b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
-            EResult = PortService.SendConvertCmd(fun, classroom, nodeAdd, b);
+            int res = nodeAdd.IndexOf('_');
+            if (res != -1)      //表示一个灯节点控制多个灯
+            {
+                int state = Cache.GetCache<int>(classroom);
+                string[] node = nodeAdd.Split('_'); //下滑线后面表示控制第几个灯
+                if (node[1] == "1")                 //控制第1个灯
+                {
+                    if (onoff == StateType.CLOSE)
+                    {
+                        state &= ~0x02;
+                    }
+                    else
+                    {
+                        state |= 0x02;
+                    }
+                }
+                else if (node[1] == "0")             //控制第0个灯
+                {
+
+                    if (onoff == StateType.CLOSE)
+                    {
+                        state &= ~0x01;
+                    }
+                    else
+                    {
+                        state |= 0x01;
+                    }
+                }
+                Cache.SetCache(classroom, state);
+                EResult = PortService.SendConvertCmd(fun, classroom, node[0], (byte)state);
+            }
+            else                //表示一个灯节点控制一个灯
+            {
+                b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
+                EResult = PortService.SendConvertCmd(fun, classroom, nodeAdd, b);
+            }
+
             EResult.Message = EResult.Status ? "设置灯成功" : "设置灯失败";
-            return Json(EResult, JsonRequestBehavior.AllowGet);
+            return Json(EResult);
         }
+
         /// <summary>
         /// 设置风机
         /// </summary>
@@ -247,13 +215,14 @@ namespace SmartClass.Controllers
         /// <param name="nodeAdd">节点地址</param>
         /// <param name="onoff">开关</param>
         /// <returns></returns>
+        [HttpPost]
         public ActionResult SetWindow(string classroom, string nodeAdd, string onoff)
         {
             byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Window"));
             byte b = (byte)(onoff == StateType.OPEN ? 0x04 : onoff == StateType.STOP ? 0x05 : 0x00);
             EResult = PortService.SendConvertCmd(fun, classroom, nodeAdd, b);
             EResult.Message = EResult.Status ? "设置窗户成功" : "设置窗户失败";
-            return Json(EResult, JsonRequestBehavior.AllowGet);
+            return Json(EResult);
         }
 
         /// <summary>
@@ -263,14 +232,16 @@ namespace SmartClass.Controllers
         /// <param name="nodeAdd">节点地址</param>
         /// <param name="onoff">开关</param>
         /// <returns></returns>
+        [HttpPost]
         public ActionResult SetCurtain(string classroom, string nodeAdd, string onoff)
         {
             byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Curtain"));
             byte b = (byte)(onoff == StateType.OPEN ? 0x04 : onoff == StateType.STOP ? 0x05 : 0x00);
             EResult = PortService.SendConvertCmd(fun, classroom, nodeAdd, b);
             EResult.Message = EResult.Status ? "设置窗帘成功" : "设置窗帘失败";
-            return Json(EResult, JsonRequestBehavior.AllowGet);
+            return Json(EResult);
         }
+
         /// <summary>
         /// 设置空调参数
         /// </summary>
@@ -317,8 +288,9 @@ namespace SmartClass.Controllers
 
                 byte[] classAddr = classroom.StrToHexByte();
                 byte[] nodeAddr = nodeAdd.StrToHexByte();
-                DateTime currentTime = DateTime.Now;                //获取当前时间
-                                                                    //转换时间格式
+                //获取当前时间
+                DateTime currentTime = Convert.ToDateTime(DatetimeExtened.GetNetDateTime());
+                //转换时间格式
                 string year = (currentTime.Year % 100).ToString();
                 string month = currentTime.Month < 10 ? "0" + currentTime.Month : currentTime.Month.ToString();
                 string day = currentTime.Day < 10 ? "0" + currentTime.Day : currentTime.Day.ToString();
@@ -352,6 +324,7 @@ namespace SmartClass.Controllers
             }
             return Json(oa);
         }
+
         /// <summary>
         /// 设置投影屏状态
         /// </summary>
@@ -376,6 +349,7 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult Init(string classroom)
         {
+            //cg5aU5K1iU
             byte b = 0x00;
             byte fun = 0x1f;
             EResult = PortService.SendConvertCmd(fun, classroom, "00", b);
@@ -392,11 +366,18 @@ namespace SmartClass.Controllers
                     {
                         F_Id = Guid.NewGuid().ToString(),
                         F_RoomId = room.F_Id,
-                        F_EquipmentNo = item.Id,
                         F_FullName = item.Name,
                         F_EquipmentType = item.Type + "",
                         F_EnabledMark = true
                     };
+                    if (item.Id.IndexOf('_') != -1)
+                    {
+                        zEquipment.F_EquipmentNo = item.Id.Split('_')[0];
+                    }
+                    else
+                    {
+                        zEquipment.F_EquipmentNo = item.Id;
+                    }
                     zeList.Add(zEquipment);
                 }
             }
@@ -419,10 +400,13 @@ namespace SmartClass.Controllers
             EquipmentResult oa = new EquipmentResult();
             try
             {
-                Z_Room room = ZRoomService.GetEntity(u => u.F_FullName == buildingName).FirstOrDefault();//查找该楼栋
-                var floors = ZRoomService.GetEntity(u => u.F_ParentId == room.F_Id);     //该楼栋所有楼层
-                                                                                         //楼层中所有教室
+                //查找该楼栋
+                Z_Room room = ZRoomService.GetEntity(u => u.F_FullName == buildingName).FirstOrDefault();
+                //该楼栋所有楼层
+                var floors = ZRoomService.GetEntity(u => u.F_ParentId == room.F_Id);
+                //楼层中所有教室
                 var classroom = ZRoomService.GetEntity(u => floors.Any(f => f.F_Id == u.F_ParentId));
+                //查找出所有教室里的所有该设备编码的设备
                 var equis = ZEquipmentService.GetEntity(e => classroom.Any(r => e.F_RoomId == r.F_Id)).Where(e => e.F_EquipmentType == equipmentType);
                 //筛选出教室编码和设备编码
                 var val = (from c in classroom
@@ -436,7 +420,23 @@ namespace SmartClass.Controllers
                 foreach (var item in val)
                 {
                     byte fun = (byte)GetFunByEquipmentType(equipmentType);
-                    byte b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
+                    byte b;
+                    if (equipmentType == EquipmentType.LAMP)    //控制灯的功能码
+                    {
+                        //该灯节点ID有多个灯设备
+                        if (val.Where(u => u.F_EquipmentNo == item.F_EquipmentNo).Count() > 1)
+                        {
+                            b = (byte)(onoff == StateType.OPEN ? 0x03 : 0x00);
+                        }
+                        else    //该灯节点ID只有单个灯设备
+                        {
+                            b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
+                        }
+                    }
+                    else                //其它传感器的功能码
+                    {
+                        b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
+                    }
                     byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x01, b };
                     byte[] bclassroom = item.F_RoomNo.StrToHexByte();
                     byte[] bnodeAdd = item.F_EquipmentNo.StrToHexByte();
@@ -459,6 +459,7 @@ namespace SmartClass.Controllers
             }
             return Json(oa);
         }
+
         /// <summary>
         /// 控制楼栋中楼层设备
         /// </summary>
@@ -487,7 +488,23 @@ namespace SmartClass.Controllers
             foreach (var item in val)
             {
                 byte fun = (byte)GetFunByEquipmentType(equipmentType);
-                byte b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
+                byte b;
+                if (equipmentType == EquipmentType.LAMP)//控制灯的功能码
+                {
+                    //该灯节点ID有多个灯设备
+                    if (val.Where(u => u.F_EquipmentNo == item.F_EquipmentNo).Count() > 1)
+                    {
+                        b = (byte)(onoff == StateType.OPEN ? 0x03 : 0x00);
+                    }
+                    else//该灯节点ID只有单个灯设备
+                    {
+                        b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
+                    }
+                }
+                else //其它传感器的功能码
+                {
+                    b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
+                }
                 byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x01, b };
                 byte[] bclassroom = item.F_RoomNo.StrToHexByte();
                 byte[] bnodeAdd = item.F_EquipmentNo.StrToHexByte();
@@ -500,7 +517,6 @@ namespace SmartClass.Controllers
             return Json(val);
         }
 
-
         /// <summary>
         /// 通过楼栋查询所有教室异常设备信息
         /// </summary>
@@ -512,7 +528,11 @@ namespace SmartClass.Controllers
         {
             try
             {
-                List<Buildings> list = CacheHelper.GetCache<List<Buildings>>("allClassEquipmentInfo");
+                List<Buildings> list = Cache.GetCache<List<Buildings>>("allClassEquipmentInfo");
+                foreach (var item in list)
+                {
+                    EResult.ExceptionCount += item.ExceptionCount;
+                }
                 if (string.IsNullOrEmpty(buildingName) && string.IsNullOrEmpty(layerName))   //两个都为null 表示查询所有楼栋的教室设备信息
                 {
                     EResult.AppendData = list;
@@ -552,6 +572,70 @@ namespace SmartClass.Controllers
         }
 
         /// <summary>
+        /// 查询有设备异常的所有教室
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult SearchBuildingAllRoomAbnormalEquipmentInfo()
+        {
+            try
+            {
+                List<Buildings> list = Cache.GetCache<List<Buildings>>("allClassEquipmentInfo");
+                List<Buildings> _list = new List<Buildings>();
+                foreach (var building in list)
+                {
+                    building.Floors = building.Floors.Where(u => u.AbnormalEquipment == true).ToList();
+                    _list.Add(building);
+                }
+                EResult.AppendData = _list;
+                EResult.Status = true;
+                EResult.Message = "查询成功";
+                EResult.ResultCode = ResultCode.Ok;
+
+            }
+            catch (Exception exception)
+            {
+                EResult.AppendData = exception.Message;
+                EResult.Status = true;
+                EResult.Message = "查询失败";
+                EResult.ResultCode = ResultCode.Ok;
+            }
+            return Json(EResult);
+        }
+
+        /// <summary>
+        /// 查询设备都正常的所有教室
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult SearchBuildingAllRoomNormalEquipmentInfo()
+        {
+            try
+            {
+                List<Buildings> list = Cache.GetCache<List<Buildings>>("allClassEquipmentInfo");
+                List<Buildings> _list = new List<Buildings>();
+                foreach (var building in list)
+                {
+                    building.Floors = building.Floors.Where(u => u.AbnormalEquipment == false).ToList();
+                    _list.Add(building);
+                }
+                EResult.AppendData = _list;
+                EResult.Status = true;
+                EResult.Message = "查询成功";
+                EResult.ResultCode = ResultCode.Ok;
+
+            }
+            catch (Exception exception)
+            {
+                EResult.AppendData = exception.Message;
+                EResult.Status = true;
+                EResult.Message = "查询失败";
+                EResult.ResultCode = ResultCode.Ok;
+            }
+            return Json(EResult);
+        }
+
+        /// <summary>
         /// 通过设备类型获取功能码
         /// </summary>
         /// <param name="equipmentType">设备类型</param>
@@ -563,19 +647,19 @@ namespace SmartClass.Controllers
             var settings = ConfigurationManager.AppSettings;
             switch (equipmentType)
             {
-                case "1":
+                case EquipmentType.LAMP:
                     fun = settings["Lamp"];
                     break;
-                case "2":
+                case EquipmentType.DOOR:
                     fun = settings["Door"];
                     break;
-                case "3":
+                case EquipmentType.CURTAIN:
                     fun = settings["Curtain"];
                     break;
-                case "4":
+                case EquipmentType.WINDOW:
                     fun = settings["Window"];
                     break;
-                case "12":
+                case EquipmentType.AIR:
                     fun = settings["Air"];
                     break;
             }

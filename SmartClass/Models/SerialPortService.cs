@@ -15,12 +15,14 @@ using SmartClass.Models.Exceptions;
 using Model.Actuators;
 using Common.Exception;
 using Common.Extended;
+using Common.Cache;
 
 namespace SmartClass.Models
 {
     public class SerialPortService
     {
         public IZ_EquipmentService ZEquipmentService { get; set; }
+        public ICacheHelper Cache { get; set; }
         /// <summary>
         /// 数字量传感器种类
         /// </summary>
@@ -30,7 +32,10 @@ namespace SmartClass.Models
         /// 模拟量传感器种类
         /// </summary>
         private string[] Analogue = ConfigurationManager.AppSettings["Analogue"].Split(',');
-
+        /// <summary>
+        /// 教室地址
+        /// </summary>
+        private string classRoomId;
         private List<SensorBase> Sensors { get; set; }
 
         private byte[] Data { get; set; }
@@ -71,7 +76,6 @@ namespace SmartClass.Models
             Data = SerialPortUtils.DataQueue.Dequeue();
             ClassRoom classRoom = null;
             classRoom = Init(classRoom);
-            // ClassRoom classroom = SerialPortUtils.DataQueues.Dequeue();
             return classRoom;
         }
 
@@ -103,9 +107,9 @@ namespace SmartClass.Models
             }
             if (Data[0] == 0x55)
             {
-                string classRoomId = Convert.ToString(Data[2], 16) + Convert.ToString(Data[3], 16);
+                classRoomId = Convert.ToString(Data[2], 16) + Convert.ToString(Data[3], 16);
                 classRoom.Id = classRoomId;
-                Sensors = new List<SensorBase>();
+                Sensors = new List<SensorBase>();   //用来存所有的传感器
                 //处理数字量数据
                 for (int i = 0; i < Digital.Length; i++)
                 {
@@ -136,24 +140,87 @@ namespace SmartClass.Models
         {
             string name = Digital[type];
             type += 1;
-            for (int i = 0; i < num; i++)
+            if (name == "照明灯")
             {
-                Actuator actuator = new Actuator();
-                actuator.Id = Convert.ToString(data[index++], 16);
-                actuator.Name = name;
-                actuator.Type = type;
-                int state = data[index++];
-                actuator.State = GetState(state);
-                actuator.IsOpen = state == 1 ? false : true;
-                actuator.Online = state == 0 ? StateType.Offline : StateType.Online;
-                actuator.Controllable = name == "人体" ? false : name == "气体" ? false : true;
-                Sensors.Add(actuator);
+                for (int i = 0; i < num; i++)
+                {
+                    index = ProcessLamp(index, data, type, name);
+                }
+            }
+            else        //其他数字量传感器逻辑
+            {
+                for (int i = 0; i < num; i++)
+                {
+                    Actuator actuator = new Actuator();
+                    actuator.Id = Convert.ToString(data[index++], 16);
+                    actuator.Name = name;
+                    actuator.Type = type;
+                    int state = data[index++];
+                    actuator.State = GetState(state);
+                    actuator.IsOpen = state == 1 ? false : true;
+                    actuator.Online = state == 0 ? StateType.Offline : StateType.Online;
+                    actuator.Controllable = name == "人体" ? false : name == "气体" ? false : true;
+                    Sensors.Add(actuator);
+                }
             }
         }
+
+        /// <summary>
+        /// 处理照明灯的逻辑
+        /// </summary>
+        /// <param name="index">模块数量</param>
+        /// <param name="data">数据</param>
+        /// <param name="type">类型编码</param>
+        /// <param name="name">模块名称</param>
+        /// <returns></returns>
+        private int ProcessLamp(int index, byte[] data, int type, string name)
+        {
+            Actuator Lamp1 = new Actuator();
+            string moduleId = Convert.ToString(data[index++], 16);
+            Lamp1.Name = name;
+            Lamp1.Type = type;
+            int state = data[index++];
+            int moduleNum = state >> 7;
+
+            if (moduleNum == 1)         //一个节点控制两盏灯
+            {
+                //将单个节点控制多个灯的状态值保存起来
+                Cache.AddCache<int>(classRoomId, state);
+                int moduleState = state & 0x1;
+                Lamp1.Id = moduleId + "_0";
+                Lamp1.State = moduleState != 0 ? StateType.StateOpen : StateType.StateClose;
+                Lamp1.IsOpen = moduleState == 1 ? true : false;
+                //数据位第4位表示在线状态
+                Lamp1.Online = OnLineState(state);
+                Lamp1.Controllable = true;
+                Sensors.Add(Lamp1);
+                Actuator Lamp2 = new Actuator();
+                Lamp2.Name = name;
+                Lamp2.Type = type;
+                Lamp2.Id = moduleId + "_1";
+                int module1State = (state >> 1) & 0x1;
+                Lamp2.State = module1State != 0 ? StateType.StateOpen : StateType.StateClose;
+                Lamp2.IsOpen = module1State == 1 ? true : false;
+                Lamp2.Online = OnLineState(state);
+                Lamp2.Controllable = true;
+                Sensors.Add(Lamp2);
+            }
+            else
+            {
+                Lamp1.Id = moduleId;
+                Lamp1.State = (state & 1) != 0 ? StateType.StateOpen : StateType.StateClose;
+                Lamp1.IsOpen = (state & 1) == 1 ? true : false;
+                Lamp1.Online = OnLineState(state);
+                Lamp1.Controllable = true;
+                Sensors.Add(Lamp1);
+            }
+            return index;
+        }
+
         /// <summary>
         /// 模拟量数据数据
         /// </summary>
-        /// <param name="num">在线数</param>
+        /// <param name="num">模块数量</param>
         /// <param name="index">下标</param>
         /// <param name="data">数据</param>
         /// <param name="type">类型编码</param>
@@ -387,6 +454,15 @@ namespace SmartClass.Models
         }
 
         /// <summary>
+        /// 获取灯传感器在线状态
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        private string OnLineState(int state)
+        {
+            return state >> 4 == 0 ? StateType.Offline : StateType.Online;
+        }
+        /// <summary>
         /// 根据状态码返回状态
         /// </summary>
         /// <param name="i"></param>
@@ -464,11 +540,11 @@ namespace SmartClass.Models
             EquipmentResult oa = new EquipmentResult();
             try
             {
-
-                if (!ZEquipmentService.CheckClassEquipment(classroom, nodeAdd))
-                {
-                    throw new EquipmentNoFindException("没有查询到该教室有该ID的设备");
-                }
+                if (nodeAdd != "00")
+                    if (!ZEquipmentService.CheckClassEquipment(classroom, nodeAdd))
+                    {
+                        throw new EquipmentNoFindException("没有查询到该教室有该ID的设备");
+                    }
                 byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x01, onoff };
                 byte[] bclassroom = classroom.StrToHexByte();
                 byte[] bnodeAdd = nodeAdd.StrToHexByte();

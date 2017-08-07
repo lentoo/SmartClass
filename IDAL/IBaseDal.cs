@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace IDAL
 {
     public interface IBaseDal<T> where T:class,new()
     {
-      //  DbContext Db { get; set; }
+        DbContext dbContext { get;  }
         /// <summary>
         /// 根据条件得到实体信息
         /// </summary>

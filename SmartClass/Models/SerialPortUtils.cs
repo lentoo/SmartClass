@@ -29,7 +29,15 @@ namespace SmartClass.Models
         /// </summary>
         private static string COM = ConfigurationManager.AppSettings["COM"];
 
+        /// <summary>
+        /// 查询数据队列
+        /// </summary>
         public static Queue<byte[]> DataQueue = new Queue<byte[]>();
+        /// <summary>
+        /// 接收到报警数据队列
+        /// </summary>
+        public static Queue<byte[]> AlarmData = new Queue<byte[]>();
+
         static SerialPortUtils()
         {
             Port = new SerialPort(COM);
@@ -41,7 +49,8 @@ namespace SmartClass.Models
             Port.DataReceived += Port_DataReceived;
             Port.Open();
         }
-        static List<byte> byteList = new List<byte>();
+
+        private static readonly List<byte> ByteList = new List<byte>();
         private static void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             try
@@ -49,63 +58,88 @@ namespace SmartClass.Models
                 int len = Port.BytesToRead;
                 byte[] buf = new byte[len];
                 Port.Read(buf, 0, len);
-                byteList.AddRange(buf);
+                ByteList.AddRange(buf);
                 Debug.WriteLine("读到的数据长度" + len);
-                while (byteList.Count >= 10)
+                #region 对串口数据进行处理
+                while (ByteList.Count >= 10)
                 {
-                    Debug.WriteLine(1);
                     //查找数据标头
-                    if (byteList[0] == 0x55)
+                    if (ByteList[0] == 0x55)
                     {
-                        if (byteList[1] == 0x02)
+                        if (ByteList[1] == 0x02)
                         {
-                            if (byteList[4] == 0x1f)
+                            if (ByteList[4] == 0x1f)
                             {
-                                int length = byteList[6] + 10;//数据包长度
-                                if (byteList.Count < length)  //数据未接收完毕，跳出循环
+                                int length = ByteList[6] + 10;//数据包长度
+                                if (ByteList.Count < length)  //数据未接收完毕，跳出循环
                                 {
                                     break;
                                 }
                                 byte[] _data = new byte[length - 3];
-                                Array.Copy(byteList.ToArray(), 0, _data, 0, length - 3);
-                                byte[] _dataCrc =_data.Crc();
-                                if (_dataCrc[0] == byteList[length - 3] && _dataCrc[1] == byteList[length - 2]) //CRC的校验
+                                Array.Copy(ByteList.ToArray(), 0, _data, 0, length - 3);
+                                byte[] _dataCrc = _data.Crc();
+                                if (_dataCrc[0] == ByteList[length - 3] && _dataCrc[1] == ByteList[length - 2]) //CRC的校验
                                 {
                                     buf = new byte[length];
-                                    byteList.CopyTo(0, buf, 0, length);
-                                    byteList.RemoveRange(0, length);
+                                    ByteList.CopyTo(0, buf, 0, length);
+                                    ByteList.RemoveRange(0, length);
 
                                     DataQueue.Enqueue(buf);
                                 }
                             }
-                            else
+                            else if (ByteList[4] == 0x07)   //表示接收到教室控制器发送过来的报警数据
                             {
-                                byteList.RemoveAt(0);
-                                byteList.RemoveAt(0);
-                                byteList.RemoveAt(0);
-                                byteList.RemoveAt(0);
+                                int length = ByteList[6] + 10;
+                                if (ByteList.Count < length)  //数据未接收完毕，跳出循环
+                                {
+                                    break;
+                                }
+                                byte[] _data = new byte[length - 3];
+                                Array.Copy(ByteList.ToArray(), 0, _data, 0, length - 3);
+                                byte[] _dataCrc = _data.Crc();
+                                if (_dataCrc[0] == ByteList[length - 3] && _dataCrc[1] == ByteList[length - 2]) //CRC的校验
+                                {
+                                    buf = new byte[length];
+                                    ByteList.CopyTo(0, buf, 0, length);
+                                    ByteList.RemoveRange(0, length);
+
+                                    AlarmData.Enqueue(buf);
+                                }
+                            }
+                            else //目前不需要的数据
+                            {
+                                ByteList.RemoveAt(0);
+                                ByteList.RemoveAt(0);
+                                ByteList.RemoveAt(0);
+                                ByteList.RemoveAt(0);
                             }
                         }
                         else
                         {
-                            byteList.RemoveAt(0);
-                            byteList.RemoveAt(0);
+                            ByteList.RemoveAt(0);
+                            ByteList.RemoveAt(0);
                         }
                     }
                     else
                     {
-                        byteList.RemoveAt(0);
+                        ByteList.RemoveAt(0);
                     }
-                }
+                } 
+                #endregion
             }
             catch (Exception exception)
             {
                 ExceptionHelper.AddException(exception);
             }
         }
-
+        /// <summary>
+        /// 记录发送的指令
+        /// </summary>
         private static byte[] Cmd = null;
-        private static object lockObject = new object();
+        /// <summary>
+        /// 向串口写数据的锁
+        /// </summary>
+        private static readonly object GetWriteLock = new object();
         /// <summary>
         /// 向无线串口发送查询数据
         /// </summary>
@@ -114,11 +148,12 @@ namespace SmartClass.Models
         {
             try
             {
-                lock (lockObject)
-                {
+                //每次想串口写查询命令时，必须间隔150ms，视情况而定，
+                lock (GetWriteLock)
+                {                   
                     Cmd = cmd;
                     Port.Write(cmd, 0, cmd.Length);
-                    Thread.Sleep(300);
+                    Thread.Sleep(TimeSpan.FromMilliseconds(150));
                 }
             }
             catch (Exception e)

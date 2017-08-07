@@ -1,0 +1,5 @@
+E:\SmartClass\.vs\SmartClass\20956\b\DALFactory\bin\Debug\DALFactory.dll
+E:\SmartClass\.vs\SmartClass\20956\b\DALFactory\bin\Debug\DALFactory.pdb
+E:\SmartClass\.vs\SmartClass\20956\i\DALFactory\Debug\DALFactory.dll
+E:\SmartClass\.vs\SmartClass\20956\i\DALFactory\Debug\DALFactory.pdb
+E:\SmartClass\.vs\SmartClass\20956\i\DALFactory\Debug\DALFactory.csprojResolveAssemblyReference.cache

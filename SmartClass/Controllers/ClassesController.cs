@@ -7,6 +7,10 @@ using Common.Cache;
 using IBLL;
 using SmartClass.Models.Classes;
 using Models.Classes;
+using SmartClass.Models;
+using Model.Enum;
+using Model;
+using Common.Extended;
 
 namespace SmartClass.Controllers
 {
@@ -16,13 +20,14 @@ namespace SmartClass.Controllers
     public class ClassesController : Controller
     {
         public IZ_RoomService ZRoomService { get; set; }
+        public ICacheHelper Cache { get; set; }
         /// <summary>
         /// 查询所有的教室
         /// </summary>
         /// <returns></returns>
         public ActionResult SearchAllClass()
         {
-            List<Buildings> list = CacheHelper.GetCache<List<Buildings>>("AllClasses");
+            List<Buildings> list = Cache.GetCache<List<Buildings>>("AllClasses");
             if (list != null)
             {
                 return Json(list, JsonRequestBehavior.AllowGet);
@@ -61,7 +66,7 @@ namespace SmartClass.Controllers
                 building.Floors = FList;
                 list.Add(building);
             }
-            CacheHelper.AddCache("AllClasses", list, DateTime.Now.AddDays(1));
+            Cache.AddCache("AllClasses", list, DateTime.Now.AddDays(1));
             return Json(list, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -79,6 +84,23 @@ namespace SmartClass.Controllers
                 u.F_RoomNo,
             }).ToList();
             return Json(room, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 报警信息
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AlarmInformation()
+        {
+            if (SerialPortUtils.AlarmData.Count > 0) //有报警数据
+            {
+                byte[]data=SerialPortUtils.AlarmData.Dequeue();
+                string classId = Convert.ToString(data[2],16) + Convert.ToString(data[3],16);
+                Z_Room room= ZRoomService.GetEntity(r => r.F_RoomNo == classId).FirstOrDefault();
+                int value = data[7];
+                return Json(new { ResultCode = ResultCode.Error,ClassName=room.F_FullName,AppendData=value,ClassNo=room.F_EnCode});
+            }
+            return Json(new { ResultCode = ResultCode.Ok });
         }
     }
 }

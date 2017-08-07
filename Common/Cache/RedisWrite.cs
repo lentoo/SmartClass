@@ -1,12 +1,8 @@
 ﻿
 using ServiceStack.Redis;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ServiceStack.Common;
+using Common.Exception;
 
 namespace Common.Cache
 {
@@ -30,16 +26,24 @@ namespace Common.Cache
         public bool AddCache<T>(string key, T value)
         {
             using (IRedisClient redis = prcm.GetClient())
-            {
+            {                
                 return redis.Add(key, value);
             }
         }
 
         public bool AddCache<T>(string key, T value, DateTime exp)
         {
-            using (IRedisClient redis = prcm.GetClient())
+            try
             {
-                return redis.Add(key, value);
+                using (IRedisClient redis = prcm.GetClient())
+                {
+                    return redis.Add(key, value);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionHelper.AddException(ex);
+                return false;
             }
         }
 
@@ -48,6 +52,27 @@ namespace Common.Cache
             using (IRedisClient redis = prcm.GetClient())
             {
                 return redis.Remove(key);
+            }
+        }
+        /// <summary>
+        /// 删除缓存中某个值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool DeleteCache<T>(T value)
+        {
+            using (IRedisClient redis = prcm.GetClient())
+            {
+                bool isOk=false;
+                foreach (var item in redis.GetAllKeys())
+                {
+                    if (redis.Get<T>(item).Equals( value))
+                    {
+                        isOk=redis.Remove(item);
+                    }
+                }
+                return isOk;
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using Quartz;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using IBLL;
@@ -8,6 +9,7 @@ using Model;
 using Common;
 using Common.Exception;
 using Common.Extended;
+using System.Net;
 
 namespace SmartClass.Models.Job
 {
@@ -45,8 +47,9 @@ namespace SmartClass.Models.Job
 
                 byte[] classAddr =classroom.StrToHexByte();
                 byte[] nodeAddr = nodeAdd.StrToHexByte();
-                DateTime currentTime = DateTime.Now;                //获取当前时间
-                                                                    //转换时间格式
+                //获取当前时间
+                DateTime currentTime = Convert.ToDateTime(DatetimeExtened.GetNetDateTime());                
+                //转换时间格式
                 string year = (currentTime.Year % 100).ToString();
                 string month = currentTime.Month < 10 ? "0" + currentTime.Month : currentTime.Month.ToString();
                 string day = currentTime.Day < 10 ? "0" + currentTime.Day : currentTime.Day.ToString();
@@ -72,5 +75,7 @@ namespace SmartClass.Models.Job
                 ExceptionHelper.AddException(exception);
             }
         }
+      
+        
     }
 }

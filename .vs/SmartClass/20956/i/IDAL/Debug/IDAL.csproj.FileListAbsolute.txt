@@ -1,0 +1,5 @@
+E:\SmartClass\.vs\SmartClass\20956\b\SmartClass\bin\IDAL.dll
+E:\SmartClass\.vs\SmartClass\20956\b\SmartClass\bin\IDAL.pdb
+E:\SmartClass\.vs\SmartClass\20956\i\IDAL\Debug\IDAL.dll
+E:\SmartClass\.vs\SmartClass\20956\i\IDAL\Debug\IDAL.pdb
+E:\SmartClass\.vs\SmartClass\20956\i\IDAL\Debug\IDAL.csprojResolveAssemblyReference.cache

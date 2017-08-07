@@ -1,0 +1,195 @@
+2017-08-01 16:33:28.5253|DEBUG|lambda_method|ServiceStack.Redis.RedisResponseException: MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk. Commands that may modify the data set are disabled. Please check Redis logs for details about the error., sPort: 60787, LastCommand: 
+   在 ServiceStack.Redis.RedisNativeClient.CreateResponseError(String error)
+   在 ServiceStack.Redis.RedisNativeClient.ExpectSuccess()
+   在 ServiceStack.Redis.RedisNativeClient.SendExpectSuccess(Byte[][] cmdWithBinaryArgs)
+   在 ServiceStack.Redis.RedisNativeClient.Set(String key, Byte[] value)
+   在 ServiceStack.Redis.RedisClient.Set[T](String key, T value)
+   在 ServiceStack.Redis.RedisClient.Set[T](String key, T value, DateTime expiresAt)
+   在 Common.Cache.RedisWrite.SetCache[T](String key, T value, DateTime exp) 位置 E:\SmartClass\Common\Cache\RedisWrite.cs:行号 74
+   在 SmartClass.Models.Job.SearchBuildingAllRoomEquipmentJob.Execute(IJobExecutionContext context) 位置 E:\SmartClass\SmartClass\Models\Job\SearchBuildingAllRoomEquipmentJob.cs:行号 49
+2017-08-01 16:33:38.7005|DEBUG|lambda_method|ServiceStack.Redis.RedisResponseException: MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk. Commands that may modify the data set are disabled. Please check Redis logs for details about the error., sPort: 60814, LastCommand: 
+   在 ServiceStack.Redis.RedisNativeClient.CreateResponseError(String error)
+   在 ServiceStack.Redis.RedisNativeClient.ExpectSuccess()
+   在 ServiceStack.Redis.RedisNativeClient.SendExpectSuccess(Byte[][] cmdWithBinaryArgs)
+   在 ServiceStack.Redis.RedisNativeClient.Set(String key, Byte[] value)
+   在 ServiceStack.Redis.RedisClient.Set[T](String key, T value)
+   在 ServiceStack.Redis.RedisClient.Set[T](String key, T value, DateTime expiresAt)
+   在 Common.Cache.RedisWrite.SetCache[T](String key, T value, DateTime exp) 位置 E:\SmartClass\Common\Cache\RedisWrite.cs:行号 74
+   在 Common.Cache.CacheHelper.SetCache[T](String key, T value, DateTime exp) 位置 E:\SmartClass\Common\Cache\CacheHelper.cs:行号 41
+   在 SmartClass.Models.Filter.EquipmentLogFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 E:\SmartClass\SmartClass\Models\Filter\EquipmentLogFilterAttribute.cs:行号 61
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.InvokeActionMethodFilterAsynchronouslyRecursive(Int32 filterIndex)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.InvokeActionMethodFilterAsynchronouslyRecursive(Int32 filterIndex)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass33.<BeginInvokeActionMethodWithFilters>b__31(AsyncCallback asyncCallback, Object asyncState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.BeginInvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.BeginInvokeAction(ControllerContext controllerContext, String actionName, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Controller.<BeginExecuteCore>b__1c(AsyncCallback asyncCallback, Object asyncState, ExecuteCoreState innerState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Controller.BeginExecuteCore(AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Controller.<BeginExecute>b__14(AsyncCallback asyncCallback, Object callbackState, Controller controller)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Controller.BeginExecute(RequestContext requestContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.BeginExecute(RequestContext requestContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.MvcHandler.<BeginProcessRequest>b__4(AsyncCallback asyncCallback, Object asyncState, ProcessRequestState innerState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   在 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   在 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+2017-08-01 16:34:18.5971|DEBUG|lambda_method|ServiceStack.Redis.RedisResponseException: MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk. Commands that may modify the data set are disabled. Please check Redis logs for details about the error., sPort: 60839, LastCommand: 
+   在 ServiceStack.Redis.RedisNativeClient.CreateResponseError(String error)
+   在 ServiceStack.Redis.RedisNativeClient.ExpectSuccess()
+   在 ServiceStack.Redis.RedisNativeClient.SendExpectSuccess(Byte[][] cmdWithBinaryArgs)
+   在 ServiceStack.Redis.RedisNativeClient.Set(String key, Byte[] value)
+   在 ServiceStack.Redis.RedisClient.Set[T](String key, T value)
+   在 ServiceStack.Redis.RedisClient.Set[T](String key, T value, DateTime expiresAt)
+   在 Common.Cache.RedisWrite.SetCache[T](String key, T value, DateTime exp) 位置 E:\SmartClass\Common\Cache\RedisWrite.cs:行号 74
+   在 Common.Cache.CacheHelper.SetCache[T](String key, T value, DateTime exp) 位置 E:\SmartClass\Common\Cache\CacheHelper.cs:行号 41
+   在 SmartClass.Models.Filter.EquipmentLogFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 E:\SmartClass\SmartClass\Models\Filter\EquipmentLogFilterAttribute.cs:行号 61
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.InvokeActionMethodFilterAsynchronouslyRecursive(Int32 filterIndex)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.InvokeActionMethodFilterAsynchronouslyRecursive(Int32 filterIndex)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass33.<BeginInvokeActionMethodWithFilters>b__31(AsyncCallback asyncCallback, Object asyncState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.BeginInvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.BeginInvokeAction(ControllerContext controllerContext, String actionName, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Controller.<BeginExecuteCore>b__1c(AsyncCallback asyncCallback, Object asyncState, ExecuteCoreState innerState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Controller.BeginExecuteCore(AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Controller.<BeginExecute>b__14(AsyncCallback asyncCallback, Object callbackState, Controller controller)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Controller.BeginExecute(RequestContext requestContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.BeginExecute(RequestContext requestContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.MvcHandler.<BeginProcessRequest>b__4(AsyncCallback asyncCallback, Object asyncState, ProcessRequestState innerState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   在 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   在 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+2017-08-01 16:34:38.5204|DEBUG|lambda_method|ServiceStack.Redis.RedisResponseException: MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk. Commands that may modify the data set are disabled. Please check Redis logs for details about the error., sPort: 60897, LastCommand: 
+   在 ServiceStack.Redis.RedisNativeClient.CreateResponseError(String error)
+   在 ServiceStack.Redis.RedisNativeClient.ExpectSuccess()
+   在 ServiceStack.Redis.RedisNativeClient.SendExpectSuccess(Byte[][] cmdWithBinaryArgs)
+   在 ServiceStack.Redis.RedisNativeClient.Set(String key, Byte[] value)
+   在 ServiceStack.Redis.RedisClient.Set[T](String key, T value)
+   在 ServiceStack.Redis.RedisClient.Set[T](String key, T value, DateTime expiresAt)
+   在 Common.Cache.RedisWrite.SetCache[T](String key, T value, DateTime exp) 位置 E:\SmartClass\Common\Cache\RedisWrite.cs:行号 74
+   在 Common.Cache.CacheHelper.SetCache[T](String key, T value, DateTime exp) 位置 E:\SmartClass\Common\Cache\CacheHelper.cs:行号 41
+   在 SmartClass.Models.Filter.EquipmentLogFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 E:\SmartClass\SmartClass\Models\Filter\EquipmentLogFilterAttribute.cs:行号 61
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.InvokeActionMethodFilterAsynchronouslyRecursive(Int32 filterIndex)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.InvokeActionMethodFilterAsynchronouslyRecursive(Int32 filterIndex)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass33.<BeginInvokeActionMethodWithFilters>b__31(AsyncCallback asyncCallback, Object asyncState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.BeginInvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.BeginInvokeAction(ControllerContext controllerContext, String actionName, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Controller.<BeginExecuteCore>b__1c(AsyncCallback asyncCallback, Object asyncState, ExecuteCoreState innerState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Controller.BeginExecuteCore(AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Controller.<BeginExecute>b__14(AsyncCallback asyncCallback, Object callbackState, Controller controller)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Controller.BeginExecute(RequestContext requestContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.BeginExecute(RequestContext requestContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.MvcHandler.<BeginProcessRequest>b__4(AsyncCallback asyncCallback, Object asyncState, ProcessRequestState innerState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   在 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   在 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+2017-08-01 16:34:58.5362|DEBUG|lambda_method|ServiceStack.Redis.RedisResponseException: MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk. Commands that may modify the data set are disabled. Please check Redis logs for details about the error., sPort: 60929, LastCommand: 
+   在 ServiceStack.Redis.RedisNativeClient.CreateResponseError(String error)
+   在 ServiceStack.Redis.RedisNativeClient.ExpectSuccess()
+   在 ServiceStack.Redis.RedisNativeClient.SendExpectSuccess(Byte[][] cmdWithBinaryArgs)
+   在 ServiceStack.Redis.RedisNativeClient.Set(String key, Byte[] value)
+   在 ServiceStack.Redis.RedisClient.Set[T](String key, T value)
+   在 ServiceStack.Redis.RedisClient.Set[T](String key, T value, DateTime expiresAt)
+   在 Common.Cache.RedisWrite.SetCache[T](String key, T value, DateTime exp) 位置 E:\SmartClass\Common\Cache\RedisWrite.cs:行号 74
+   在 Common.Cache.CacheHelper.SetCache[T](String key, T value, DateTime exp) 位置 E:\SmartClass\Common\Cache\CacheHelper.cs:行号 41
+   在 SmartClass.Models.Filter.EquipmentLogFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 E:\SmartClass\SmartClass\Models\Filter\EquipmentLogFilterAttribute.cs:行号 61
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.InvokeActionMethodFilterAsynchronouslyRecursive(Int32 filterIndex)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.InvokeActionMethodFilterAsynchronouslyRecursive(Int32 filterIndex)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass33.<BeginInvokeActionMethodWithFilters>b__31(AsyncCallback asyncCallback, Object asyncState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.BeginInvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.BeginInvokeAction(ControllerContext controllerContext, String actionName, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Controller.<BeginExecuteCore>b__1c(AsyncCallback asyncCallback, Object asyncState, ExecuteCoreState innerState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Controller.BeginExecuteCore(AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Controller.<BeginExecute>b__14(AsyncCallback asyncCallback, Object callbackState, Controller controller)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.Controller.BeginExecute(RequestContext requestContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.BeginExecute(RequestContext requestContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.MvcHandler.<BeginProcessRequest>b__4(AsyncCallback asyncCallback, Object asyncState, ProcessRequestState innerState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallBeginDelegate(AsyncCallback callback, Object callbackState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.Begin(AsyncCallback callback, Object state, Int32 timeout)
+   在 System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   在 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   在 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+2017-08-01 17:03:37.2615|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Models.Job.SearchBuildingAllRoomEquipmentJob.SearchBuildingAllRoomEquipmentInfo1(String buildingName, Z_Room room) 位置 E:\SmartClass\SmartClass\Models\Job\SearchBuildingAllRoomEquipmentJob.cs:行号 118
+   在 SmartClass.Models.Job.SearchBuildingAllRoomEquipmentJob.Execute(IJobExecutionContext context) 位置 E:\SmartClass\SmartClass\Models\Job\SearchBuildingAllRoomEquipmentJob.cs:行号 46
+2017-08-01 17:03:47.2613|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Models.Job.SearchBuildingAllRoomEquipmentJob.SearchBuildingAllRoomEquipmentInfo1(String buildingName, Z_Room room) 位置 E:\SmartClass\SmartClass\Models\Job\SearchBuildingAllRoomEquipmentJob.cs:行号 118
+   在 SmartClass.Models.Job.SearchBuildingAllRoomEquipmentJob.Execute(IJobExecutionContext context) 位置 E:\SmartClass\SmartClass\Models\Job\SearchBuildingAllRoomEquipmentJob.cs:行号 46
+2017-08-01 17:04:17.2613|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 67
+2017-08-01 17:04:27.2605|DEBUG|Common.Logged.NLogHelper|System.TypeInitializationException: “SmartClass.Models.SerialPortUtils”的类型初始值设定项引发异常。 ---> System.UnauthorizedAccessException: 对端口“COM3”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 SmartClass.Models.SerialPortUtils..cctor() 位置 E:\SmartClass\SmartClass\Models\SerialPortUtils.cs:行号 42
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 SmartClass.Models.SerialPortService.GetReturnData() 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 64
+   在 SmartClass.Models.SearchService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SearchService.cs:行号 44
+   在 SmartClass.Controllers.HomeController.SearchAll(String classroom) 位置 E:\SmartClass\SmartClass\Controllers\HomeController.cs:行号 67

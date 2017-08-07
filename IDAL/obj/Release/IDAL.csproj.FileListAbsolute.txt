@@ -9,3 +9,6 @@ E:\SmartClass\IDAL\bin\Release\zh-Hans\EntityFramework.resources.dll
 E:\SmartClass\IDAL\obj\Release\IDAL.csprojResolveAssemblyReference.cache
 E:\SmartClass\IDAL\obj\Release\IDAL.dll
 E:\SmartClass\IDAL\obj\Release\IDAL.pdb
+E:\SmartClass\IDAL\bin\Release\EntityFramework.SqlServer.dll
+E:\SmartClass\IDAL\bin\Release\EntityFramework.SqlServer.xml
+E:\SmartClass\IDAL\bin\Release\zh-Hans\EntityFramework.SqlServer.resources.dll

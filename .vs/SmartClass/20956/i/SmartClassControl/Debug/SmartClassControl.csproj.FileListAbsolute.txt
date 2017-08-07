@@ -1,0 +1,9 @@
+E:\SmartClass\.vs\SmartClass\20956\b\SmartClassControl\bin\Debug\SmartClassControl.exe.config
+E:\SmartClass\.vs\SmartClass\20956\b\SmartClassControl\bin\Debug\SmartClassControl.exe.manifest
+E:\SmartClass\.vs\SmartClass\20956\b\SmartClassControl\bin\Debug\SmartClassControl.application
+E:\SmartClass\.vs\SmartClass\20956\b\SmartClassControl\bin\Debug\SmartClassControl.exe
+E:\SmartClass\.vs\SmartClass\20956\b\SmartClassControl\bin\Debug\SmartClassControl.pdb
+E:\SmartClass\.vs\SmartClass\20956\i\SmartClassControl\Debug\SmartClassControl.exe.manifest
+E:\SmartClass\.vs\SmartClass\20956\i\SmartClassControl\Debug\SmartClassControl.application
+E:\SmartClass\.vs\SmartClass\20956\i\SmartClassControl\Debug\SmartClassControl.exe
+E:\SmartClass\.vs\SmartClass\20956\i\SmartClassControl\Debug\SmartClassControl.pdb

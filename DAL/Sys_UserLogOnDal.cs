@@ -18,7 +18,7 @@ namespace DAL
         /// <returns></returns>
         public Sys_UserLogOn GetEntityByUserId(string userId)
         {
-            return Db.Set<Model.Sys_UserLogOn>().Where(u => u.F_UserId == userId).FirstOrDefault();
+            return dbContext.Set<Model.Sys_UserLogOn>().Where(u => u.F_UserId == userId).FirstOrDefault();
         }
     }
 }

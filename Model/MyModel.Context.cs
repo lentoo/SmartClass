@@ -34,5 +34,13 @@ namespace Model
         public virtual DbSet<Z_Course> Z_Course { get; set; }
         public virtual DbSet<Z_SchoolTime> Z_SchoolTime { get; set; }
         public virtual DbSet<Z_SectionTime> Z_SectionTime { get; set; }
+        public virtual DbSet<Z_Attendance> Z_Attendance { get; set; }
+        public virtual DbSet<Z_AttendanceDetails> Z_AttendanceDetails { get; set; }
+        public virtual DbSet<Z_Class> Z_Class { get; set; }
+        public virtual DbSet<Z_ClassCompute> Z_ClassCompute { get; set; }
+        public virtual DbSet<Z_Department> Z_Department { get; set; }
+        public virtual DbSet<Z_Grade> Z_Grade { get; set; }
+        public virtual DbSet<Z_Profession> Z_Profession { get; set; }
+        public virtual DbSet<Z_Student> Z_Student { get; set; }
     }
 }

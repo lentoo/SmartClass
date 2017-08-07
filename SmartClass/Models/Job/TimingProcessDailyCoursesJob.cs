@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
-using SmartClass.Models.Courses;
 using IBLL;
 using Model;
 using System.Threading;
@@ -12,6 +11,8 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using Common;
 using SmartClass.Models.Types;
+using Common.Exception;
+using Model.Courses;
 
 namespace SmartClass.Models.Job
 {
@@ -54,7 +55,7 @@ namespace SmartClass.Models.Job
             }
             catch (Exception ex)
             {
-
+                ExceptionHelper.AddException(ex);
             }
         }
         /// <summary>

@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>二维码</title>
+    <script src="/Scripts/jquery-1.10.2.js"></script>
+    <script src="/Scripts/jquery.signalR-2.2.2.js"></script>
+    <script src="/SignalR/hubs" type="text/javascript"></script>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            background-color: #c0c0c0; 
+        }
+
+        img {
+            display: block;
+            width: 80%;
+            height: 80%;
+            margin: 0 auto;
+        }
+    </style>
+
+    <script>
+        $(function () {
+            "use strict"
+            var char = $.connection['QRCodeHub'];
+            var messageList = $('#messagelist');
+            char.client.Reciver = function (name, message) {
+                messagelist.append('<li><strong>' + name + '</strong>：' + message + '</li></br>');
+            };
+            char.client.ReciverImg = function (imgData) {
+                $('#images img').remove();
+                $('#images').append('<img style="display:block;width:800px;height:800px;" src="data:image/jpg;base64,' + imgData + '"></img>')
+            };
+            $.connection.hub.start().done(function () {
+                connectionServer(char)
+            });
+        });
+        function connectionServer(char) {
+            char.server.connection();
+        }
+    </script>
+</head>
+<body>
+    <ul id="messagelist"></ul>
+    <div id="box">
+        <div id="images">            
+        </div>
+    </div>
+</body>
+</html>

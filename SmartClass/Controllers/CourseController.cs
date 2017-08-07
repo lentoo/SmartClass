@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Common.Cache;
 using IBLL;
 using Model;
-using SmartClass.Models.Courses;
+using Model.Courses;
 
 namespace SmartClass.Controllers
 {
@@ -22,6 +22,7 @@ namespace SmartClass.Controllers
 
         public IZ_SectionTimeService SectionTimeService { get; set; }
 
+        public ICacheHelper Cache { get; set; }
         public ActionResult GetToDayCourse()
         {
             DateTime currenTime = DateTime.Today;
@@ -68,7 +69,7 @@ namespace SmartClass.Controllers
                 {
                     toDayCourses.Add(course);
                 }
-            }            
+            }
 
             return Json(new
             {
@@ -83,9 +84,31 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         public ActionResult GetSectionTime()
         {
-            List<Z_SectionTime> list = CacheHelper.GetCache<List<Z_SectionTime>>("SectionTime");
+            List<Z_SectionTime> list = Cache.GetCache<List<Z_SectionTime>>("SectionTime");
             list = list ?? SectionTimeService.GetEntity(u => true).ToList();
-            CacheHelper.AddCache("SectionTime", list);
+            Cache.AddCache("SectionTime", list);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 获取学生的课程表
+        /// </summary>
+        /// <param name="StuNo">学生编号</param>
+        /// <returns></returns>
+        public ActionResult GetStudentCourse(string StuNo)
+        {
+            List<Course> list = CourseService.GetStudentCourse(StuNo);
+            return Json(list,JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 获取教师的课程表
+        /// </summary>
+        /// <param name="TeaNo"></param>
+        /// <returns></returns>
+        public ActionResult GetTeacherCourse(string TeaNo)
+        {
+            List<Course> list = CourseService.GetTeacherCourse(TeaNo);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
     }

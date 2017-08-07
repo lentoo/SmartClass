@@ -25,7 +25,32 @@ namespace DAL
 
     }
 		
+	public partial class Z_AttendanceDal :BaseDal<Z_Attendance>,IZ_AttendanceDal
+    {
+
+    }
+		
+	public partial class Z_AttendanceDetailsDal :BaseDal<Z_AttendanceDetails>,IZ_AttendanceDetailsDal
+    {
+
+    }
+		
+	public partial class Z_ClassDal :BaseDal<Z_Class>,IZ_ClassDal
+    {
+
+    }
+		
+	public partial class Z_ClassComputeDal :BaseDal<Z_ClassCompute>,IZ_ClassComputeDal
+    {
+
+    }
+		
 	public partial class Z_CourseDal :BaseDal<Z_Course>,IZ_CourseDal
+    {
+
+    }
+		
+	public partial class Z_DepartmentDal :BaseDal<Z_Department>,IZ_DepartmentDal
     {
 
     }
@@ -36,6 +61,16 @@ namespace DAL
     }
 		
 	public partial class Z_EquipmentLogDal :BaseDal<Z_EquipmentLog>,IZ_EquipmentLogDal
+    {
+
+    }
+		
+	public partial class Z_GradeDal :BaseDal<Z_Grade>,IZ_GradeDal
+    {
+
+    }
+		
+	public partial class Z_ProfessionDal :BaseDal<Z_Profession>,IZ_ProfessionDal
     {
 
     }
@@ -51,6 +86,11 @@ namespace DAL
     }
 		
 	public partial class Z_SectionTimeDal :BaseDal<Z_SectionTime>,IZ_SectionTimeDal
+    {
+
+    }
+		
+	public partial class Z_StudentDal :BaseDal<Z_Student>,IZ_StudentDal
     {
 
     }

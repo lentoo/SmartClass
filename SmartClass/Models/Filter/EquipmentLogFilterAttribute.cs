@@ -22,7 +22,7 @@ namespace SmartClass.Models.Filter
         public IZ_RoomService ZRoomService { get; set; }
         public IZ_EquipmentService ZEquipmentService { get; set; }
         public ISys_UserService SysUserService { get; set; }
-
+        public ICacheHelper Cache { get; set; }
         private readonly string EQUOPEN = "EquOpen";
         private readonly string EQUCLOSE = "EQuClose";
         private readonly string EQUSEARCH = "EQuSearch";
@@ -49,7 +49,7 @@ namespace SmartClass.Models.Filter
             else
             {
                 //从缓存中获取token信息
-                Sys_UserLogOn userLogOn = CacheHelper.GetCache<Sys_UserLogOn>(token);
+                Sys_UserLogOn userLogOn = Cache.GetCache<Sys_UserLogOn>(token);
                 if (userLogOn != null)
                 {
                     //解析token
@@ -58,7 +58,7 @@ namespace SmartClass.Models.Filter
                     {
                         payload = obj as Payload;
                         //延长token时间
-                        CacheHelper.SetCache(token, userLogOn, DateTime.Now.AddDays(7));
+                        Cache.SetCache(token, userLogOn, DateTime.Now.AddDays(7));
                     }
                     else   //拦截请求
                     {
