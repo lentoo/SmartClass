@@ -13,8 +13,8 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Common.Images;
 using Model.Enum;
-using ThoughtWorks.QRCode.Codec;
 
 namespace SmartClass.Controllers
 {
@@ -50,17 +50,8 @@ namespace SmartClass.Controllers
             AttendanceResult result = AttendanceService.InitiatedAttendance(TeaNo, CourseNo);
             if (result.ResultCode == ResultCode.Ok)
             {
-                QRCodeEncoder encoder = new QRCodeEncoder();
-                encoder.QRCodeEncodeMode = QRCodeEncoder.ENCODE_MODE.BYTE; //编码方式 (注意：BYTE能支持中文，ALPHA_NUMERIC扫描出来的都是数字)
-                encoder.QRCodeScale = 14; //大小(值越大生成的二维码图片像素越高)
-                encoder.QRCodeVersion = 0; //版本(注意：设置为0主要是防止编码的字符串太长时发生错误)
-                encoder.QRCodeErrorCorrect = QRCodeEncoder.ERROR_CORRECTION.M; //错误效验、错误更正(有4个等级)
-                //二维码数据
-                string qrdata = $"{result.AttendanceId}-{CourseNo}";
-                System.Drawing.Bitmap bp = encoder.Encode(qrdata, Encoding.UTF8);
-                MemoryStream ms = new MemoryStream();
-                bp.Save(ms, ImageFormat.Png);
-                byte[] bytes = ms.GetBuffer();
+                string data = $"{result.AttendanceId}|{CourseNo}";
+                byte[] bytes = QRCodeHelper.GetQRCode(data);
 
                 string roomId = RoomService.GetEntity(u => u.F_EnCode == result.RoomNo).FirstOrDefault()?.F_Id;
 
@@ -81,6 +72,19 @@ namespace SmartClass.Controllers
         public ActionResult StudentCheckIn(string AttendanceId, string StuNo, string CourseNo)
         {
             AttendanceResult result = AttendanceService.CheckIn(AttendanceId, StuNo, CourseNo);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 手动签到
+        /// </summary>
+        /// <param name="TeaNo">教师编号</param>
+        /// <param name="StuNo">学生编号</param>
+        /// <param name="CourseNo">课程编号</param>
+        /// <returns></returns>
+        public ActionResult ManualCheckIn(string TeaNo, string StuNo, string CourseNo)
+        {
+            var result = AttendanceService.ManualCheckIn(TeaNo, StuNo, CourseNo);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

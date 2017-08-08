@@ -7,6 +7,5 @@ E:\SmartClass\Model\bin\Debug\EntityFramework.xml
 E:\SmartClass\Model\bin\Debug\EntityFramework.SqlServer.xml
 E:\SmartClass\Model\bin\Debug\zh-Hans\EntityFramework.resources.dll
 E:\SmartClass\Model\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
-E:\SmartClass\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
 E:\SmartClass\Model\obj\Debug\Model.dll
 E:\SmartClass\Model\obj\Debug\Model.pdb

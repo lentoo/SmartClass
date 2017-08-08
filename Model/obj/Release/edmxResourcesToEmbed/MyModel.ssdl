@@ -99,6 +99,7 @@
     <Property Name="F_AttenTime" Type="datetime" />
     <Property Name="F_ClassNo" Type="varchar" MaxLength="50" />
     <Property Name="F_Flag" Type="bit" />
+    <Property Name="F_Result" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Z_Class">
     <Key>
@@ -109,6 +110,14 @@
     <Property Name="Z_G_F_ID" Type="varchar" MaxLength="50" />
     <Property Name="F_ClassName" Type="varchar" MaxLength="50" />
     <Property Name="F_ClassNo" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Z_ClassCompute">
+    <Key>
+      <PropertyRef Name="F_Id" />
+    </Key>
+    <Property Name="F_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="F_RoomId" Type="nvarchar" MaxLength="50" />
+    <Property Name="F_ComputeMac" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Z_Course">
     <Key>
@@ -149,6 +158,16 @@
     </Key>
     <Property Name="F_ID" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="F_ClassName" Type="varchar" MaxLength="50" />
+    <Property Name="F_SortCode" Type="int" />
+    <Property Name="F_DeleteMark" Type="bit" />
+    <Property Name="F_EnabledMark" Type="bit" />
+    <Property Name="F_Description" Type="varchar" MaxLength="500" />
+    <Property Name="F_CreatorTime" Type="datetime" />
+    <Property Name="F_CreatorUserId" Type="varchar" MaxLength="50" />
+    <Property Name="F_LastModifyTime" Type="datetime" />
+    <Property Name="F_LastModifyUserId" Type="varchar" MaxLength="50" />
+    <Property Name="F_DeleteTime" Type="datetime" />
+    <Property Name="F_DeleteUserId" Type="varchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="Z_Equipment">
     <Key>
@@ -199,6 +218,16 @@
     </Key>
     <Property Name="F_ID" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="F_GradeName" Type="varchar" MaxLength="50" />
+    <Property Name="F_SortCode" Type="int" />
+    <Property Name="F_DeleteMark" Type="bit" />
+    <Property Name="F_EnabledMark" Type="bit" />
+    <Property Name="F_Description" Type="varchar" MaxLength="500" />
+    <Property Name="F_CreatorTime" Type="datetime" />
+    <Property Name="F_CreatorUserId" Type="varchar" MaxLength="50" />
+    <Property Name="F_LastModifyTime" Type="datetime" />
+    <Property Name="F_LastModifyUserId" Type="varchar" MaxLength="50" />
+    <Property Name="F_DeleteTime" Type="datetime" />
+    <Property Name="F_DeleteUserId" Type="varchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="Z_Profession">
     <Key>
@@ -207,6 +236,16 @@
     <Property Name="F_ID" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Z_D_F_ID" Type="varchar" MaxLength="50" />
     <Property Name="F_ProName" Type="varchar" MaxLength="50" />
+    <Property Name="F_SortCode" Type="int" />
+    <Property Name="F_DeleteMark" Type="bit" />
+    <Property Name="F_EnabledMark" Type="bit" />
+    <Property Name="F_Description" Type="varchar" MaxLength="500" />
+    <Property Name="F_CreatorTime" Type="datetime" />
+    <Property Name="F_CreatorUserId" Type="varchar" MaxLength="50" />
+    <Property Name="F_LastModifyTime" Type="datetime" />
+    <Property Name="F_LastModifyUserId" Type="varchar" MaxLength="50" />
+    <Property Name="F_DeleteTime" Type="datetime" />
+    <Property Name="F_DeleteUserId" Type="varchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="Z_Room">
     <Key>
@@ -252,13 +291,23 @@
     <Key>
       <PropertyRef Name="F_ID" />
     </Key>
-    <Property Name="F_StuName" Type="varchar" MaxLength="50" />
     <Property Name="F_ID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="F_StuName" Type="varchar" MaxLength="50" />
     <Property Name="Z_C_F_Id" Type="varchar" MaxLength="50" />
     <Property Name="F_StuNo" Type="varchar" MaxLength="50" />
     <Property Name="F_StuPhone" Type="varchar" MaxLength="50" />
     <Property Name="F_StuPassword" Type="varchar" MaxLength="50" />
     <Property Name="F_WeChat" Type="varchar" MaxLength="50" />
+    <Property Name="F_SortCode" Type="int" />
+    <Property Name="F_DeleteMark" Type="bit" />
+    <Property Name="F_EnabledMark" Type="bit" />
+    <Property Name="F_Description" Type="varchar" MaxLength="500" />
+    <Property Name="F_CreatorTime" Type="datetime" />
+    <Property Name="F_CreatorUserId" Type="varchar" MaxLength="50" />
+    <Property Name="F_LastModifyTime" Type="datetime" />
+    <Property Name="F_LastModifyUserId" Type="varchar" MaxLength="50" />
+    <Property Name="F_DeleteTime" Type="datetime" />
+    <Property Name="F_DeleteUserId" Type="varchar" MaxLength="500" />
   </EntityType>
   <Association Name="FK_Z_ATTEND_RELATIONS_Z_ATTEND">
     <End Role="Z_Attendance" Type="Self.Z_Attendance" Multiplicity="0..1" />
@@ -327,6 +376,7 @@
     <EntitySet Name="Z_Attendance" EntityType="Self.Z_Attendance" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Z_AttendanceDetails" EntityType="Self.Z_AttendanceDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Z_Class" EntityType="Self.Z_Class" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Z_ClassCompute" EntityType="Self.Z_ClassCompute" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Z_Course" EntityType="Self.Z_Course" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Z_Department" EntityType="Self.Z_Department" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Z_Equipment" EntityType="Self.Z_Equipment" Schema="dbo" store:Type="Tables" />

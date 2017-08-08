@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Common.Cache;
 using Model.Courses;
 using Model.Enum;
@@ -19,14 +17,10 @@ namespace BLL
     /// </summary>
     public partial class Z_AttendanceService
     {
-        public ISys_UserService UserService { get; set; }
         public IZ_CourseService CourseService { get; set; }
-        public IZ_SectionTimeService SectionTimeService { get; set; }
         public IZ_StudentService StudentService { get; set; }
-        public IZ_ProfessionService ProfessionService { get; set; }
         public IZ_ClassService ClassService { get; set; }
         public IZ_AttendanceDetailsService AttendanceDetailsService { get; set; }
-        public ICacheHelper Cache { get; set; }
         /// <summary>
         /// 发起签到
         /// </summary>
@@ -54,8 +48,8 @@ namespace BLL
                 }
                 else //今天有课
                 {
-                    // 通过和课程ID，课程编号,教师编号来确定考勤ID
-                    attendance.F_ID = course.F_Id + "|" + CourseNo + "|" + TeacherNum;
+                    // 通过今天日期和课程ID，课程编号,教师编号来确定考勤ID
+                    attendance.F_ID = $"{currentTime.ToString("yyyyMMdd")}|{course.F_Id}|{CourseNo}|{TeacherNum}";
                     //判断今天是否已经发起签到了
                     var a = GetEntity(u => u.F_ID == attendance.F_ID).FirstOrDefault();
                     if (a != null)
@@ -77,11 +71,11 @@ namespace BLL
                             attendance.F_TNum = TeacherNum;
                             attendance.F_CourseNo = course.F_EnCode;
                             attendance.F_Flag = true;
-                            attendance.F_ClassRoomNo = course.RoomCode;
+                            attendance.F_ClassRoomNo = course.F_RoomNo;
                             attendance.F_ClassNo = course.Major + course.Classes;
 
                             AddEntity(attendance);
-                            Result.RoomNo = course.RoomCode;
+                            Result.RoomNo = course.F_RoomNo;
                             Result.ResultCode = ResultCode.Ok;
                             Result.Message = "发起签到成功";
                             Result.AttendanceId = attendance.F_ID;
@@ -92,7 +86,6 @@ namespace BLL
                         Result.ResultCode = ResultCode.Error;
                         Result.Message = "已经上课，不能发起签到";
                     }
-
                 }
             }
             catch (Exception exception)
@@ -190,6 +183,30 @@ namespace BLL
                 Result.Error = ex;
             }
             return Result;
+        }
+
+        /// <summary>
+        /// 手动签到
+        /// </summary>
+        /// <param name="TeaNo">教师编号</param>
+        /// <param name="StuNo">学生编号</param>
+        /// <param name="CourseNo">课程编号</param>
+        public AttendanceResult ManualCheckIn(string TeaNo, string StuNo, string CourseNo)
+        {
+            AttendanceResult result = new AttendanceResult();
+            DateTime currentTime = Convert.ToDateTime(Common.Extended.DatetimeExtened.GetNetDateTime());
+            //今天星期几
+            string week = ((float)currentTime.DayOfWeek).ToString(CultureInfo.InvariantCulture);
+            Course teacherCourse = CourseService.GetTeacherCourse(TeaNo).FirstOrDefault(u => u.F_Week == week);
+            if (teacherCourse == null) //教师今日没有该课程
+            {
+                result.ResultCode = ResultCode.Error;
+                result.Message = "教师今日没有该课程";
+                return result;
+            }
+            string attendanceId = $"{currentTime.ToString("yyyyMMdd")}|{teacherCourse.F_Id}|{CourseNo}|{TeaNo}";
+            result = CheckIn(attendanceId, StuNo, CourseNo);
+            return result;
         }
     }
 }

@@ -2,10 +2,7 @@
 using Model;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Common.Cache;
 using Common.Exception;
 using Model.Courses;
@@ -19,7 +16,6 @@ namespace BLL
         /// </summary>
         public IZ_SchoolTimeService SchoolTimeService { get; set; }
 
-        public IZ_RoomService RoomService { get; set; }
         public ISys_UserService UserService { get; set; }
         public IZ_StudentService StudentService { get; set; }
         public IZ_ClassService ClassService { get; set; }
@@ -42,6 +38,7 @@ namespace BLL
                 Z_Student student = StudentService.GetEntity(u => u.F_StuNo == StuNo).FirstOrDefault();
                 //得到该学生所在的班级
                 Z_Class cClass = ClassService.GetEntity(c => c.F_Id == student.Z_C_F_Id).FirstOrDefault();
+                //查询到该学生所在的年级
                 Z_Grade grade = GradeService.GetEntity(g => g.F_ID == cClass.Z_G_F_ID).FirstOrDefault();
                 //得到该学生所在的专业
                 Z_Profession profession = ProfessionService.GetEntity(u => u.F_ID == cClass.Z_P_F_ID).FirstOrDefault();
@@ -60,17 +57,19 @@ namespace BLL
                             Classes = item.F_Class,
                             CourseName = item.F_FullName,
                             F_BeginWeek = item.F_BeginWeek,
+                            TeacherName = item.F_TeacherName,
                             F_EndWeek = item.F_EndWeek,
                             F_CourseTimeType = item.F_CourseTimeType,
                             F_EnCode = item.F_EnCode,
-                            RoomCode = item.F_RoomCode,
+                            Major = item.F_Major,
+                            F_RoomNo = item.F_RoomCode,
                             RoomName = item.F_RoomName,
                             F_Week = item.F_Week
                         };
                         courseList.Add(course);
                     }
                 }
-                courseList = courseList.OrderBy(u => u.F_Week).OrderBy(u => u.F_CourseTimeType).ToList();
+                courseList = courseList.OrderBy(u => u.F_Week).ThenBy(u => u.F_CourseTimeType).ToList();
             }
             catch (Exception e)
             {
@@ -102,16 +101,18 @@ namespace BLL
                         CourseName = item.F_FullName,
                         F_BeginWeek = item.F_BeginWeek,
                         F_EndWeek = item.F_EndWeek,
+                        TeacherName = item.F_TeacherName,
                         F_CourseTimeType = item.F_CourseTimeType,
                         F_EnCode = item.F_EnCode,
-                        RoomCode = item.F_RoomCode,
+                        F_RoomNo = item.F_RoomCode,
+                        Major = item.F_Major,
                         RoomName = item.F_RoomName,
                         F_Week = item.F_Week
                     };
                     courseList.Add(course);
                 }
             }
-            courseList= courseList.OrderBy(u => u.F_Week).OrderBy(u => u.F_CourseTimeType).ToList();
+            courseList= courseList.OrderBy(u => u.F_Week).ThenBy(u => u.F_CourseTimeType).ToList();
             return courseList;
         }
 

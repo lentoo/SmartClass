@@ -20,5 +20,12 @@ namespace IBLL
         /// <returns></returns>
         AttendanceResult CheckIn(string AttendanceId, string StuNo, string CourseNo);
 
+        /// <summary>
+        /// 手动签到
+        /// </summary>
+        /// <param name="TeaNo">教师编号</param>
+        /// <param name="StuNo">学生编号</param>
+        /// <param name="CourseNo">课程编号</param>
+        AttendanceResult ManualCheckIn(string TeaNo, string StuNo, string CourseNo);
     }
 }

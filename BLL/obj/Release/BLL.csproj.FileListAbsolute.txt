@@ -26,3 +26,4 @@ E:\SmartClass\BLL\bin\Release\zh-Hans\EntityFramework.resources.dll
 E:\SmartClass\BLL\obj\Release\BLL.csprojResolveAssemblyReference.cache
 E:\SmartClass\BLL\obj\Release\BLL.dll
 E:\SmartClass\BLL\obj\Release\BLL.pdb
+E:\SmartClass\BLL\bin\Release\ThoughtWorks.QRCode.dll

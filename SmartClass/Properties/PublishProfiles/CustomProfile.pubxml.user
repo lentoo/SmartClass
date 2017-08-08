@@ -6,7 +6,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>E:\SmartRelease\v3.66</_PublishTargetUrl>
+    <_PublishTargetUrl>E:\SmartRelease\v3.8</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="404.html">
@@ -33,20 +33,23 @@
     <File Include="bin/Autofac.Integration.Mvc.dll">
       <publishTime>04/10/2017 15:40:32</publishTime>
     </File>
+    <File Include="bin/Autofac.Integration.SignalR.dll">
+      <publishTime>10/22/2013 15:05:32</publishTime>
+    </File>
     <File Include="bin/BLL.dll">
-      <publishTime>08/04/2017 20:19:53</publishTime>
+      <publishTime>08/08/2017 11:47:16</publishTime>
     </File>
     <File Include="bin/BLL.dll.config">
-      <publishTime>07/13/2017 19:28:03</publishTime>
+      <publishTime>08/08/2017 10:14:40</publishTime>
     </File>
     <File Include="bin/BLL.pdb">
-      <publishTime>08/04/2017 20:19:53</publishTime>
+      <publishTime>08/08/2017 11:47:16</publishTime>
     </File>
     <File Include="bin/Common.dll">
-      <publishTime>08/04/2017 20:19:53</publishTime>
+      <publishTime>08/08/2017 11:47:16</publishTime>
     </File>
     <File Include="bin/Common.dll.config">
-      <publishTime>07/13/2017 19:28:03</publishTime>
+      <publishTime>08/08/2017 10:14:40</publishTime>
     </File>
     <File Include="bin/Common.Logging.Core.dll">
       <publishTime>11/14/2015 13:35:30</publishTime>
@@ -61,16 +64,16 @@
       <publishTime>11/14/2015 13:35:30</publishTime>
     </File>
     <File Include="bin/Common.pdb">
-      <publishTime>08/04/2017 20:19:53</publishTime>
+      <publishTime>08/08/2017 11:47:16</publishTime>
     </File>
     <File Include="bin/DAL.dll">
-      <publishTime>08/04/2017 20:19:52</publishTime>
+      <publishTime>08/07/2017 20:40:39</publishTime>
     </File>
     <File Include="bin/DAL.dll.config">
       <publishTime>07/10/2017 11:22:10</publishTime>
     </File>
     <File Include="bin/DAL.pdb">
-      <publishTime>08/04/2017 20:19:52</publishTime>
+      <publishTime>08/07/2017 20:40:39</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/02/2015 09:32:26</publishTime>
@@ -82,16 +85,16 @@
       <publishTime>08/22/2016 01:13:00</publishTime>
     </File>
     <File Include="bin/IBLL.dll">
-      <publishTime>08/04/2017 20:19:52</publishTime>
+      <publishTime>08/08/2017 11:47:16</publishTime>
     </File>
     <File Include="bin/IBLL.pdb">
-      <publishTime>08/04/2017 20:19:52</publishTime>
+      <publishTime>08/08/2017 11:47:16</publishTime>
     </File>
     <File Include="bin/IDAL.dll">
-      <publishTime>08/04/2017 20:19:52</publishTime>
+      <publishTime>08/07/2017 20:40:39</publishTime>
     </File>
     <File Include="bin/IDAL.pdb">
-      <publishTime>08/04/2017 20:19:52</publishTime>
+      <publishTime>08/07/2017 20:40:39</publishTime>
     </File>
     <File Include="bin/JWT.dll">
       <publishTime>05/17/2017 11:08:06</publishTime>
@@ -139,13 +142,13 @@
       <publishTime>07/25/2012 11:48:56</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>08/04/2017 20:19:52</publishTime>
+      <publishTime>08/07/2017 20:40:38</publishTime>
     </File>
     <File Include="bin/Model.dll.config">
       <publishTime>07/10/2017 11:22:11</publishTime>
     </File>
     <File Include="bin/Model.pdb">
-      <publishTime>08/04/2017 20:19:52</publishTime>
+      <publishTime>08/07/2017 20:40:38</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>06/18/2017 13:57:10</publishTime>
@@ -268,10 +271,10 @@
       <publishTime>07/03/2016 18:43:46</publishTime>
     </File>
     <File Include="bin/SmartClass.dll">
-      <publishTime>08/04/2017 20:33:00</publishTime>
+      <publishTime>08/08/2017 11:47:20</publishTime>
     </File>
     <File Include="bin/SmartClass.pdb">
-      <publishTime>08/04/2017 20:33:00</publishTime>
+      <publishTime>08/08/2017 11:47:20</publishTime>
     </File>
     <File Include="bin/System.Net.Http.Formatting.dll">
       <publishTime>01/28/2015 04:02:42</publishTime>
@@ -343,10 +346,10 @@
       <publishTime>07/31/2017 10:29:23</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>08/04/2017 16:37:00</publishTime>
+      <publishTime>08/08/2017 10:15:03</publishTime>
     </File>
     <File Include="QRCode.html">
-      <publishTime>08/04/2017 19:41:39</publishTime>
+      <publishTime>08/07/2017 20:23:29</publishTime>
     </File>
     <File Include="Scripts/jquery-1.10.2.js">
       <publishTime>08/04/2017 17:05:06</publishTime>
@@ -382,7 +385,7 @@
       <publishTime>07/10/2017 11:22:11</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/04/2017 20:20:00</publishTime>
+      <publishTime>08/08/2017 11:47:20</publishTime>
     </File>
   </ItemGroup>
 </Project>

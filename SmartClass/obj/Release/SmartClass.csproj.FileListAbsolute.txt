@@ -221,3 +221,5 @@ E:\SmartClass\SmartClass\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
 E:\SmartClass\SmartClass\bin\Microsoft.Owin.xml
 E:\SmartClass\SmartClass\bin\Microsoft.Owin.Host.SystemWeb.xml
 E:\SmartClass\SmartClass\bin\Microsoft.Owin.Security.xml
+E:\SmartClass\SmartClass\bin\Autofac.Integration.SignalR.dll
+E:\SmartClass\SmartClass\bin\Autofac.Integration.SignalR.xml
