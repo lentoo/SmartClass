@@ -1,25 +1,22 @@
-﻿using Common;
+﻿using SmartClass.Infrastructure;
 using Model;
 using SmartClass.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using IBLL;
+using SmartClass.IService;
 using Model.Enum;
-using Model.Result;
-using SmartClass.Models.Exceptions;
 using SmartClass.Models.Filter;
 using SmartClass.Models.Types;
-using System.Diagnostics;
 using System.Configuration;
 using Models.Classes;
-using System.Threading;
-using Common.Cache;
-using Common.Exception;
-using Common.Extended;
+using SmartClass.Infrastructure.Cache;
+using SmartClass.Infrastructure.Exception;
+using SmartClass.Infrastructure.Extended;
 using SmartClass.Models.Classes;
-using Model.Actuators;
+using Model.DTO;
+using Model.DTO.Result;
 using SmartClass.Models.Enum;
 
 namespace SmartClass.Controllers
@@ -52,15 +49,16 @@ namespace SmartClass.Controllers
         /// <summary>
         /// 查询教室所有设备数据
         /// </summary>
-        /// <param name="classroom">教室地址</param>
+        /// <param name="queryParams">查询参数</param>
         /// <returns></returns>
-        public ActionResult SearchAll(string classroom)
+        [OutputCache(Duration = 30)]
+        public ActionResult SearchAll(QueryParams queryParams)
         {
             EquipmentResult result = new EquipmentResult();
             try
             {
                 //查询该教室
-                Z_Room room = ZRoomService.GetEntity(u => u.F_RoomNo == classroom).FirstOrDefault();
+                Z_Room room = ZRoomService.GetEntity(u => u.F_RoomNo == queryParams.classroom).FirstOrDefault();
 
                 if (room == null)   //没有该教室
                 {
@@ -69,8 +67,6 @@ namespace SmartClass.Controllers
                 else
                 {
                     ClassRoom classRoom = searchService.Search(room, ref result);
-                    //将该教室的灯情况保存下来
-                    List<SensorBase> sensorBase = classRoom.SonserList.Where(u => u.Type == 1).ToList();
 
                     result.AppendData = classRoom;
                 }
@@ -89,21 +85,17 @@ namespace SmartClass.Controllers
         /// <returns></returns>
         [EquipmentLogFilter(isCheck = false)]
         [HttpPost]
-        public ActionResult SearchTest(string classroom)
+        public ActionResult SearchTest(QueryParams queryParams)
         {
 
             EquipmentResult result = new EquipmentResult();
-            Z_Room room = ZRoomService.GetEntity(u => u.F_RoomNo == classroom).FirstOrDefault();
+            Z_Room room = ZRoomService.GetEntity(u => u.F_RoomNo == queryParams.classroom).FirstOrDefault();
             //获取该教室所有的设备
             var zeList = ZEquipmentService.GetEntity(u => u.F_RoomId == room.F_Id).ToList();
             byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Search"));
             ClassRoom classRoom = PortService.GetReturnDataTest();
             if (classRoom != null)
             {
-
-                //classRoom.CollegeName = college?.collegeName; //学院名称
-                //classRoom.LayerName = college?.layerName;    //楼层名称
-                //classRoom.Name = college?.roomName;          //教室名称
                 classRoom.Name = room?.F_FullName;
                 classRoom.ClassNo = room.F_EnCode;          //教室编码
                 classRoom.Id = room.F_RoomNo;
@@ -123,24 +115,22 @@ namespace SmartClass.Controllers
         }
 
         /// <summary>
-        /// 开关灯
+        /// 设置灯
         /// </summary>
-        /// <param name="classroom"></param>
-        /// <param name="nodeAdd"></param>
-        /// <param name="onoff"></param>
+        /// <param name="controlParams"></param>
         /// <returns></returns>
-        public ActionResult SetLamp(string classroom, string nodeAdd, string onoff)
+        public ActionResult SetLamp(ControlParams controlParams)
         {
             byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Lamp"));
-            byte b;
-            int res = nodeAdd.IndexOf('_');
+            
+            int res = controlParams.nodeAdd.IndexOf('_');
             if (res != -1)      //表示一个灯节点控制多个灯
             {
-                int state = Cache.GetCache<int>(classroom);
-                string[] node = nodeAdd.Split('_'); //下滑线后面表示控制第几个灯
+                int state = Cache.GetCache<int>(controlParams.classroom);
+                string[] node = controlParams.nodeAdd.Split('_'); //下滑线后面表示控制第几个灯
                 if (node[1] == "1")                 //控制第1个灯
                 {
-                    if (onoff == StateType.CLOSE)
+                    if (controlParams.onoff == StateType.CLOSE)
                     {
                         state &= ~0x02;
                     }
@@ -152,7 +142,7 @@ namespace SmartClass.Controllers
                 else if (node[1] == "0")             //控制第0个灯
                 {
 
-                    if (onoff == StateType.CLOSE)
+                    if (controlParams.onoff == StateType.CLOSE)
                     {
                         state &= ~0x01;
                     }
@@ -161,15 +151,14 @@ namespace SmartClass.Controllers
                         state |= 0x01;
                     }
                 }
-                Cache.SetCache(classroom, state);
-                EResult = PortService.SendConvertCmd(fun, classroom, node[0], (byte)state);
+                Cache.SetCache(controlParams.classroom, state);
+                EResult = PortService.SendConvertCmd(fun, controlParams.classroom, node[0], (byte)state);
             }
             else                //表示一个灯节点控制一个灯
             {
-                b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
-                EResult = PortService.SendConvertCmd(fun, classroom, nodeAdd, b);
+                byte b = (byte)(controlParams.onoff == StateType.OPEN ? 0x01 : 0x00);
+                EResult = PortService.SendConvertCmd(fun, controlParams.classroom, controlParams.nodeAdd, b);
             }
-
             EResult.Message = EResult.Status ? "设置灯成功" : "设置灯失败";
             return Json(EResult);
         }
@@ -181,13 +170,13 @@ namespace SmartClass.Controllers
         /// <param name="nodeAdd">节点地址</param>
         /// <param name="onoff">开关</param>
         /// <returns></returns>
-        public ActionResult SetFan(string classroom, string nodeAdd, string onoff)
+        public ActionResult SetFan(ControlParams controlParams)
         {
-            classroom = string.IsNullOrEmpty(classroom) ? "0000" : classroom;
-            nodeAdd = string.IsNullOrEmpty(nodeAdd) ? "00" : nodeAdd;
+            controlParams.classroom = string.IsNullOrEmpty(controlParams.classroom) ? "0000" : controlParams.classroom;
+            controlParams.nodeAdd = string.IsNullOrEmpty(controlParams.nodeAdd) ? "00" : controlParams.nodeAdd;
             byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Fan"));
-            byte b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
-            EResult = PortService.SendConvertCmd(fun, classroom, nodeAdd, b);
+            byte b = (byte)(controlParams.onoff == StateType.OPEN ? 0x01 : 0x00);
+            EResult = PortService.SendConvertCmd(fun, controlParams.classroom, controlParams.nodeAdd, b);
             EResult.Message = EResult.Status ? "设置风机成功" : "设置风机失败";
             return Json(EResult, JsonRequestBehavior.AllowGet);
         }
@@ -195,32 +184,29 @@ namespace SmartClass.Controllers
         /// <summary>
         /// 设置门
         /// </summary>
-        /// <param name="classroom">教室地址</param>
-        /// <param name="nodeAdd">门节点地址</param>
-        /// <param name="onoff">开关</param>
+        /// <param name="controlParams"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult SetDoor(string classroom, string nodeAdd, string onoff)
+        public ActionResult SetDoor(ControlParams controlParams)
         {
             byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Door"));
-            byte b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
-            EResult = PortService.SendConvertCmd(fun, classroom, nodeAdd, b);
+            byte b = (byte)(controlParams.onoff == StateType.OPEN ? 0x01 : 0x00);
+            EResult = PortService.SendConvertCmd(fun, controlParams.classroom, controlParams.nodeAdd, b);
             EResult.Message = EResult.Status ? "设置门成功" : "设置门失败";
             return Json(EResult);
         }
+
         /// <summary>
         /// 设置窗户
         /// </summary>
-        /// <param name="classroom">教室地址</param>
-        /// <param name="nodeAdd">节点地址</param>
-        /// <param name="onoff">开关</param>
+        /// <param name="controlParams"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult SetWindow(string classroom, string nodeAdd, string onoff)
+        public ActionResult SetWindow(ControlParams controlParams)
         {
             byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Window"));
-            byte b = (byte)(onoff == StateType.OPEN ? 0x04 : onoff == StateType.STOP ? 0x05 : 0x00);
-            EResult = PortService.SendConvertCmd(fun, classroom, nodeAdd, b);
+            byte b = (byte)(controlParams.onoff == StateType.OPEN ? 0x04 : controlParams.onoff == StateType.STOP ? 0x05 : 0x00);
+            EResult = PortService.SendConvertCmd(fun, controlParams.classroom, controlParams.nodeAdd, b);
             EResult.Message = EResult.Status ? "设置窗户成功" : "设置窗户失败";
             return Json(EResult);
         }
@@ -228,16 +214,14 @@ namespace SmartClass.Controllers
         /// <summary>
         /// 设置窗帘
         /// </summary>
-        /// <param name="classroom">教室地址</param>
-        /// <param name="nodeAdd">节点地址</param>
-        /// <param name="onoff">开关</param>
+        /// <param name="controlParams"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult SetCurtain(string classroom, string nodeAdd, string onoff)
+        public ActionResult SetCurtain(ControlParams controlParams)
         {
             byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Curtain"));
-            byte b = (byte)(onoff == StateType.OPEN ? 0x04 : onoff == StateType.STOP ? 0x05 : 0x00);
-            EResult = PortService.SendConvertCmd(fun, classroom, nodeAdd, b);
+            byte b = (byte)(controlParams.onoff == StateType.OPEN ? 0x04 : controlParams.onoff == StateType.STOP ? 0x05 : 0x00);
+            EResult = PortService.SendConvertCmd(fun, controlParams.classroom, controlParams.nodeAdd, b);
             EResult.Message = EResult.Status ? "设置窗帘成功" : "设置窗帘失败";
             return Json(EResult);
         }
@@ -250,6 +234,7 @@ namespace SmartClass.Controllers
         /// <param name="onoff">开关</param>
         /// <param name="model">模式</param>
         /// <param name="speed">风速</param>
+        /// <param name="SweepWind"></param>
         /// <param name="wd">温度</param>
         /// <returns></returns>
         [HttpPost]
@@ -260,7 +245,7 @@ namespace SmartClass.Controllers
             height |= (byte)(m << 4);
             Int16 s = Convert.ToInt16(speed);
             height |= (byte)(s << 2);
-            height |= 0x01;
+            height |= (byte)(Convert.ToInt16(SweepWind)<<1);
             byte low = (byte)Convert.ToInt16(wd);
             byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Air"));
             EResult = PortService.SendConvertCmd(fun, classroom, nodeAdd, height, low);
@@ -333,11 +318,12 @@ namespace SmartClass.Controllers
         /// <param name="onoff">开关</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult SetProjectionScreen(string classroom, string nodeAdd, string onoff)
+        public ActionResult SetProjectionScreen(ControlParams controlParams)
         {
+
             byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("ProjectionScreen"));
-            byte b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
-            EResult = PortService.SendConvertCmd(fun, classroom, nodeAdd, b);
+            byte b = (byte)(controlParams.onoff == StateType.OPEN ? 0x01 : 0x00);
+            EResult = PortService.SendConvertCmd(fun, controlParams.classroom, controlParams.nodeAdd, b);
             EResult.Message = EResult.Status ? "设置投影屏成功" : "设置投影屏失败";
             return Json(EResult);
         }
@@ -358,6 +344,7 @@ namespace SmartClass.Controllers
             var list = classRoom.SonserList;
             List<Z_Equipment> zeList = new List<Z_Equipment>();
             Z_Room room = ZRoomService.GetEntity(u => u.F_RoomNo == classroom).FirstOrDefault();
+            ZEquipmentService.DeleteEntitys(ZEquipmentService.GetEntity(u => u.F_RoomId == room.F_Id).ToList());
             if (room != null)
             {
                 foreach (var item in list)

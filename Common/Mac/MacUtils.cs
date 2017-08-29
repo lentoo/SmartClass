@@ -1,4 +1,4 @@
-﻿using Common.Exception;
+﻿using SmartClass.Infrastructure.Exception;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Common.Mac
+namespace SmartClass.Infrastructure.Mac
 {
     public class MacUtils
     {

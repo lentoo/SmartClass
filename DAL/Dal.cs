@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using IDAL;
+using SmartClass.IRepository;
 using Model;
 
-namespace DAL
+namespace SmartClass.Repository
 {
 		
 	public partial class Sys_LogDal :BaseDal<Sys_Log>,ISys_LogDal

@@ -1,4 +1,4 @@
-﻿using IDAL;
+﻿using SmartClass.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBLL
+namespace SmartClass.IService
 {
     public interface IBaseService<T> where T : class ,new()
     {
@@ -18,7 +18,8 @@ namespace IBLL
         /// <param name="entity"></param>
         /// <returns></returns>
         bool UpdateEntityInfo(T entity);
-
+        bool DeleteEntity(T entity);
+        bool DeleteEntitys(IEnumerable<T> entitys);
         /// <summary>
         /// 添加实体信息
         /// </summary>

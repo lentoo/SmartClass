@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common.Extended
+namespace SmartClass.Infrastructure.Extended
 {
     /// <summary>
     /// 对string类型方法扩展

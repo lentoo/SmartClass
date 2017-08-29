@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
-using IBLL;
+using SmartClass.IService;
 using Model;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using Common;
+using SmartClass.Infrastructure;
 using SmartClass.Models.Types;
-using Common.Exception;
-using Model.Courses;
+using SmartClass.Infrastructure.Exception;
+using Model.DTO.Courses;
 
 namespace SmartClass.Models.Job
 {

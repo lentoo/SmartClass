@@ -1,6 +1,6 @@
 ﻿using Autofac.Integration.Mvc;
-using Common.Exception;
-using Common.Logged;
+using SmartClass.Infrastructure.Exception;
+using SmartClass.Infrastructure.Logged;
 using Quartz;
 using System;
 using System.Collections.Generic;
@@ -42,7 +42,7 @@ namespace SmartClass.Models.Job
                 {
                     LogHelper.Debug(ex);
                     //TODO: 采用NLog的话，自带了邮件通知系统  发送邮件通知
-                    // Common.Email.SendEmail("ERROR", ex.Message);
+                    // SmartClass.Infrastructure.Email.SendEmail("ERROR", ex.Message);
                 }
             }
         }

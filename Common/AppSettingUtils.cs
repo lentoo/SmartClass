@@ -2,7 +2,7 @@
 
 using System.Configuration;
 
-namespace Common
+namespace SmartClass.Infrastructure
 {
     public class AppSettingUtils
     {

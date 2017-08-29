@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common.Extended
+namespace SmartClass.Infrastructure.Extended
 {
     public class DatetimeExtened
     {

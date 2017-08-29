@@ -7,7 +7,7 @@ using System.Text;
 using Model;
 using System.Threading.Tasks;
 
-namespace DAL
+namespace SmartClass.Repository
 {
     public class DbContextFactory
     {

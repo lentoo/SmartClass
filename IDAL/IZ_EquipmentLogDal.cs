@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Model;
 
-namespace IDAL
+namespace SmartClass.IRepository
 {
     public partial interface IZ_EquipmentLogDal : IBaseDal<Z_EquipmentLog>
     {

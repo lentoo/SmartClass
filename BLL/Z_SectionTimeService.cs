@@ -1,5 +1,5 @@
-﻿using Common.Cache;
-using IBLL;
+﻿using SmartClass.Infrastructure.Cache;
+using SmartClass.IService;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL
+namespace SmartClass.Service
 {
     public partial class Z_SectionTimeService : BaseService<Z_SectionTime>, IZ_SectionTimeService
     {

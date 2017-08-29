@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Threading;
 using System.Web.Mvc;
-using Common;
-using Common.Exception;
-using IBLL;
+using SmartClass.Infrastructure;
+using SmartClass.Infrastructure.Exception;
+using SmartClass.IService;
 using Model;
-using Model.Result;
+using Model.DTO.Result;
 
 namespace SmartClass.Models.Filter
 {

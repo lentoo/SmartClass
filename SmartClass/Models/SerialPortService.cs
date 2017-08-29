@@ -7,15 +7,15 @@ using Model;
 using SmartClass.Models.Types;
 using System.IO.Ports;
 using Models.Classes;
-using Model.Result;
-using Common;
-using IBLL;
+using SmartClass.Infrastructure;
+using SmartClass.IService;
 using Model.Enum;
 using SmartClass.Models.Exceptions;
 using Model.Actuators;
-using Common.Exception;
-using Common.Extended;
-using Common.Cache;
+using SmartClass.Infrastructure.Exception;
+using SmartClass.Infrastructure.Extended;
+using SmartClass.Infrastructure.Cache;
+using Model.DTO.Result;
 
 namespace SmartClass.Models
 {
@@ -524,6 +524,7 @@ namespace SmartClass.Models
             }
             return oa;
         }
+
         /// <summary>
         /// 发送转换后的执行命令
         /// </summary>
@@ -531,8 +532,10 @@ namespace SmartClass.Models
         /// <param name="classroom">教室地址</param>
         /// <param name="nodeAdd">节点地址</param>
         /// <param name="onoff">开关</param>
+        /// <param name="height">高位</param>
+        /// <param name="low">低位</param>
         /// <returns></returns>
-        public EquipmentResult SendConvertCmd(byte fun, string classroom, string nodeAdd, byte onoff)
+        public EquipmentResult SendConvertCmd(byte fun, string classroom, string nodeAdd, byte onoff, byte? height = null, byte? low = null)
         {
             classroom = string.IsNullOrEmpty(classroom) ? "00" : classroom;
             nodeAdd = string.IsNullOrEmpty(nodeAdd) ? "00" : nodeAdd;
@@ -541,57 +544,26 @@ namespace SmartClass.Models
             try
             {
                 if (nodeAdd != "00")
+                {
                     if (!ZEquipmentService.CheckClassEquipment(classroom, nodeAdd))
                     {
                         throw new EquipmentNoFindException("没有查询到该教室有该ID的设备");
                     }
-                byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x01, onoff };
-                byte[] bclassroom = classroom.StrToHexByte();
-                byte[] bnodeAdd = nodeAdd.StrToHexByte();
-                bclassroom.CopyTo(cmd, 2);
-                bnodeAdd.CopyTo(cmd, 5);
-                cmd = cmd.ActuatorCommand();
-                SendCmd(cmd);
-                oa.Status = true;
-                oa.ResultCode = ResultCode.Ok;
-            }
-            catch (Exception exception)
-            {
-                oa.Status = false;
-                oa.ErrorData = exception.Message;
-                oa.ResultCode = ResultCode.Error;
-            }
-            return oa;
-        }
-        /// <summary>
-        /// 发送转换后的命令
-        /// </summary>
-        /// <param name="fun">功能码</param>
-        /// <param name="classroom">教室地址</param>
-        /// <param name="nodeAdd">节点地址</param>
-        /// <param name="height">高位</param>
-        /// <param name="low">低位</param>
-        /// <returns></returns>
-        public EquipmentResult SendConvertCmd(byte fun, string classroom, string nodeAdd, byte height, byte low)
-        {
-            classroom = string.IsNullOrEmpty(classroom) ? "00" : classroom;
-            nodeAdd = string.IsNullOrEmpty(nodeAdd) ? "00" : nodeAdd;
-
-            EquipmentResult oa = new EquipmentResult();
-            try
-            {
-
-                if (!ZEquipmentService.CheckClassEquipment(classroom, nodeAdd))
-                {
-                    throw new EquipmentNoFindException("没有查询到该教室有该ID的设备");
                 }
-                byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x02, height, low };
                 byte[] bclassroom = classroom.StrToHexByte();
                 byte[] bnodeAdd = nodeAdd.StrToHexByte();
+                byte[] cmd;
+                if (height == null || low == null) //控制其他非空调控制器
+                {
+                    cmd = new byte[] { 0x55, 0x02, 0, 0, fun, 0, 0x01, onoff };
+                }
+                else //控制空调控制器
+                {
+                    cmd = new byte[] { 0x55, 0x02, 0, 0, fun, 0, 0x02, (byte)height, (byte)low };
+                }
                 bclassroom.CopyTo(cmd, 2);
                 bnodeAdd.CopyTo(cmd, 5);
                 cmd = cmd.ActuatorCommand();
-
                 SendCmd(cmd);
                 oa.Status = true;
                 oa.ResultCode = ResultCode.Ok;
@@ -604,5 +576,6 @@ namespace SmartClass.Models
             }
             return oa;
         }
+      
     }
 }

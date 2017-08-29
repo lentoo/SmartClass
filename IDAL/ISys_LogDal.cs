@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IDAL
+namespace SmartClass.IRepository
 {
     public partial interface ISys_LogDal:IBaseDal<Sys_Log>
     {

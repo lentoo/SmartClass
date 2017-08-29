@@ -1,4 +1,4 @@
-﻿namespace Common.Logged
+﻿namespace SmartClass.Infrastructure.Logged
 {
     public interface ILogHelper
     {

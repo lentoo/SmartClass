@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using Common;
-using Common.Cache;
-using IBLL;
+using SmartClass.Infrastructure;
+using SmartClass.Infrastructure.Cache;
+using SmartClass.IService;
 using Model;
 using Model.Enum;
-using Model.Result;
 using SmartClass.Models.Types;
 using System.Threading;
+using Model.DTO.Result;
 
 namespace SmartClass.Models.Filter
 {
@@ -53,15 +53,15 @@ namespace SmartClass.Models.Filter
                 if (userLogOn != null)
                 {
                     //解析token
-                    object obj = JwtUtils.DecodingToken(token, userLogOn.F_UserSecretkey);
-                    if (obj is Payload)  //验证通过
+                    ValidateTokenResult obj = JwtUtils.DecodingToken(token, userLogOn.F_UserSecretkey);
+                    if (obj.ResultCode==ResultCode.Ok)  //验证通过
                     {
-                        payload = obj as Payload;
                         //延长token时间
                         Cache.SetCache(token, userLogOn, DateTime.Now.AddDays(7));
                     }
                     else   //拦截请求
                     {
+
                         var json = new JsonResult { Data = obj };
                         filterContext.Result = json;
                     }

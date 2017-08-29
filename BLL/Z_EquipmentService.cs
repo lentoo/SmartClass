@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 
-namespace BLL
+namespace SmartClass.Service
 {
     public partial class Z_EquipmentService
     {
-        public IBLL.IZ_RoomService ZRoomService { get; set; }
+        public SmartClass.IService.IZ_RoomService ZRoomService { get; set; }
         public bool CheckClassEquipment(string classroom, string nodeAdd)
         {
             string node = Convert.ToInt32(nodeAdd) + "";

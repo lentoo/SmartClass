@@ -1,7 +1,7 @@
 ﻿using Model;
-using Model.Result;
+using Model.DTO.Result;
 
-namespace IBLL
+namespace SmartClass.IService
 {
     public partial interface IZ_AttendanceService : IBaseService<Z_Attendance>
     {

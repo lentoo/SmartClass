@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Common.Exception
+namespace SmartClass.Infrastructure.Exception
 {
     public class ExceptionHelper
     {
@@ -8,7 +8,7 @@ namespace Common.Exception
         /// 异常队列
         /// </summary>
         public static Queue<System.Exception> ExceptionQueue = new Queue<System.Exception>();
-        //public static RedisClient ExceptionQueue =Common.Cache.RedisWrite.rc;
+        //public static RedisClient ExceptionQueue =SmartClass.Infrastructure.Cache.RedisWrite.rc;
         /// <summary>
         /// 在异常队列中添加一个异常信息
         /// </summary>

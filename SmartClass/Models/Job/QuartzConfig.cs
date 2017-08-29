@@ -6,8 +6,8 @@ using System.Web;
 using Quartz;
 using Quartz.Impl;
 using System.Web.Mvc;
-using IBLL;
-using BLL;
+using SmartClass.IService;
+using SmartClass.Service;
 using System.Data.Entity;
 using Model;
 

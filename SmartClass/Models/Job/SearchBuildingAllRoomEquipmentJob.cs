@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using IBLL;
-using Model.Result;
+using SmartClass.IService;
 using Models.Classes;
 using System.Threading;
 using System.Web.Helpers;
-using Common.Cache;
-using Common.Exception;
+using SmartClass.Infrastructure.Cache;
+using SmartClass.Infrastructure.Exception;
 using Model;
+using Model.DTO.Result;
 using SmartClass.Models.Classes;
 
 namespace SmartClass.Models.Job

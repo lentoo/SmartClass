@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Common.Cache;
-using IBLL;
+using SmartClass.Infrastructure.Cache;
+using SmartClass.IService;
 using SmartClass.Models.Classes;
 using Models.Classes;
 using SmartClass.Models;
 using Model.Enum;
 using Model;
-using Common.Extended;
+using SmartClass.Infrastructure.Extended;
 
 namespace SmartClass.Controllers
 {

@@ -1,13 +1,11 @@
 ﻿using Model;
-using Model.Result;
 using Models.Classes;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using IBLL;
-using Common;
+using SmartClass.IService;
+using SmartClass.Infrastructure;
 using System.Threading;
+using Model.DTO.Result;
 using SmartClass.Models.Types;
 using Model.Enum;
 

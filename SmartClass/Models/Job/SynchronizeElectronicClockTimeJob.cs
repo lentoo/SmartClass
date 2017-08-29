@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
-using IBLL;
+using SmartClass.IService;
 using Model;
-using Common;
-using Common.Exception;
-using Common.Extended;
+using SmartClass.Infrastructure;
+using SmartClass.Infrastructure.Exception;
+using SmartClass.Infrastructure.Extended;
 using System.Net;
 
 namespace SmartClass.Models.Job

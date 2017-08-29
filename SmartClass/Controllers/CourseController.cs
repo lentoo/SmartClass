@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using Common.Cache;
-using IBLL;
+using SmartClass.Infrastructure.Cache;
+using SmartClass.IService;
 using Model;
-using Model.Courses;
+using Model.DTO.Courses;
 
 namespace SmartClass.Controllers
 {

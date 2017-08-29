@@ -252,6 +252,7 @@
     <Compile Include="Models\Exceptions\EquipmentNoFindException.cs" />
     <Compile Include="Models\Exceptions\MyException.cs" />
     <Compile Include="Models\Filter\EquipmentLogFilterAttribute.cs" />
+    <Compile Include="Models\Filter\FieldValidationFilterAttribute.cs" />
     <Compile Include="Models\Filter\LoginActionFilterAttribute.cs" />
     <Compile Include="Models\Job\ProcessExceptionJob.cs" />
     <Compile Include="Models\Job\QuartzConfig.cs" />
@@ -312,21 +313,25 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BLL\BLL.csproj">
+    <ProjectReference Include="..\BLL\SmartClass.Service.csproj">
       <Project>{9a6cf352-6d3a-4ce1-8581-2f02038c3273}</Project>
-      <Name>BLL</Name>
+      <Name>SmartClass.Service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Common.csproj">
+    <ProjectReference Include="..\Common\SmartClass.Infrastructure.csproj">
       <Project>{ec2cd3ee-9336-4a83-bca6-481ffdc64e2a}</Project>
-      <Name>Common</Name>
+      <Name>SmartClass.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DAL\DAL.csproj">
+    <ProjectReference Include="..\DAL\SmartClass.Repository.csproj">
       <Project>{6bf3a4e3-1adc-490d-9d51-0189a3460afd}</Project>
-      <Name>DAL</Name>
+      <Name>SmartClass.Repository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IBLL\IBLL.csproj">
+    <ProjectReference Include="..\IBLL\SmartClass.IService.csproj">
       <Project>{ED50B4A1-6E53-42E9-9C75-5587978280C6}</Project>
-      <Name>IBLL</Name>
+      <Name>SmartClass.IService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IDAL\SmartClass.IRepository.csproj">
+      <Project>{9926E5F0-F5BC-48C4-B844-BD5155BE5647}</Project>
+      <Name>SmartClass.IRepository</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{3A8EAF98-646B-4E40-89F1-C22FD84EDE28}</Project>

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBLL
+namespace SmartClass.IService
 {
     public partial interface IZ_SectionTimeService
     {

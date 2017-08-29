@@ -1,38 +1,37 @@
-﻿using IDAL;
-using Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+using SmartClass.IRepository;
 
-namespace DAL
+namespace SmartClass.Repository
 {
-    public class BaseDal<T>:IBaseDal<T> where T : class ,new()
+    public class BaseDal<T> : IBaseDal<T> where T : class, new()
     {
-        public DbContext dbContext
-        {
-            get
-            {
-                return DbContextFactory.GetDbContext();
-            }
-        }
+        public DbContext dbContext => DbContextFactory.GetDbContext();
 
         //public NFineBaseEntities Db { get; set; } //通过Autofac 单例模式自动注入
 
+        public bool DeleteEntity(T entity)
+        {
+            dbContext.Entry(entity).State = EntityState.Deleted;
+            return dbContext.SaveChanges() > 0;
+        }
+
+        public bool DeleteEntitys(IEnumerable<T> entitys)
+        {
+            foreach (var entity in entitys)
+            {
+                dbContext.Entry(entity).State = EntityState.Deleted;
+            }
+            return dbContext.SaveChanges() > 0;
+        }
+
         public bool AddEntity(T entity)
-        {            
+        {
             dbContext.Set<T>().Add(entity);
-            if (dbContext.SaveChanges() > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return dbContext.SaveChanges() > 0;
         }
 
         #region 查询
@@ -48,7 +47,7 @@ namespace DAL
         /// <returns></returns>
         public bool UpdateEntityInfo(T entity)
         {
-            dbContext.Entry(entity).State =EntityState.Modified;
+            dbContext.Entry(entity).State = EntityState.Modified;
             if (dbContext.SaveChanges() > 0)
             {
                 return true;
@@ -66,10 +65,10 @@ namespace DAL
         /// <param name="sql"></param>
         /// <param name="paramters"></param>
         /// <returns></returns>
-        public bool ExceptionSql(string sql,object[]paramters)
+        public bool ExceptionSql(string sql, object[] paramters)
         {
-           int i= dbContext.Database.ExecuteSqlCommand(sql, paramters);
-            
+            int i = dbContext.Database.ExecuteSqlCommand(sql, paramters);
+
             if (i > 0)
             {
                 return true;

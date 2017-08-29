@@ -1,5 +1,5 @@
 ﻿using DALFactory;
-using IDAL;
+using SmartClass.IRepository;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL
+namespace SmartClass.Repository
 {
     public partial class Sys_UserDal:BaseDal<Sys_User>,ISys_UserDal
     {

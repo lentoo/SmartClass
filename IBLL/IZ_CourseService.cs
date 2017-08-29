@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Model.Courses;
+using Model.DTO.Courses;
 
-namespace IBLL
+namespace SmartClass.IService
 {
     public partial interface IZ_CourseService
     {

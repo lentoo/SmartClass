@@ -1,19 +1,13 @@
-﻿using Common.Cache;
-using Common.Extended;
-using IBLL;
+﻿using SmartClass.Infrastructure.Cache;
+using SmartClass.IService;
 using Microsoft.AspNet.SignalR;
-using Model;
-using Model.Result;
 using SmartClass.Models.SignalR;
 using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Web;
 using System.Web.Mvc;
-using Common.Images;
+using SmartClass.Infrastructure.Exception;
+using SmartClass.Infrastructure.Images;
+using Model.DTO.Result;
 using Model.Enum;
 
 namespace SmartClass.Controllers
@@ -28,12 +22,6 @@ namespace SmartClass.Controllers
         public ICacheHelper Cache { get; set; }
 
         public IZ_ClassComputeService ClassComputeService { get; set; }
-        // GET: Attendance
-        public ActionResult Index()
-        {
-            string currentTime = Convert.ToDateTime(DatetimeExtened.GetNetDateTime()).ToString("yyyy/MM/dd hh:mm:ss");
-            return Content(currentTime);
-        }
 
         /// <summary>
         /// 教师发起签到
@@ -47,20 +35,39 @@ namespace SmartClass.Controllers
             {
                 return null;
             }
-            AttendanceResult result = AttendanceService.InitiatedAttendance(TeaNo, CourseNo);
-            if (result.ResultCode == ResultCode.Ok)
+            using (var tran = AttendanceService.dal.dbContext.Database.BeginTransaction())
             {
-                string data = $"{result.AttendanceId}|{CourseNo}";
-                byte[] bytes = QRCodeHelper.GetQRCode(data);
+                AttendanceResult result = AttendanceService.InitiatedAttendance(TeaNo, CourseNo);
+                try
+                {
 
-                string roomId = RoomService.GetEntity(u => u.F_EnCode == result.RoomNo).FirstOrDefault()?.F_Id;
+                    if (result.ResultCode == ResultCode.Ok)
+                    {
+                        string data = $"{result.AttendanceId}|{CourseNo}";
+                        byte[] bytes = QRCodeHelper.GetQRCode(data);
 
-                string mac = ClassComputeService.GetEntity(u => u.F_RoomId == roomId).FirstOrDefault()?.F_ComputeMac;
-                string connectionId = Cache.GetCache<string>(mac);
-                GlobalHost.ConnectionManager.GetHubContext<QRCodeHub>().Clients.Client(connectionId).ReciverImg(bytes);
+                        string roomId = RoomService.GetEntity(u => u.F_EnCode == result.RoomNo).FirstOrDefault()?.F_Id;
+
+                        string mac = ClassComputeService.GetEntity(u => u.F_RoomId == roomId).FirstOrDefault()
+                            ?.F_ComputeMac;
+                        string connectionId = Cache.GetCache<string>(mac);
+
+                        GlobalHost.ConnectionManager.GetHubContext<QRCodeHub>().Clients.Client(connectionId)
+                            .ReciverImg(bytes);
+                        tran.Commit();
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ExceptionHelper.AddException(exception);
+                    result.ResultCode = ResultCode.Error;
+                    result.Message = "教室网页没连接";
+                    result.AttendanceId = null;
+                    tran.Rollback();
+                }
+                //return File(bytes, "image/png");
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
-            //return File(bytes, "image/png");
-            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

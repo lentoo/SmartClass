@@ -2,9 +2,9 @@
 using ServiceStack.Redis;
 using System;
 using System.Configuration;
-using Common.Exception;
+using SmartClass.Infrastructure.Exception;
 
-namespace Common.Cache
+namespace SmartClass.Infrastructure.Cache
 {
     public class RedisWrite : ICacheHelper
     {

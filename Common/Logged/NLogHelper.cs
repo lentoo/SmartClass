@@ -1,6 +1,6 @@
 ﻿using NLog;
 
-namespace Common.Logged
+namespace SmartClass.Infrastructure.Logged
 {
     /// <summary>
     /// 日志记录辅助类

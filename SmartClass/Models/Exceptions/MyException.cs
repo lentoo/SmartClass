@@ -1,7 +1,7 @@
 ﻿
 using Autofac;
 using Autofac.Integration.Mvc;
-using Common;
+using SmartClass.Infrastructure;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -10,8 +10,8 @@ using System.Reflection;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
-using Common.Exception;
-using Common.Logged;
+using SmartClass.Infrastructure.Exception;
+using SmartClass.Infrastructure.Logged;
 
 namespace SmartClass.Models.Exceptions
 {

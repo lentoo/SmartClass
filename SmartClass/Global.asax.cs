@@ -10,6 +10,7 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Core.Mapping;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Web.Http;
+using SmartClass.Models;
 
 namespace SmartClass
 {
@@ -29,8 +30,8 @@ namespace SmartClass
             // MyException.ProcessException();
 
             //执行计划任务
-            //QuartzConfig.InitJob();
-            //QuartzConfig.StartJob();
+            QuartzConfig.InitJob();
+            QuartzConfig.StartJob();
 
             //EF Pre-Generated Mapping Views（预生成映射视图）
             using (var dbcontext = new NFineBaseEntities())
@@ -45,7 +46,8 @@ namespace SmartClass
         {
             base.Dispose();
             //停止所有任务
-            //QuartzConfig.StopJob();
+            QuartzConfig.StopJob();
+            SerialPortUtils.ClosePort();
         }
     }
 }

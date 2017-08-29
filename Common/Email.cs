@@ -2,7 +2,7 @@
 using System.Net.Mail;
 using System.Text;
 
-namespace Common
+namespace SmartClass.Infrastructure
 {
     public class Email
     {

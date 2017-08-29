@@ -2,8 +2,10 @@
 using JWT.Algorithms;
 using JWT.Serializers;
 using Model;
+using Model.DTO.Result;
+using Model.Enum;
 
-namespace Common
+namespace SmartClass.Infrastructure
 {
     public class JwtUtils
     {
@@ -26,8 +28,9 @@ namespace Common
             string token = encoder.Encode(payload, secret);
             return token;
         }
-        public static object DecodingToken(string token, string secret)
+        public static ValidateTokenResult DecodingToken(string token, string secret)
         {
+            ValidateTokenResult validateTokenResult=new ValidateTokenResult();
             try
             {
                 IJsonSerializer serializer = new JsonNetSerializer();
@@ -37,16 +40,23 @@ namespace Common
                 IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder);
                 var json = decoder.Decode(token, secret, verify: true);
                 Payload payload = serializer.Deserialize<Payload>(json);
-                return payload;
+                validateTokenResult.Status = true;
+                validateTokenResult.Payload = payload;
+                validateTokenResult.ResultCode=ResultCode.Ok;
+                
+                return validateTokenResult;
             }
             //catch (TokenExpiredException)
             //{
             //    return
             //        new { Message = "Token已过期" };
             //}
-            catch (SignatureVerificationException)
+            catch (SignatureVerificationException exception)
             {
-                return "Token无效";
+                validateTokenResult.Status = false;
+                validateTokenResult.ErrorData = exception;
+                validateTokenResult.ResultCode= ResultCode.Error;
+                return validateTokenResult;
             }
         }
     }

@@ -1,16 +1,16 @@
-﻿using Common.Exception;
-using IBLL;
+﻿using SmartClass.Infrastructure.Exception;
+using SmartClass.IService;
 using Model;
-using Model.Result;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Common.Cache;
-using Model.Courses;
+using SmartClass.Infrastructure.Cache;
+using Model.DTO.Courses;
+using Model.DTO.Result;
 using Model.Enum;
 
-namespace BLL
+namespace SmartClass.Service
 {
     /// <summary>
     /// 考勤服务对象
@@ -32,7 +32,7 @@ namespace BLL
             AttendanceResult Result = new AttendanceResult();
             try
             {
-                DateTime currentTime = Convert.ToDateTime(Common.Extended.DatetimeExtened.GetNetDateTime());
+                DateTime currentTime = Convert.ToDateTime(SmartClass.Infrastructure.Extended.DatetimeExtened.GetNetDateTime());
                 attendance.F_InitiatedTime = currentTime;
 
 
@@ -49,7 +49,7 @@ namespace BLL
                 else //今天有课
                 {
                     // 通过今天日期和课程ID，课程编号,教师编号来确定考勤ID
-                    attendance.F_ID = $"{currentTime.ToString("yyyyMMdd")}|{course.F_Id}|{CourseNo}|{TeacherNum}";
+                    attendance.F_ID = $"{currentTime.ToString("yyyyMMdd")}|{course.Id}";
                     //判断今天是否已经发起签到了
                     var a = GetEntity(u => u.F_ID == attendance.F_ID).FirstOrDefault();
                     if (a != null)
@@ -73,7 +73,7 @@ namespace BLL
                             attendance.F_Flag = true;
                             attendance.F_ClassRoomNo = course.F_RoomNo;
                             attendance.F_ClassNo = course.Major + course.Classes;
-
+                            attendance.F_InitiatedTime = currentTime;
                             AddEntity(attendance);
                             Result.RoomNo = course.F_RoomNo;
                             Result.ResultCode = ResultCode.Ok;
@@ -110,7 +110,7 @@ namespace BLL
             AttendanceResult Result = new AttendanceResult();
             try
             {
-                DateTime currentTime = Convert.ToDateTime(Common.Extended.DatetimeExtened.GetNetDateTime());
+                DateTime currentTime = Convert.ToDateTime(SmartClass.Infrastructure.Extended.DatetimeExtened.GetNetDateTime());
                 Z_AttendanceDetails attendanceDetails = new Z_AttendanceDetails();
                 Z_Student student = StudentService.GetEntity(u => u.F_StuNo == StuNo).FirstOrDefault();
 
@@ -194,7 +194,7 @@ namespace BLL
         public AttendanceResult ManualCheckIn(string TeaNo, string StuNo, string CourseNo)
         {
             AttendanceResult result = new AttendanceResult();
-            DateTime currentTime = Convert.ToDateTime(Common.Extended.DatetimeExtened.GetNetDateTime());
+            DateTime currentTime = Convert.ToDateTime(SmartClass.Infrastructure.Extended.DatetimeExtened.GetNetDateTime());
             //今天星期几
             string week = ((float)currentTime.DayOfWeek).ToString(CultureInfo.InvariantCulture);
             Course teacherCourse = CourseService.GetTeacherCourse(TeaNo).FirstOrDefault(u => u.F_Week == week);
@@ -204,7 +204,7 @@ namespace BLL
                 result.Message = "教师今日没有该课程";
                 return result;
             }
-            string attendanceId = $"{currentTime.ToString("yyyyMMdd")}|{teacherCourse.F_Id}|{CourseNo}|{TeaNo}";
+            string attendanceId = $"{currentTime.ToString("yyyyMMdd")}|{teacherCourse.Id}|{CourseNo}|{TeaNo}";
             result = CheckIn(attendanceId, StuNo, CourseNo);
             return result;
         }

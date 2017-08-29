@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Model;
-using IDAL;
+using SmartClass.IRepository;
 using System.Linq.Expressions;
 
-namespace DAL
+namespace SmartClass.Repository
 {
     public partial class Sys_UserLogOnDal : BaseDal<Sys_UserLogOn>, ISys_UserLogOnDal
     {

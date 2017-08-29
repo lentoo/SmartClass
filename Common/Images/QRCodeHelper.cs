@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ThoughtWorks.QRCode.Codec;
 
-namespace Common.Images
+namespace SmartClass.Infrastructure.Images
 {
     /// <summary>
     /// 二维码帮助类

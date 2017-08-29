@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common.Cache
+namespace SmartClass.Infrastructure.Cache
 {
     public class MemcacheHelper : ICacheHelper
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Model;
 
-namespace IBLL
+namespace SmartClass.IService
 {
     public partial interface IZ_EquipmentService
     {

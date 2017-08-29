@@ -6,8 +6,8 @@ using System.Web;
 using System.Threading.Tasks;
 using SmartClass.Models.Classes;
 using Microsoft.AspNet.SignalR.Hubs;
-using Common.Cache;
-using Common.Mac;
+using SmartClass.Infrastructure.Cache;
+using SmartClass.Infrastructure.Mac;
 using SmartClass.Models.AutofacConfig;
 
 namespace SmartClass.Models.SignalR

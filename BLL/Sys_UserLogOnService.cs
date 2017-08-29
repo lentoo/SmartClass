@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Model;
-using IBLL;
-using IDAL;
+using SmartClass.IService;
+using SmartClass.IRepository;
 
-namespace BLL
+namespace SmartClass.Service
 {
     public partial class Sys_UserLogOnService : BaseService<Sys_UserLogOn>, ISys_UserLogOnService
     {

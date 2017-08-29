@@ -1,16 +1,15 @@
-﻿using Common;
-using Common.Cache;
-using IBLL;
+﻿using SmartClass.Infrastructure;
+using SmartClass.Infrastructure.Cache;
+using SmartClass.IService;
 using Model;
 using System;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Common.Exception;
 using Model.Enum;
-using Model.Result;
 using SmartClass.Models.Filter;
-using Common.Extended;
+using SmartClass.Infrastructure.Extended;
+using Model.DTO.Result;
 
 namespace SmartClass.Controllers
 {

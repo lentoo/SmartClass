@@ -1,13 +1,13 @@
-﻿using IBLL;
+﻿using SmartClass.IService;
 using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common.Cache;
-using Common.Exception;
-using Model.Courses;
+using SmartClass.Infrastructure.Cache;
+using SmartClass.Infrastructure.Exception;
+using Model.DTO.Courses;
 
-namespace BLL
+namespace SmartClass.Service
 {
     public partial class Z_CourseService
     {
@@ -53,7 +53,8 @@ namespace BLL
                     {
                         Course course = new Course()
                         {
-                            F_Id = item.F_Id,
+                            Id = item.F_Id,
+                            Grade = item.F_Grade,
                             Classes = item.F_Class,
                             CourseName = item.F_FullName,
                             F_BeginWeek = item.F_BeginWeek,
@@ -96,7 +97,8 @@ namespace BLL
                 {
                     Course course = new Course()
                     {
-                        F_Id = item.F_Id,
+                        Id = item.F_Id,
+                        Grade = item.F_Grade,
                         Classes = item.F_Class,
                         CourseName = item.F_FullName,
                         F_BeginWeek = item.F_BeginWeek,
@@ -129,7 +131,7 @@ namespace BLL
         private SchollTime GetSchollTime()
         {
             //获取当前网络时间
-            DateTime currenTime = Convert.ToDateTime(Common.Extended.DatetimeExtened.GetNetDateTime());
+            DateTime currenTime = Convert.ToDateTime(SmartClass.Infrastructure.Extended.DatetimeExtened.GetNetDateTime());
             int year = currenTime.Year;         //今天的年
             int month = currenTime.Month;       //今天的月
             int term;                          //第几学期

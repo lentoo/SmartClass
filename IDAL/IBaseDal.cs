@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IDAL
+namespace SmartClass.IRepository
 {
     public interface IBaseDal<T> where T:class,new()
     {
@@ -21,6 +21,8 @@ namespace IDAL
 
         bool UpdateEntityInfo(T entity);
 
+        bool DeleteEntity(T entity);
+        bool DeleteEntitys(IEnumerable<T> entitys);
         /// <summary>
         /// 添加一个实体信息
         /// </summary>

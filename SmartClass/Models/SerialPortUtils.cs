@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO.Ports;
-using Common.Exception;
+using SmartClass.Infrastructure.Exception;
 using Model.Actuators;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Threading;
-using Common.Extended;
+using SmartClass.Infrastructure.Extended;
 
 namespace SmartClass.Models
 {
@@ -48,6 +48,15 @@ namespace SmartClass.Models
             //Port.ReadTimeout = 60000;
             Port.DataReceived += Port_DataReceived;
             Port.Open();
+        }
+
+        public static void ClosePort()
+        {
+            if (Port.IsOpen)
+            {
+                Port.Close();
+                Port.Dispose();
+            }
         }
 
         private static readonly List<byte> ByteList = new List<byte>();
@@ -135,7 +144,7 @@ namespace SmartClass.Models
         /// <summary>
         /// 记录发送的指令
         /// </summary>
-        private static byte[] Cmd = null;
+        private static byte[] Cmd;
         /// <summary>
         /// 向串口写数据的锁
         /// </summary>
