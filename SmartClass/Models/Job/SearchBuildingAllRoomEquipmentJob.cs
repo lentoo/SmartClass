@@ -1,17 +1,15 @@
 ﻿using Quartz;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using SmartClass.IService;
-using Models.Classes;
 using System.Threading;
-using System.Web.Helpers;
 using SmartClass.Infrastructure.Cache;
 using SmartClass.Infrastructure.Exception;
 using Model;
+using Model.DTO.Classes;
 using Model.DTO.Result;
-using SmartClass.Models.Classes;
+
 
 namespace SmartClass.Models.Job
 {
@@ -115,7 +113,7 @@ namespace SmartClass.Models.Job
                     if (item.F_ParentId == floor.F_Id)
                     {
                         EquipmentResult result = new EquipmentResult();
-                        ClassRoom classRoom = searchService.Search(item, ref result);
+                        ClassRoom classRoom = searchService.Search(item,ref result);
                         if (classRoom != null)
                         {
                             classRoom.LayerName = floor.F_FullName;

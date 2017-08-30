@@ -1,0 +1,9 @@
+E:\SmartClass\BLL\obj\Debug\SmartClass.Service.csprojResolveAssemblyReference.cache
+E:\SmartClass\BLL\obj\Debug\SmartClass.Service.dll
+E:\SmartClass\BLL\obj\Debug\SmartClass.Service.pdb
+E:\SmartClass\SmartClass\bin\SmartClass.Service.dll.config
+E:\SmartClass\SmartClass\bin\SmartClass.Service.dll
+E:\SmartClass\SmartClass\bin\SmartClass.Service.pdb
+E:\SmartClass\Service\obj\Debug\SmartClass.Service.csprojResolveAssemblyReference.cache
+E:\SmartClass\Service\obj\Debug\SmartClass.Service.dll
+E:\SmartClass\Service\obj\Debug\SmartClass.Service.pdb

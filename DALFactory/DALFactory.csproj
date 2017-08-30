@@ -45,7 +45,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IDAL\SmartClass.IRepository.csproj">
+    <ProjectReference Include="..\IRepository\SmartClass.IRepository.csproj">
       <Project>{9926e5f0-f5bc-48c4-b844-bd5155be5647}</Project>
       <Name>SmartClass.IRepository</Name>
     </ProjectReference>

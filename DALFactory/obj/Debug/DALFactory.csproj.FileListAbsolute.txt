@@ -1,9 +1,9 @@
 E:\SmartClass\DALFactory\bin\Debug\DALFactory.dll
 E:\SmartClass\DALFactory\bin\Debug\DALFactory.pdb
-E:\SmartClass\DALFactory\bin\Debug\IDAL.dll
+E:\SmartClass\DALFactory\bin\Debug\SmartClass.IRepository.dll
 E:\SmartClass\DALFactory\bin\Debug\EntityFramework.dll
 E:\SmartClass\DALFactory\bin\Debug\Model.dll
-E:\SmartClass\DALFactory\bin\Debug\IDAL.pdb
+E:\SmartClass\DALFactory\bin\Debug\SmartClass.IRepository.pdb
 E:\SmartClass\DALFactory\bin\Debug\EntityFramework.xml
 E:\SmartClass\DALFactory\bin\Debug\Model.pdb
 E:\SmartClass\DALFactory\bin\Debug\Model.dll.config
@@ -11,3 +11,5 @@ E:\SmartClass\DALFactory\bin\Debug\zh-Hans\EntityFramework.resources.dll
 E:\SmartClass\DALFactory\obj\Debug\DALFactory.csprojResolveAssemblyReference.cache
 E:\SmartClass\DALFactory\obj\Debug\DALFactory.dll
 E:\SmartClass\DALFactory\obj\Debug\DALFactory.pdb
+E:\SmartClass\DALFactory\bin\Debug\AutoMapper.dll
+E:\SmartClass\DALFactory\bin\Debug\AutoMapper.xml

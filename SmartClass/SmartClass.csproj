@@ -82,14 +82,14 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -244,9 +244,6 @@
     <Compile Include="Models\AutofacConfig\AutofacConfig.cs" />
     <Compile Include="Models\AutofacConfig\IServiceGetter.cs" />
     <Compile Include="Models\AutofacConfig\ServiceGetter.cs" />
-    <Compile Include="Models\Classes\Buildings.cs" />
-    <Compile Include="Models\Classes\ClassRoom.cs" />
-    <Compile Include="Models\Classes\Floors.cs" />
     <Compile Include="Models\Enum\EquipmentType.cs" />
     <Compile Include="Models\Enum\SensorType.cs" />
     <Compile Include="Models\Exceptions\EquipmentNoFindException.cs" />
@@ -313,7 +310,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BLL\SmartClass.Service.csproj">
+    <ProjectReference Include="..\Service\SmartClass.Service.csproj">
       <Project>{9a6cf352-6d3a-4ce1-8581-2f02038c3273}</Project>
       <Name>SmartClass.Service</Name>
     </ProjectReference>
@@ -321,15 +318,15 @@
       <Project>{ec2cd3ee-9336-4a83-bca6-481ffdc64e2a}</Project>
       <Name>SmartClass.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DAL\SmartClass.Repository.csproj">
+    <ProjectReference Include="..\Repository\SmartClass.Repository.csproj">
       <Project>{6bf3a4e3-1adc-490d-9d51-0189a3460afd}</Project>
       <Name>SmartClass.Repository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IBLL\SmartClass.IService.csproj">
+    <ProjectReference Include="..\IService\SmartClass.IService.csproj">
       <Project>{ED50B4A1-6E53-42E9-9C75-5587978280C6}</Project>
       <Name>SmartClass.IService</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IDAL\SmartClass.IRepository.csproj">
+    <ProjectReference Include="..\IRepository\SmartClass.IRepository.csproj">
       <Project>{9926E5F0-F5BC-48C4-B844-BD5155BE5647}</Project>
       <Name>SmartClass.IRepository</Name>
     </ProjectReference>

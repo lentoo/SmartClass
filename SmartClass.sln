@@ -7,17 +7,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartClass", "SmartClass\Sm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartClass.Infrastructure", "Common\SmartClass.Infrastructure.csproj", "{EC2CD3EE-9336-4A83-BCA6-481FFDC64E2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartClass.Service", "BLL\SmartClass.Service.csproj", "{9A6CF352-6D3A-4CE1-8581-2F02038C3273}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartClass.Service", "Service\SmartClass.Service.csproj", "{9A6CF352-6D3A-4CE1-8581-2F02038C3273}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartClass.Repository", "DAL\SmartClass.Repository.csproj", "{6BF3A4E3-1ADC-490D-9D51-0189A3460AFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartClass.Repository", "Repository\SmartClass.Repository.csproj", "{6BF3A4E3-1ADC-490D-9D51-0189A3460AFD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{3A8EAF98-646B-4E40-89F1-C22FD84EDE28}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DALFactory", "DALFactory\DALFactory.csproj", "{9FD32AB5-F1B9-4EF6-8F81-193A6B93559C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartClass.IRepository", "IDAL\SmartClass.IRepository.csproj", "{9926E5F0-F5BC-48C4-B844-BD5155BE5647}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartClass.IRepository", "IRepository\SmartClass.IRepository.csproj", "{9926E5F0-F5BC-48C4-B844-BD5155BE5647}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartClass.IService", "IBLL\SmartClass.IService.csproj", "{ED50B4A1-6E53-42E9-9C75-5587978280C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartClass.IService", "IService\SmartClass.IService.csproj", "{ED50B4A1-6E53-42E9-9C75-5587978280C6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SmartClass.Domain", "SmartClass.Domain", "{9D9EE6B5-6DA4-4E24-9BB2-A73B5B793C86}"
 EndProject

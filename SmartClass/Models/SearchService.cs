@@ -1,10 +1,10 @@
 ﻿using Model;
-using Models.Classes;
 using System;
 using System.Linq;
 using SmartClass.IService;
 using SmartClass.Infrastructure;
 using System.Threading;
+using Model.DTO.Classes;
 using Model.DTO.Result;
 using SmartClass.Models.Types;
 using Model.Enum;
@@ -29,7 +29,7 @@ namespace SmartClass.Models
         /// <param name="classroom">教室</param>
         /// <param name="result">记录结果</param>
         /// <returns>返回记录结果</returns>
-        public ClassRoom Search(Z_Room room, ref EquipmentResult result)
+        public ClassRoom Search(Z_Room room,ref EquipmentResult result)
         {
             //获取该教室所有的设备
             var zeList = ZEquipmentService.GetEntity(u => u.F_RoomId == room.F_Id).ToList();
@@ -39,20 +39,19 @@ namespace SmartClass.Models
 
             result.Message = "查询设备信息成功";
 
-            ClassRoom classRoom = PortService.GetReturnData();
-            if (classRoom == null)      //没有数据就重新发一次
+            ClassRoom classRoom = PortService.GetReturnData(room.F_RoomNo);
+            if (classRoom == null) //没有数据就重新发一次
             {
                 Thread.Sleep(500);
                 //向串口发送指令
                 result = PortService.SendConvertSearchCmd(fun, room.F_RoomNo);
-                classRoom = PortService.GetReturnData();
+                classRoom = PortService.GetReturnData(room.F_RoomNo);
             }
             if (classRoom != null)
             {
                 classRoom.Name = room.F_FullName;
                 classRoom.ClassNo = room.F_EnCode;          //教室编码
                 classRoom.Id = room.F_RoomNo;
-                var list = classRoom.SonserList;
                 classRoom.AbnormalSonserList = classRoom.SonserList.Where(u => u.Online == StateType.Offline).ToList();
                 classRoom.NormalSonserList = classRoom.SonserList.Where(u => u.Online == StateType.Online).ToList();
                 result.Count = zeList.Count;

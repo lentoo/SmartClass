@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -54,6 +57,11 @@
     <Compile Include="Actuators\AirConditioning.cs" />
     <Compile Include="Actuators\Digital.cs" />
     <Compile Include="Actuators\SonserBase.cs" />
+    <Compile Include="AutoMapperConfig\AutoMapperConfig.cs" />
+    <Compile Include="DTO\AirControlParams.cs" />
+    <Compile Include="DTO\Classes\Buildings.cs" />
+    <Compile Include="DTO\Classes\ClassRoom.cs" />
+    <Compile Include="DTO\Classes\Floors.cs" />
     <Compile Include="DTO\Courses\Course.cs" />
     <Compile Include="DTO\ControlParams.cs" />
     <Compile Include="DTO\QueryParams.cs" />

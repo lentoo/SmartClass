@@ -9,27 +9,27 @@
         /// <summary>
         /// 课时类型
         /// </summary>
-        public string F_CourseTimeType { get; set; }
+        public string  CourseTimeType { get; set; }
         /// <summary>
         /// 开始周
         /// </summary>
-        public string F_BeginWeek { get; set; }
+        public string  BeginWeek { get; set; }
         /// <summary>
         /// 结束周
         /// </summary>
-        public string F_EndWeek { get; set; }
+        public string  EndWeek { get; set; }
         /// <summary>
         /// 课程编码
         /// </summary>
-        public string F_EnCode { get; set; }
+        public string  EnCode { get; set; }
         /// <summary>
         /// 教室编码
         /// </summary>
-        public string F_RoomNo { get; set; }
+        public string  RoomNo { get; set; }
         /// <summary>
         /// 周
         /// </summary>
-        public string F_Week { get; set; }
+        public string  Week { get; set; }
         /// <summary>
         /// 教师名称
         /// </summary>
@@ -38,6 +38,7 @@
         /// 课程名称
         /// </summary>
         public string CourseName { get; set; }
+
         /// <summary>
         /// 年级
         /// </summary>

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Threading.Tasks;
-using SmartClass.Models.Classes;
 using Microsoft.AspNet.SignalR.Hubs;
 using SmartClass.Infrastructure.Cache;
 using SmartClass.Infrastructure.Mac;

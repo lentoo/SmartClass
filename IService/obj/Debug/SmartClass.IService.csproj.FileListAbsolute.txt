@@ -1,0 +1,15 @@
+E:\SmartClass\IService\bin\Debug\SmartClass.IService.dll
+E:\SmartClass\IService\bin\Debug\SmartClass.IService.pdb
+E:\SmartClass\IService\bin\Debug\Model.dll
+E:\SmartClass\IService\bin\Debug\SmartClass.IRepository.dll
+E:\SmartClass\IService\bin\Debug\EntityFramework.dll
+E:\SmartClass\IService\bin\Debug\SmartClass.IRepository.pdb
+E:\SmartClass\IService\bin\Debug\Model.pdb
+E:\SmartClass\IService\bin\Debug\Model.dll.config
+E:\SmartClass\IService\bin\Debug\EntityFramework.xml
+E:\SmartClass\IService\bin\Debug\zh-Hans\EntityFramework.resources.dll
+E:\SmartClass\IService\obj\Debug\SmartClass.IService.csprojResolveAssemblyReference.cache
+E:\SmartClass\IService\obj\Debug\SmartClass.IService.dll
+E:\SmartClass\IService\obj\Debug\SmartClass.IService.pdb
+E:\SmartClass\IService\bin\Debug\AutoMapper.dll
+E:\SmartClass\IService\bin\Debug\AutoMapper.xml

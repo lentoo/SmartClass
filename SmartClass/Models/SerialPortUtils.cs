@@ -21,7 +21,6 @@ namespace SmartClass.Models
         /// </summary>
         private static SerialPort Port { get; }
         
-        private static byte[] data = new byte[1024];
         //static int Offset = 0;
 
         /// <summary>
@@ -32,7 +31,7 @@ namespace SmartClass.Models
         /// <summary>
         /// 查询数据队列
         /// </summary>
-        public static Queue<byte[]> DataQueue = new Queue<byte[]>();
+        public static Dictionary<string,byte[]> DataDictionary= new Dictionary<string,byte[]>();
         /// <summary>
         /// 接收到报警数据队列
         /// </summary>
@@ -92,8 +91,10 @@ namespace SmartClass.Models
                                     buf = new byte[length];
                                     ByteList.CopyTo(0, buf, 0, length);
                                     ByteList.RemoveRange(0, length);
-
-                                    DataQueue.Enqueue(buf);
+                                    //教室地址
+                                    string classroom = Convert.ToString(buf[2], 16) + Convert.ToString(buf[3], 16);
+                                    Debug.WriteLine(classroom);
+                                    DataDictionary.Add(classroom,buf);
                                 }
                             }
                             else if (ByteList[4] == 0x07)   //表示接收到教室控制器发送过来的报警数据
@@ -157,7 +158,7 @@ namespace SmartClass.Models
         {
             try
             {
-                //每次想串口写查询命令时，必须间隔150ms，视情况而定，
+                //TODO 每次向串口写查询命令时，必须间隔150ms，视情况而定，
                 lock (GetWriteLock)
                 {                   
                     Cmd = cmd;

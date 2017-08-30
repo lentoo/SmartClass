@@ -5,7 +5,6 @@ E:\SmartClass\SmartClassControl\bin\Debug\SmartClassControl.exe
 E:\SmartClass\SmartClassControl\bin\Debug\SmartClassControl.pdb
 E:\SmartClass\SmartClassControl\bin\Debug\Newtonsoft.Json.dll
 E:\SmartClass\SmartClassControl\bin\Debug\Newtonsoft.Json.xml
-E:\SmartClass\SmartClassControl\obj\Debug\SmartClassControl.csprojResolveAssemblyReference.cache
 E:\SmartClass\SmartClassControl\obj\Debug\SmartClassControl.exe.manifest
 E:\SmartClass\SmartClassControl\obj\Debug\SmartClassControl.application
 E:\SmartClass\SmartClassControl\obj\Debug\SmartClassControl.exe

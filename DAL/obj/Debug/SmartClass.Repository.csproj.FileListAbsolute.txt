@@ -1,6 +1,0 @@
-E:\SmartClass\SmartClass\bin\SmartClass.Repository.dll.config
-E:\SmartClass\SmartClass\bin\SmartClass.Repository.dll
-E:\SmartClass\SmartClass\bin\SmartClass.Repository.pdb
-E:\SmartClass\DAL\obj\Debug\SmartClass.Repository.csprojResolveAssemblyReference.cache
-E:\SmartClass\DAL\obj\Debug\SmartClass.Repository.dll
-E:\SmartClass\DAL\obj\Debug\SmartClass.Repository.pdb

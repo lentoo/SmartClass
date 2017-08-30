@@ -9,8 +9,8 @@ namespace Model.DTO.Result
 
     {
         public object AppendData { get; set; }
-        public Int32 ExceptionCount { get; set; }
-        public Int32 Count { get; set; }
-        public Int32 NormalCount { get; set; }
+        public int ExceptionCount { get; set; }
+        public int Count { get; set; }
+        public int NormalCount { get; set; }
     }
 }

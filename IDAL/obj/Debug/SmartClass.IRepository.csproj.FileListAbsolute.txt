@@ -1,5 +1,0 @@
-E:\SmartClass\SmartClass\bin\SmartClass.IRepository.dll
-E:\SmartClass\SmartClass\bin\SmartClass.IRepository.pdb
-E:\SmartClass\IDAL\obj\Debug\SmartClass.IRepository.csprojResolveAssemblyReference.cache
-E:\SmartClass\IDAL\obj\Debug\SmartClass.IRepository.dll
-E:\SmartClass\IDAL\obj\Debug\SmartClass.IRepository.pdb

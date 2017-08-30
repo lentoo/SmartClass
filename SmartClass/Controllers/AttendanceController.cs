@@ -9,6 +9,7 @@ using SmartClass.Infrastructure.Exception;
 using SmartClass.Infrastructure.Images;
 using Model.DTO.Result;
 using Model.Enum;
+using SmartClass.Infrastructure.Mac;
 
 namespace SmartClass.Controllers
 {
@@ -40,10 +41,10 @@ namespace SmartClass.Controllers
                 AttendanceResult result = AttendanceService.InitiatedAttendance(TeaNo, CourseNo);
                 try
                 {
-
                     if (result.ResultCode == ResultCode.Ok)
                     {
-                        string data = $"{result.AttendanceId}|{CourseNo}";
+                        string HostIP = IPUtils.GetHostAddresse();
+                        string data = $"http://{HostIP}:8080/Attendance/InitiatedCheckIn?AttendanceId={result.AttendanceId}&CourseNo={CourseNo}&StuNo=";
                         byte[] bytes = QRCodeHelper.GetQRCode(data);
 
                         string roomId = RoomService.GetEntity(u => u.F_EnCode == result.RoomNo).FirstOrDefault()?.F_Id;
@@ -61,11 +62,10 @@ namespace SmartClass.Controllers
                 {
                     ExceptionHelper.AddException(exception);
                     result.ResultCode = ResultCode.Error;
-                    result.Message = "教室网页没连接";
+                    result.Message = "教室网页已断开连接";
                     result.AttendanceId = null;
                     tran.Rollback();
                 }
-                //return File(bytes, "image/png");
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }

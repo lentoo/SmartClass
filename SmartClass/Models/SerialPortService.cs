@@ -2,20 +2,17 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
-using System.Threading;
-using Model;
 using SmartClass.Models.Types;
-using System.IO.Ports;
-using Models.Classes;
-using SmartClass.Infrastructure;
 using SmartClass.IService;
 using Model.Enum;
 using SmartClass.Models.Exceptions;
 using Model.Actuators;
+using Model.DTO.Classes;
 using SmartClass.Infrastructure.Exception;
 using SmartClass.Infrastructure.Extended;
 using SmartClass.Infrastructure.Cache;
 using Model.DTO.Result;
+
 
 namespace SmartClass.Models
 {
@@ -60,32 +57,34 @@ namespace SmartClass.Models
         /// <summary>
         /// 获取串口返回的数据
         /// </summary>
+        /// <param name="classroom">教室地址</param>
         /// <returns></returns>
-        public ClassRoom GetReturnData()
+        public ClassRoom GetReturnData(string classroom)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             //等待数据初始化
-            while (SerialPortUtils.DataQueue.Count <= 0)
+            while (!SerialPortUtils.DataDictionary.ContainsKey(classroom))
             {
                 if (stopwatch.Elapsed.Seconds >= 3)//3秒后获取不到数据，则返回
                 {
                     return null;
                 }
             }
-            Data = SerialPortUtils.DataQueue.Dequeue();
+            Data = SerialPortUtils.DataDictionary[classroom];
+            SerialPortUtils.DataDictionary.Remove(classroom);
             ClassRoom classRoom = null;
             classRoom = Init(classRoom);
             return classRoom;
         }
 
-        public ClassRoom GetReturnDataTest()
+        public ClassRoom GetReturnDataTest(string classroom)
         {   //TODO 测试数据
-            while (SerialPortUtils.DataQueue.Count <= 0)
+            while (!SerialPortUtils.DataDictionary.ContainsKey(classroom))
             {
                 ;
             }
-            Data = SerialPortUtils.DataQueue.Dequeue();
+            Data = SerialPortUtils.DataDictionary[classroom];
             ClassRoom classRoom = null;
             classRoom = Init(classRoom);
             // ClassRoom classroom = SerialPortUtils.DataQueues.Dequeue();
@@ -159,7 +158,7 @@ namespace SmartClass.Models
                     actuator.State = GetState(state);
                     actuator.IsOpen = state == 1 ? false : true;
                     actuator.Online = state == 0 ? StateType.Offline : StateType.Online;
-                    actuator.Controllable = name == "人体" ? false : name == "气体" ? false : true;
+                    actuator.Controllable = name != "人体" && name != "气体";
                     Sensors.Add(actuator);
                 }
             }
@@ -189,7 +188,7 @@ namespace SmartClass.Models
                 int moduleState = state & 0x1;
                 Lamp1.Id = moduleId + "_0";
                 Lamp1.State = moduleState != 0 ? StateType.StateOpen : StateType.StateClose;
-                Lamp1.IsOpen = moduleState == 1 ? true : false;
+                Lamp1.IsOpen = moduleState == 1;
                 //数据位第4位表示在线状态
                 Lamp1.Online = OnLineState(state);
                 Lamp1.Controllable = true;
@@ -200,7 +199,7 @@ namespace SmartClass.Models
                 Lamp2.Id = moduleId + "_1";
                 int module1State = (state >> 1) & 0x1;
                 Lamp2.State = module1State != 0 ? StateType.StateOpen : StateType.StateClose;
-                Lamp2.IsOpen = module1State == 1 ? true : false;
+                Lamp2.IsOpen = module1State == 1;
                 Lamp2.Online = OnLineState(state);
                 Lamp2.Controllable = true;
                 Sensors.Add(Lamp2);
@@ -209,7 +208,7 @@ namespace SmartClass.Models
             {
                 Lamp1.Id = moduleId;
                 Lamp1.State = (state & 1) != 0 ? StateType.StateOpen : StateType.StateClose;
-                Lamp1.IsOpen = (state & 1) == 1 ? true : false;
+                Lamp1.IsOpen = (state & 1) == 1;
                 Lamp1.Online = OnLineState(state);
                 Lamp1.Controllable = true;
                 Sensors.Add(Lamp1);
