@@ -64,11 +64,14 @@
     <Compile Include="DTO\Classes\Floors.cs" />
     <Compile Include="DTO\Courses\Course.cs" />
     <Compile Include="DTO\ControlParams.cs" />
+    <Compile Include="DTO\Equipment\EquipmentDto.cs" />
     <Compile Include="DTO\QueryParams.cs" />
     <Compile Include="DTO\Result\AttendanceResult.cs" />
     <Compile Include="DTO\Result\LoginResult.cs" />
     <Compile Include="DTO\Result\ModelResult.cs" />
     <Compile Include="DTO\Result\ValidateTokenResult.cs" />
+    <Compile Include="Enum\EquipmentType.cs" />
+    <Compile Include="Enum\SensorType.cs" />
     <Compile Include="MyModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -104,9 +107,6 @@
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Z_Class.cs">
-      <DependentUpon>MyModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Z_ClassCompute.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Z_Course.cs">

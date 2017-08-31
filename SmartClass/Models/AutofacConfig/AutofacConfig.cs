@@ -37,7 +37,6 @@ namespace SmartClass.Models.AutofacConfig
             builder.RegisterType<MemcacheHelper>().Named<ICacheHelper>("Memcached");
             
             builder.RegisterType<ServiceGetter>().As<IServiceGetter>();
-            builder.RegisterType<SearchService>().AsSelf();
             builder.RegisterType<SerialPortService>().AsSelf().PropertiesAutowired();
             //注册过滤器
             builder.RegisterFilterProvider();

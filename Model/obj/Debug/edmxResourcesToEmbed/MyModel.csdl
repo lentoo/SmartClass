@@ -71,8 +71,6 @@
     <EntitySet Name="Z_Attendance" EntityType="NFineBaseModel.Z_Attendance" />
     <EntitySet Name="Z_AttendanceDetails" EntityType="NFineBaseModel.Z_AttendanceDetails" />
     <EntitySet Name="Z_Class" EntityType="NFineBaseModel.Z_Class" />
-    <EntitySet Name="Z_ClassCompute" EntityType="NFineBaseModel.Z_ClassCompute" />
-    <EntitySet Name="Z_Department" EntityType="NFineBaseModel.Z_Department" />
     <EntitySet Name="Z_Grade" EntityType="NFineBaseModel.Z_Grade" />
     <EntitySet Name="Z_Profession" EntityType="NFineBaseModel.Z_Profession" />
     <AssociationSet Name="FK_Z_ATTEND_RELATIONS_Z_ATTEND" Association="NFineBaseModel.FK_Z_ATTEND_RELATIONS_Z_ATTEND">
@@ -87,14 +85,15 @@
       <End Role="Z_Profession" EntitySet="Z_Profession" />
       <End Role="Z_Class" EntitySet="Z_Class" />
     </AssociationSet>
-    <AssociationSet Name="FK_Z_PROFES_RELATIONS_Z_DEPART" Association="NFineBaseModel.FK_Z_PROFES_RELATIONS_Z_DEPART">
-      <End Role="Z_Department" EntitySet="Z_Department" />
-      <End Role="Z_Profession" EntitySet="Z_Profession" />
-    </AssociationSet>
     <EntitySet Name="Z_Student" EntityType="NFineBaseModel.Z_Student" />
     <AssociationSet Name="FK_Z_STUDEN_RELATIONS_Z_CLASS" Association="NFineBaseModel.FK_Z_STUDEN_RELATIONS_Z_CLASS">
       <End Role="Z_Class" EntitySet="Z_Class" />
       <End Role="Z_Student" EntitySet="Z_Student" />
+    </AssociationSet>
+    <EntitySet Name="Z_Department" EntityType="NFineBaseModel.Z_Department" />
+    <AssociationSet Name="FK_Z_PROFES_RELATIONS_Z_DEPART" Association="NFineBaseModel.FK_Z_PROFES_RELATIONS_Z_DEPART">
+      <End Role="Z_Department" EntitySet="Z_Department" />
+      <End Role="Z_Profession" EntitySet="Z_Profession" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Sys_Log">
@@ -137,6 +136,7 @@
     <Property Name="F_LastModifyUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="F_DeleteTime" Type="DateTime" Precision="3" />
     <Property Name="F_DeleteUserId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="F_ComputeMac" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Z_EquipmentLog">
     <Key>
@@ -271,32 +271,6 @@
     <NavigationProperty Name="Z_Profession" Relationship="NFineBaseModel.FK_Z_CLASS_RELATIONS_Z_PROFES" FromRole="Z_Class" ToRole="Z_Profession" />
     <NavigationProperty Name="Z_Student" Relationship="NFineBaseModel.FK_Z_STUDEN_RELATIONS_Z_CLASS" FromRole="Z_Class" ToRole="Z_Student" />
   </EntityType>
-  <EntityType Name="Z_ClassCompute">
-    <Key>
-      <PropertyRef Name="F_Id" />
-    </Key>
-    <Property Name="F_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="F_RoomId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="F_ComputeMac" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-  </EntityType>
-  <EntityType Name="Z_Department">
-    <Key>
-      <PropertyRef Name="F_ID" />
-    </Key>
-    <Property Name="F_ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="F_ClassName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="F_SortCode" Type="Int32" />
-    <Property Name="F_DeleteMark" Type="Boolean" />
-    <Property Name="F_EnabledMark" Type="Boolean" />
-    <Property Name="F_Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-    <Property Name="F_CreatorTime" Type="DateTime" Precision="3" />
-    <Property Name="F_CreatorUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="F_LastModifyTime" Type="DateTime" Precision="3" />
-    <Property Name="F_LastModifyUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="F_DeleteTime" Type="DateTime" Precision="3" />
-    <Property Name="F_DeleteUserId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="Z_Profession" Relationship="NFineBaseModel.FK_Z_PROFES_RELATIONS_Z_DEPART" FromRole="Z_Department" ToRole="Z_Profession" />
-  </EntityType>
   <EntityType Name="Z_Grade">
     <Key>
       <PropertyRef Name="F_ID" />
@@ -371,18 +345,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Z_PROFES_RELATIONS_Z_DEPART">
-    <End Type="NFineBaseModel.Z_Department" Role="Z_Department" Multiplicity="0..1" />
-    <End Type="NFineBaseModel.Z_Profession" Role="Z_Profession" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Z_Department">
-        <PropertyRef Name="F_ID" />
-      </Principal>
-      <Dependent Role="Z_Profession">
-        <PropertyRef Name="Z_D_F_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityType Name="Z_Student">
     <Key>
       <PropertyRef Name="F_ID" />
@@ -415,6 +377,36 @@
       </Principal>
       <Dependent Role="Z_Student">
         <PropertyRef Name="Z_C_F_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Z_Department">
+    <Key>
+      <PropertyRef Name="F_ID" />
+    </Key>
+    <Property Name="F_ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="F_DepName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="F_SortCode" Type="Int32" />
+    <Property Name="F_DeleteMark" Type="Boolean" />
+    <Property Name="F_EnabledMark" Type="Boolean" />
+    <Property Name="F_Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="F_CreatorTime" Type="DateTime" Precision="3" />
+    <Property Name="F_CreatorUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="F_LastModifyTime" Type="DateTime" Precision="3" />
+    <Property Name="F_LastModifyUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="F_DeleteTime" Type="DateTime" Precision="3" />
+    <Property Name="F_DeleteUserId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Z_Profession" Relationship="NFineBaseModel.FK_Z_PROFES_RELATIONS_Z_DEPART" FromRole="Z_Department" ToRole="Z_Profession" />
+  </EntityType>
+  <Association Name="FK_Z_PROFES_RELATIONS_Z_DEPART">
+    <End Type="NFineBaseModel.Z_Department" Role="Z_Department" Multiplicity="0..1" />
+    <End Type="NFineBaseModel.Z_Profession" Role="Z_Profession" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Z_Department">
+        <PropertyRef Name="F_ID" />
+      </Principal>
+      <Dependent Role="Z_Profession">
+        <PropertyRef Name="Z_D_F_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

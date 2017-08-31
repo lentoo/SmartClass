@@ -118,7 +118,7 @@
     <Compile Include="Email.cs" />
     <Compile Include="Exception\ExceptionHelper.cs" />
     <Compile Include="Extended\DatetimeExtened.cs" />
-    <Compile Include="Extended\Extended.cs" />
+    <Compile Include="Extended\StringExtended.cs" />
     <Compile Include="Images\QRCodeHelper.cs" />
     <Compile Include="JwtUtils.cs" />
     <Compile Include="Logged\ILogHelper.cs" />

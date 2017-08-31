@@ -39,11 +39,6 @@ namespace SmartClass.IRepository
       
     }
 	
-	public partial interface IZ_ClassComputeDal :IBaseDal<Z_ClassCompute>
-    {
-      
-    }
-	
 	public partial interface IZ_CourseDal :IBaseDal<Z_Course>
     {
       

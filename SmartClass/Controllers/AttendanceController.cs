@@ -13,86 +13,83 @@ using SmartClass.Infrastructure.Mac;
 
 namespace SmartClass.Controllers
 {
+  /// <summary>
+  /// 考勤  控制器
+  /// </summary>
+  public class AttendanceController : Controller
+  {
+    public IZ_AttendanceService AttendanceService { get; set; }
+    public IZ_RoomService RoomService { get; set; }
+    public ICacheHelper Cache { get; set; }
+
+
     /// <summary>
-    /// 考勤  控制器
+    /// 教师发起签到
     /// </summary>
-    public class AttendanceController : Controller
+    /// <param name="TeaNo">教工编号</param>
+    /// <param name="CourseNo">课程编号</param>
+    /// <returns></returns>
+    public ActionResult InitiatedCheckIn(string TeaNo, string CourseNo)
     {
-        public IZ_AttendanceService AttendanceService { get; set; }
-        public IZ_RoomService RoomService { get; set; }
-        public ICacheHelper Cache { get; set; }
-
-        public IZ_ClassComputeService ClassComputeService { get; set; }
-
-        /// <summary>
-        /// 教师发起签到
-        /// </summary>
-        /// <param name="TeaNo">教工编号</param>
-        /// <param name="CourseNo">课程编号</param>
-        /// <returns></returns>
-        public ActionResult InitiatedCheckIn(string TeaNo, string CourseNo)
+      if (TeaNo == null || CourseNo == null)
+      {
+        return null;
+      }
+      using (var tran = AttendanceService.dal.dbContext.Database.BeginTransaction())
+      {
+        AttendanceResult result = AttendanceService.InitiatedAttendance(TeaNo, CourseNo);
+        try
         {
-            if (TeaNo == null || CourseNo == null)
-            {
-                return null;
-            }
-            using (var tran = AttendanceService.dal.dbContext.Database.BeginTransaction())
-            {
-                AttendanceResult result = AttendanceService.InitiatedAttendance(TeaNo, CourseNo);
-                try
-                {
-                    if (result.ResultCode == ResultCode.Ok)
-                    {
-                        string HostIP = IPUtils.GetHostAddresse();
-                        string data = $"http://{HostIP}:8080/Attendance/InitiatedCheckIn?AttendanceId={result.AttendanceId}&CourseNo={CourseNo}&StuNo=";
-                        byte[] bytes = QRCodeHelper.GetQRCode(data);
+          if (result.ResultCode == ResultCode.Ok)
+          {
+            string HostIP = IPUtils.GetHostAddresse();
+            string data = $"http://{HostIP}:8080/Attendance/InitiatedCheckIn?AttendanceId={result.AttendanceId}&CourseNo={CourseNo}&StuNo=";
+            byte[] bytes = QRCodeHelper.GetQRCode(data);
 
-                        string roomId = RoomService.GetEntity(u => u.F_EnCode == result.RoomNo).FirstOrDefault()?.F_Id;
+            var room = RoomService.GetEntity(u => u.F_EnCode == result.RoomNo).FirstOrDefault();
+            string mac = room?.F_ComputeMac;
+            string connectionId = Cache.GetCache<string>(mac);
 
-                        string mac = ClassComputeService.GetEntity(u => u.F_RoomId == roomId).FirstOrDefault()
-                            ?.F_ComputeMac;
-                        string connectionId = Cache.GetCache<string>(mac);
-
-                        GlobalHost.ConnectionManager.GetHubContext<QRCodeHub>().Clients.Client(connectionId)
-                            .ReciverImg(bytes);
-                        tran.Commit();
-                    }
-                }
-                catch (Exception exception)
-                {
-                    ExceptionHelper.AddException(exception);
-                    result.ResultCode = ResultCode.Error;
-                    result.Message = "教室网页已断开连接";
-                    result.AttendanceId = null;
-                    tran.Rollback();
-                }
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
+            GlobalHost.ConnectionManager.GetHubContext<QRCodeHub>().Clients.Client(connectionId)
+                .ReciverImg(bytes);
+            tran.Commit();
+          }
         }
-
-        /// <summary>
-        /// 学生进行签到
-        /// </summary>
-        /// <param name="AttendanceId">签到ID</param>
-        /// <param name="StuNo">学生学号</param>
-        /// <param name="CourseNo">课程编号</param>
-        public ActionResult StudentCheckIn(string AttendanceId, string StuNo, string CourseNo)
+        catch (Exception exception)
         {
-            AttendanceResult result = AttendanceService.CheckIn(AttendanceId, StuNo, CourseNo);
-            return Json(result, JsonRequestBehavior.AllowGet);
+          ExceptionHelper.AddException(exception);
+          result.ResultCode = ResultCode.Error;
+          result.Message = "教室网页已断开连接";
+          result.AttendanceId = null;
+          tran.Rollback();
         }
-
-        /// <summary>
-        /// 手动签到
-        /// </summary>
-        /// <param name="TeaNo">教师编号</param>
-        /// <param name="StuNo">学生编号</param>
-        /// <param name="CourseNo">课程编号</param>
-        /// <returns></returns>
-        public ActionResult ManualCheckIn(string TeaNo, string StuNo, string CourseNo)
-        {
-            var result = AttendanceService.ManualCheckIn(TeaNo, StuNo, CourseNo);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
+        return Json(result, JsonRequestBehavior.AllowGet);
+      }
     }
+
+    /// <summary>
+    /// 学生进行签到
+    /// </summary>
+    /// <param name="AttendanceId">签到ID</param>
+    /// <param name="StuNo">学生学号</param>
+    /// <param name="CourseNo">课程编号</param>
+    public ActionResult StudentCheckIn(string AttendanceId, string StuNo, string CourseNo)
+    {
+      AttendanceResult result = AttendanceService.CheckIn(AttendanceId, StuNo, CourseNo);
+      return Json(result, JsonRequestBehavior.AllowGet);
+    }
+
+    /// <summary>
+    /// 手动签到
+    /// </summary>
+    /// <param name="TeaNo">教师编号</param>
+    /// <param name="StuNo">学生编号</param>
+    /// <param name="CourseNo">课程编号</param>
+    /// <returns></returns>
+    public ActionResult ManualCheckIn(string TeaNo, string StuNo, string CourseNo)
+    {
+      var result = AttendanceService.ManualCheckIn(TeaNo, StuNo, CourseNo);
+      return Json(result, JsonRequestBehavior.AllowGet);
+    }
+  }
 }

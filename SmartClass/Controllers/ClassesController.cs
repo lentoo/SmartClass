@@ -26,13 +26,15 @@ namespace SmartClass.Controllers
     /// 查询所有的教室
     /// </summary>
     /// <returns></returns>
+    [OutputCache(Duration = 60*60*24)]
     public ActionResult SearchAllClass()
     {
-      List<Buildings> list = Cache.GetCache<List<Buildings>>("AllClasses");
-      if (list != null)
-      {
-        return Json(list, JsonRequestBehavior.AllowGet);
-      }
+      List<Buildings> list;
+      //  = Cache.GetCache<List<Buildings>>("AllClasses");
+      //if (list != null)
+      //{
+      //  return Json(list, JsonRequestBehavior.AllowGet);
+      //}
       list = new List<Buildings>();
       var buildings = ZRoomService.GetEntity(u => u.F_RoomType == "Building").ToList();
       var Floors = ZRoomService.GetEntity(u => u.F_RoomType == "Floor").ToList();
@@ -52,11 +54,10 @@ namespace SmartClass.Controllers
           foreach (var rooms in ClassRooms)
           {
             if (rooms.F_ParentId != f.F_Id) continue;
-
             ClassRoom classRoom = new ClassRoom();
+            AutoMapperConfig.Map(building, classRoom);
+            AutoMapperConfig.Map(floors, classRoom);
             AutoMapperConfig.Map(rooms, classRoom);
-            AutoMapperConfig.Map(f, classRoom);
-            AutoMapperConfig.Map(item, classRoom);
             //classRoom.Id = rooms.F_RoomNo;
             //classRoom.BuildingName = item.F_FullName;
             //classRoom.LayerName = f.F_FullName;

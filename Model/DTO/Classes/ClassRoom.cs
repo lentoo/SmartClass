@@ -9,7 +9,7 @@ namespace Model.DTO.Classes
     public class ClassRoom
     {
         /// <summary>
-        /// 教室ID
+        /// 教室通信编码
         /// </summary>
         public string Id { get; set; }
         /// <summary>
@@ -25,7 +25,7 @@ namespace Model.DTO.Classes
         /// </summary>
         public string LayerName { get; set; }
         /// <summary>
-        /// 教室编码
+        /// 教室编号
         /// </summary>
         public string ClassNo { get; set; }
         /// <summary>

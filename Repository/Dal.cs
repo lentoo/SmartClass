@@ -40,11 +40,6 @@ namespace SmartClass.Repository
 
     }
 		
-	public partial class Z_ClassComputeDal :BaseDal<Z_ClassCompute>,IZ_ClassComputeDal
-    {
-
-    }
-		
 	public partial class Z_CourseDal :BaseDal<Z_Course>,IZ_CourseDal
     {
 

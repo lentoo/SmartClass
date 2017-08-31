@@ -10,13 +10,14 @@ using Model.Enum;
 using SmartClass.Models.Filter;
 using SmartClass.Models.Types;
 using System.Configuration;
+using System.Threading;
 using SmartClass.Infrastructure.Cache;
 using SmartClass.Infrastructure.Exception;
 using SmartClass.Infrastructure.Extended;
 using Model.DTO;
 using Model.DTO.Classes;
+using Model.DTO.Equipment;
 using Model.DTO.Result;
-using SmartClass.Models.Enum;
 
 namespace SmartClass.Controllers
 {
@@ -39,7 +40,6 @@ namespace SmartClass.Controllers
     /// 串口服务
     /// </summary>
     public SerialPortService PortService { get; set; }
-    public SearchService searchService { get; set; }
     /// <summary>
     /// 操作设备结果
     /// </summary>
@@ -65,7 +65,7 @@ namespace SmartClass.Controllers
         }
         else
         {
-          ClassRoom classRoom = searchService.Search(room, ref result);
+          ClassRoom classRoom = PortService.Search(room, ref result);
 
           result.AppendData = classRoom;
         }
@@ -150,6 +150,7 @@ namespace SmartClass.Controllers
             state |= 0x01;
           }
         }
+        state = state | 1 << 7;
         Cache.SetCache(controlParams.classroom, state);
         EResult = PortService.SendConvertCmd(fun, controlParams.classroom, node[0], (byte)state);
       }
@@ -368,7 +369,7 @@ namespace SmartClass.Controllers
     [HttpPost]
     public ActionResult ControlBuildingEquipment(string buildingName, string equipmentType, string onoff)
     {
-      EquipmentResult oa = new EquipmentResult();
+      EquipmentResult equipmentResult = new EquipmentResult();
       try
       {
         //查找该楼栋
@@ -382,53 +383,24 @@ namespace SmartClass.Controllers
         //筛选出教室编码和设备编码
         var val = (from c in classroom
                    join e in equis on c.F_Id equals e.F_RoomId
-                   select new
+                   select new EquipmentDto
                    {
-                     c.F_RoomNo,
-                     e.F_EquipmentNo
+                     F_RoomNo = c.F_RoomNo,
+                     F_EquipmentNo = e.F_EquipmentNo
                    }).ToList();
-        var listByte = new List<byte>();
-        foreach (var item in val)
-        {
-          byte fun = (byte)GetFunByEquipmentType(equipmentType);
-          byte b;
-          if (equipmentType == EquipmentType.LAMP)    //控制灯的功能码
-          {
-            //该灯节点ID有多个灯设备
-            if (val.Count(u => u.F_EquipmentNo == item.F_EquipmentNo) > 1)
-            {
-              b = (byte)(onoff == StateType.OPEN ? 0x03 : 0x00);
-            }
-            else    //该灯节点ID只有单个灯设备
-            {
-              b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
-            }
-          }
-          else   //其它传感器的功能码
-          {
-            b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
-          }
-          byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x01, b };
-          byte[] bclassroom = item.F_RoomNo.StrToHexByte();
-          byte[] bnodeAdd = item.F_EquipmentNo.StrToHexByte();
-          bclassroom.CopyTo(cmd, 2);
-          bnodeAdd.CopyTo(cmd, 5);
-          cmd = cmd.ActuatorCommand();
-          listByte.AddRange(cmd);
-        }
-        PortService.SendCmd(listByte.ToArray());
-        oa.Message = "控制整栋楼层设备成功";
-        oa.ResultCode = ResultCode.Ok;
-        oa.Status = true;
+        PortService.ControlMultiEquipment(val, onoff, equipmentType);
+        equipmentResult.Message = "控制整栋楼层设备成功";
+        equipmentResult.ResultCode = ResultCode.Ok;
+        equipmentResult.Status = true;
       }
       catch (Exception ex)
       {
-        oa.Message = "控制整栋楼层设备失败";
-        oa.ResultCode = ResultCode.Error;
-        oa.Status = false;
-        oa.ErrorData = ex.Message;
+        equipmentResult.Message = "控制整栋楼层设备失败";
+        equipmentResult.ResultCode = ResultCode.Error;
+        equipmentResult.Status = false;
+        equipmentResult.ErrorData = ex.Message;
       }
-      return Json(oa);
+      return Json(equipmentResult);
     }
 
     /// <summary>
@@ -442,50 +414,37 @@ namespace SmartClass.Controllers
     [HttpPost]
     public ActionResult ControlFloorEquipment(string buildingName, string floorName, string equipmentType, string onoff)
     {
-      Z_Room room = ZRoomService.GetEntity(u => u.F_FullName == buildingName).FirstOrDefault();//查找该楼栋
-      var floor = ZRoomService.GetEntity(u => u.F_ParentId == room.F_Id).Where(u => u.F_FullName == floorName);     //该楼栋的该楼层
-      var classroom = ZRoomService.GetEntity(u => floor.Any(f => f.F_Id == u.F_ParentId));  //楼层中所有教室
-                                                                                            //查询该楼层下的该设备型号的所有设备
-      var equis = ZEquipmentService.GetEntity(e => classroom.Any(r => e.F_RoomId == r.F_Id)).Where(e => e.F_EquipmentType == equipmentType);
-      //筛选出教室编码和设备编码
-      var val = (from c in classroom
-                 join e in equis on c.F_Id equals e.F_RoomId
-                 select new
-                 {
-                   c.F_RoomNo,
-                   e.F_EquipmentNo
-                 }).ToList();
-      List<byte> listByte = new List<byte>();
-      foreach (var item in val)
+      EquipmentResult equipmentResult = new EquipmentResult();
+      try
       {
-        byte fun = (byte)GetFunByEquipmentType(equipmentType);
-        byte b;
-        if (equipmentType == EquipmentType.LAMP)//控制灯的功能码 灯比较特别
-        {
-          //该灯节点ID有多个灯设备
-          if (val.Count(u => u.F_EquipmentNo == item.F_EquipmentNo) > 1)
-          {
-            b = (byte)(onoff == StateType.OPEN ? 0x03 : 0x00);
-          }
-          else//该灯节点ID只有单个灯设备
-          {
-            b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
-          }
-        }
-        else //其它传感器的功能码
-        {
-          b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
-        }
-        byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x01, b };
-        byte[] bclassroom = item.F_RoomNo.StrToHexByte();
-        byte[] bnodeAdd = item.F_EquipmentNo.StrToHexByte();
-        bclassroom.CopyTo(cmd, 2);
-        bnodeAdd.CopyTo(cmd, 5);
-        cmd = cmd.ActuatorCommand();
-        listByte.AddRange(cmd);
+        Z_Room room = ZRoomService.GetEntity(u => u.F_FullName == buildingName).FirstOrDefault();//查找该楼栋
+        var floor = ZRoomService.GetEntity(u => u.F_ParentId == room.F_Id).Where(u => u.F_FullName == floorName);     //该楼栋的该楼层
+        var classroom = ZRoomService.GetEntity(u => floor.Any(f => f.F_Id == u.F_ParentId));  //楼层中所有教室
+                                                                                              //查询该楼层下的该设备型号的所有设备
+        var equis = ZEquipmentService.GetEntity(e => classroom.Any(r => e.F_RoomId == r.F_Id)).Where(e => e.F_EquipmentType == equipmentType);
+        //筛选出教室编码和设备编码
+        var val = (from c in classroom
+                   join e in equis on c.F_Id equals e.F_RoomId
+                   select new EquipmentDto()
+                   {
+                     F_RoomNo = c.F_RoomNo,
+                     F_EquipmentNo = e.F_EquipmentNo
+                   }).ToList();
+        PortService.ControlMultiEquipment(val, onoff, equipmentType);
+        PortService.ControlMultiEquipment(val, onoff, equipmentType);
+        equipmentResult.Message = "控制整栋楼层设备成功";
+        equipmentResult.ResultCode = ResultCode.Ok;
+        equipmentResult.Status = true;
       }
-      PortService.SendCmd(listByte.ToArray());
-      return Json(val);
+      catch (Exception ex)
+      {
+        equipmentResult.Message = "控制整栋楼层设备失败";
+        equipmentResult.ResultCode = ResultCode.Error;
+        equipmentResult.Status = false;
+        equipmentResult.ErrorData = ex.Message;
+      }
+
+      return Json(equipmentResult);
     }
 
     /// <summary>
@@ -609,36 +568,5 @@ namespace SmartClass.Controllers
       return Json(EResult);
     }
 
-    /// <summary>
-    /// 通过设备类型获取功能码
-    /// </summary>
-    /// <param name="equipmentType">设备类型</param>
-    /// <returns></returns>
-    [NonAction]
-    private int GetFunByEquipmentType(string equipmentType)
-    {
-      string fun = string.Empty;
-      var settings = ConfigurationManager.AppSettings;
-      switch (equipmentType)
-      {
-        case EquipmentType.LAMP:
-          fun = settings["Lamp"];
-          break;
-        case EquipmentType.DOOR:
-          fun = settings["Door"];
-          break;
-        case EquipmentType.CURTAIN:
-          fun = settings["Curtain"];
-          break;
-        case EquipmentType.WINDOW:
-          fun = settings["Window"];
-          break;
-        case EquipmentType.AIR:
-          fun = settings["Air"];
-          break;
-      }
-      //Convert.ToInt32(fun);
-      return Convert.ToInt32(fun);
-    }
   }
 }

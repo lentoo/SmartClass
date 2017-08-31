@@ -223,3 +223,10 @@ E:\SmartClass\SmartClass\bin\SmartClass.Repository.pdb
 E:\SmartClass\SmartClass\bin\SmartClass.Repository.dll.config
 E:\SmartClass\SmartClass\bin\SmartClass.IService.pdb
 E:\SmartClass\SmartClass\bin\SmartClass.IRepository.pdb
+E:\SmartClass\SmartClass\bin\AutoMapper.dll
+E:\SmartClass\SmartClass\bin\AutoMapper.xml
+E:\SmartClass\SmartClass\bin\zh-Hans\Microsoft.AspNet.SignalR.Core.resources.dll
+E:\SmartClass\SmartClass\bin\zh-Hans\Microsoft.AspNet.SignalR.SystemWeb.resources.dll
+E:\SmartClass\SmartClass\bin\zh-Hans\Microsoft.Owin.resources.dll
+E:\SmartClass\SmartClass\bin\zh-Hans\Microsoft.Owin.Host.SystemWeb.resources.dll
+E:\SmartClass\SmartClass\bin\zh-Hans\Microsoft.Owin.Security.resources.dll

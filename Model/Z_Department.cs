@@ -21,7 +21,7 @@ namespace Model
         }
     
         public string F_ID { get; set; }
-        public string F_ClassName { get; set; }
+        public string F_DepName { get; set; }
         public Nullable<int> F_SortCode { get; set; }
         public Nullable<bool> F_DeleteMark { get; set; }
         public Nullable<bool> F_EnabledMark { get; set; }

@@ -32,5 +32,6 @@ namespace Model
         public string F_LastModifyUserId { get; set; }
         public Nullable<System.DateTime> F_DeleteTime { get; set; }
         public string F_DeleteUserId { get; set; }
+        public string F_ComputeMac { get; set; }
     }
 }

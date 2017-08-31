@@ -39,11 +39,6 @@ namespace SmartClass.IService
        
     }   
 	
-	public partial interface IZ_ClassComputeService : IBaseService<Z_ClassCompute>
-    {
-       
-    }   
-	
 	public partial interface IZ_CourseService : IBaseService<Z_Course>
     {
        

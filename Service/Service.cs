@@ -34,10 +34,6 @@ namespace SmartClass.Service
     {
     }   
 	
-	public partial class Z_ClassComputeService :BaseService<Z_ClassCompute>,IZ_ClassComputeService
-    {
-    }   
-	
 	public partial class Z_CourseService :BaseService<Z_Course>,IZ_CourseService
     {
     }   

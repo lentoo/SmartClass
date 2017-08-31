@@ -10,3 +10,5 @@ E:\SmartClass\Model\bin\Release\zh-Hans\EntityFramework.SqlServer.resources.dll
 E:\SmartClass\Model\obj\Release\Model.csprojResolveAssemblyReference.cache
 E:\SmartClass\Model\obj\Release\Model.dll
 E:\SmartClass\Model\obj\Release\Model.pdb
+E:\SmartClass\Model\bin\Release\AutoMapper.dll
+E:\SmartClass\Model\bin\Release\AutoMapper.xml

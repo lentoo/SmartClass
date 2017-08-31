@@ -1,4 +1,4 @@
-﻿using DALFactory;
+﻿
 using SmartClass.IRepository;
 using Model;
 using System;
