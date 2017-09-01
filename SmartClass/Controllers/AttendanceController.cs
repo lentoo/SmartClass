@@ -80,15 +80,16 @@ namespace SmartClass.Controllers
     }
 
     /// <summary>
-    /// 手动签到
+    /// 教师给学生进行签到
     /// </summary>
     /// <param name="TeaNo">教师编号</param>
     /// <param name="StuNo">学生编号</param>
     /// <param name="CourseNo">课程编号</param>
+    /// <param name="CheckStatus">状态</param>
     /// <returns></returns>
-    public ActionResult ManualCheckIn(string TeaNo, string StuNo, string CourseNo)
+    public ActionResult ManualCheckIn(string TeaNo, string StuNo, string CourseNo,string CheckStatus)
     {
-      var result = AttendanceService.ManualCheckIn(TeaNo, StuNo, CourseNo);
+      var result = AttendanceService.ManualCheckIn(TeaNo, StuNo, CourseNo, CheckStatus);
       return Json(result, JsonRequestBehavior.AllowGet);
     }
   }

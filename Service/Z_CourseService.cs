@@ -8,6 +8,7 @@ using SmartClass.Infrastructure.Exception;
 using Model.DTO.Courses;
 using System.Globalization;
 using System.Data.Objects.SqlClient;
+using System.Text;
 using Model.AutoMapperConfig;
 
 namespace SmartClass.Service
@@ -119,21 +120,25 @@ namespace SmartClass.Service
       int year = currenTime.Year;         //今天的年
       int month = currenTime.Month;       //今天的月
       int term;                          //第几学期
-      if (month >= 9 || month <= 1)
+      string searchYear = string.Empty;
+      if (month >= 9 || month <= 2)
       {
         term = 1;
+        if (month >= 9) searchYear = year + "-" + (year+1);
+        else searchYear = "-" + year;
       }
       else
       {
         term = 2;
+        searchYear = "-" + year;
       }
-      string searchYear = term == 1 ? (year - 1) + "-" + year : "-" + year;
+      //searchYear = term == 1 ? (year - 1) + "-" + year : "-" + year;
       Z_SchoolTime ZSchoolTime = SchoolTimeService.GetEntity(u => u.F_SchoolYear.Contains(searchYear)).FirstOrDefault(u => u.F_Term == term + "");
       DateTime schoolTime = ZSchoolTime.F_SchoolTime;  //开学时间
-
       TimeSpan span = currenTime - schoolTime;   //距离开学过去多久了
       int days = span.Days;               //距离开学过去几天了
       int weeks = Convert.ToInt32(Math.Ceiling(days / 7.0)); //开学第几周了
+      weeks=weeks == 0 ? 1 : weeks;
       SchollTime schollTime = new SchollTime()
       {
         Month = month,
@@ -194,7 +199,11 @@ namespace SmartClass.Service
       string searchYear = term == 1 ? (year - 1) + "-" + year : "-" + year;
       Z_SchoolTime ZSchoolTime = SchoolTimeService.GetEntity(u => u.F_SchoolYear.Contains(searchYear)).FirstOrDefault(u => u.F_Term == term + "");
       DateTime schoolTime = ZSchoolTime.F_SchoolTime;  //开学时间
-
+      DateTime endTime = ZSchoolTime.F_EndTime; //该学期结束时间
+      if (currenTime >= endTime)
+      {
+        return new List<Course>();
+      }
       TimeSpan span = currenTime - schoolTime;   //距离开学过去多久了
       int days = span.Days;               //距离开学过去几天了
       int weeks = Convert.ToInt32(Math.Ceiling(days / 7.0)); //开学第几周了

@@ -96,7 +96,6 @@ namespace SmartClass.Models
       return classRoom;
     }
 
-    //private ClassRoom classRoom;
     /// <summary>
     /// 对串口数据进行处理
     /// </summary>

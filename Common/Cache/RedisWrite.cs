@@ -53,7 +53,11 @@ namespace SmartClass.Infrastructure.Cache
     {
       using (IRedisClient redis = prcm.GetClient())
       {
-        return redis.Remove(key);
+        if (redis.ContainsKey(key))
+        {
+          redis.Remove(key);
+        }
+        return true;
       }
     }
     /// <summary>

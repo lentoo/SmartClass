@@ -5,6 +5,7 @@
   <title>二维码</title>
   <script src="/Scripts/jquery-1.10.2.js"></script>
   <script src="/Scripts/jquery.signalR-2.2.2.js"></script>
+  <link href="Content/css/animate.css" rel="stylesheet"/>
   <script src="/SignalR/hubs" type="text/javascript"></script>
   <style>
     html, body {
@@ -19,6 +20,11 @@
       height: 80%;
       margin: 0 auto;
     }
+    #messagelist {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+    }
   </style>
 
   <script>
@@ -26,11 +32,12 @@
       "use strict";
       var char = $.connection['QRCodeHub'];
       char.client.Reciver = function (name, message) {
-        messagelist.append('<li><strong>' + name + '</strong>：' + message + '</li></br>');
+        $('<li>mac地址：<strong>' + name + '</strong></li>').appendTo($('#messagelist'));
+        $('<li>websocketID：<strong>' + message + '</strong></li>').appendTo($('#messagelist'));
       };
       char.client.ReciverImg = function (imgData) {
         $('#images img').remove();
-        $('#images').append('<img style="display:block;width:800px;height:800px;" src="data:image/jpg;base64,' + imgData + '"></img>')
+        $('#images').append('<img class="animated zoomIn" style="width:800px;height:800px;" src="data:image/jpg;base64,' + imgData + '"></img>')
       };
       $.connection.hub.start().done(function () {
         connectionServer(char);
@@ -43,9 +50,9 @@
 </head>
 <body>
   <ul id="messagelist"></ul>
-  <div id="box">
-    <div id="images">
-    </div>
+<div id="box">
+  <div id="images">
   </div>
+</div>
 </body>
 </html>

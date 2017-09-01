@@ -187,6 +187,7 @@
     <EntitySetMapping Name="Z_SchoolTime">
       <EntityTypeMapping TypeName="NFineBaseModel.Z_SchoolTime">
         <MappingFragment StoreEntitySet="Z_SchoolTime">
+          <ScalarProperty Name="F_EndTime" ColumnName="F_EndTime" />
           <ScalarProperty Name="F_SchoolTime" ColumnName="F_SchoolTime" />
           <ScalarProperty Name="F_Term" ColumnName="F_Term" />
           <ScalarProperty Name="F_SchoolYear" ColumnName="F_SchoolYear" />

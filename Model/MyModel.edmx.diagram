@@ -12,7 +12,7 @@
         <EntityTypeShape EntityType="NFineBaseModel.Z_EquipmentLog" Width="1.5" PointX="7.375" PointY="0.5" />
         <EntityTypeShape EntityType="NFineBaseModel.Z_Equipment" Width="1.5" PointX="0.5" PointY="0.5" />
         <EntityTypeShape EntityType="NFineBaseModel.Z_Course" Width="1.5" PointX="11" PointY="0.625" />
-        <EntityTypeShape EntityType="NFineBaseModel.Z_SchoolTime" Width="1.5" PointX="5.625" PointY="4.375" />
+        <EntityTypeShape EntityType="NFineBaseModel.Z_SchoolTime" Width="1.5" PointX="5.625" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="NFineBaseModel.Z_SectionTime" PointX="7.375" PointY="4.625" Width="1.5" />
         <EntityTypeShape EntityType="NFineBaseModel.Z_Attendance" Width="1.5" PointX="9.75" PointY="8" />
         <EntityTypeShape EntityType="NFineBaseModel.Z_AttendanceDetails" Width="1.5" PointX="12" PointY="8" />

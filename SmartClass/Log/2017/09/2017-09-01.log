@@ -1,0 +1,21 @@
+2017-09-01 16:15:34.7582|DEBUG|SmartClass.Infrastructure.Logged.NLogHelper|ServiceStack.Redis.RedisResponseException: MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk. Commands that may modify the data set are disabled. Please check Redis logs for details about the error., sPort: 64388, LastCommand: 
+   在 ServiceStack.Redis.RedisNativeClient.CreateResponseError(String error)
+   在 ServiceStack.Redis.RedisNativeClient.ReadLong()
+   在 ServiceStack.Redis.RedisNativeClient.SendExpectLong(Byte[][] cmdWithBinaryArgs)
+   在 ServiceStack.Redis.RedisNativeClient.SetNX(String key, Byte[] value)
+   在 ServiceStack.Redis.RedisClient.SetEntryIfNotExists(String key, String value)
+   在 ServiceStack.Redis.RedisClient.Add[T](String key, T value)
+   在 SmartClass.Infrastructure.Cache.RedisWrite.AddCache[T](String key, T value) 位置 E:\SmartClass\Common\Cache\RedisWrite.cs:行号 32
+   在 SmartClass.Models.SerialPortService.ProcessLamp(Int32 index, Byte[] data, Int32 type, String name) 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 191
+   在 SmartClass.Models.SerialPortService.ProcessActuatorData(Int32 num, Int32& index, Byte[] data, Int32 type) 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 150
+   在 SmartClass.Models.SerialPortService.Init(ClassRoom classRoom) 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 121
+   在 SmartClass.Models.SerialPortService.GetReturnData(String classroom) 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 82
+   在 SmartClass.Models.SerialPortService.Search(Z_Room room, EquipmentResult& result) 位置 E:\SmartClass\SmartClass\Models\SerialPortService.cs:行号 599
+   在 SmartClass.Models.Job.SearchBuildingAllRoomEquipmentJob.SearchBuildingAllRoomEquipmentInfo1(String buildingName, Z_Room room) 位置 E:\SmartClass\SmartClass\Models\Job\SearchBuildingAllRoomEquipmentJob.cs:行号 113
+   在 SmartClass.Models.Job.SearchBuildingAllRoomEquipmentJob.Execute(IJobExecutionContext context) 位置 E:\SmartClass\SmartClass\Models\Job\SearchBuildingAllRoomEquipmentJob.cs:行号 41
+2017-09-01 16:36:51.8768|DEBUG|SmartClass.Infrastructure.Logged.NLogHelper|System.ArgumentNullException: 值不能为 null。
+参数名: key
+   在 ServiceStack.Redis.RedisNativeClient.Exists(String key)
+   在 ServiceStack.Redis.RedisClient.ContainsKey(String key)
+   在 SmartClass.Infrastructure.Cache.RedisWrite.GetCache[T](String key) 位置 E:\SmartClass\Common\Cache\RedisWrite.cs:行号 89
+   在 SmartClass.Controllers.AttendanceController.InitiatedCheckIn(String TeaNo, String CourseNo) 位置 E:\SmartClass\SmartClass\Controllers\AttendanceController.cs:行号 51

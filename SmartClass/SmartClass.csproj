@@ -247,7 +247,6 @@
     <Compile Include="Models\Exceptions\EquipmentNoFindException.cs" />
     <Compile Include="Models\Exceptions\MyException.cs" />
     <Compile Include="Models\Filter\EquipmentLogFilterAttribute.cs" />
-    <Compile Include="Models\Filter\FieldValidationFilterAttribute.cs" />
     <Compile Include="Models\Filter\LoginActionFilterAttribute.cs" />
     <Compile Include="Models\Job\ProcessExceptionJob.cs" />
     <Compile Include="Models\Job\QuartzConfig.cs" />
@@ -262,6 +261,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\animate.css" />
     <Content Include="Global.asax" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

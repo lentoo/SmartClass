@@ -221,7 +221,8 @@
     <Property Name="F_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="F_SchoolYear" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="F_Term" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="F_SchoolTime" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="F_SchoolTime" Type="DateTime" Precision="0" Nullable="false" />
+    <Property Name="F_EndTime" Type="DateTime" Precision="0" Nullable="false" />
   </EntityType>
   <EntityType Name="Z_SectionTime">
     <Key>

@@ -18,5 +18,6 @@ namespace Model
         public string F_SchoolYear { get; set; }
         public string F_Term { get; set; }
         public System.DateTime F_SchoolTime { get; set; }
+        public System.DateTime F_EndTime { get; set; }
     }
 }

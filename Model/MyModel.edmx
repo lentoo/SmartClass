@@ -276,6 +276,7 @@
           <Property Name="F_SchoolYear" Type="nvarchar" MaxLength="50" />
           <Property Name="F_Term" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="F_SchoolTime" Type="date" Nullable="false" />
+          <Property Name="F_EndTime" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="Z_SectionTime">
           <Key>
@@ -630,7 +631,8 @@
           <Property Name="F_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="F_SchoolYear" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="F_Term" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="F_SchoolTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="F_SchoolTime" Type="DateTime" Precision="0" Nullable="false" />
+          <Property Name="F_EndTime" Type="DateTime" Precision="0" Nullable="false" />
         </EntityType>
         <EntityType Name="Z_SectionTime">
           <Key>
@@ -1011,6 +1013,7 @@
           <EntitySetMapping Name="Z_SchoolTime">
             <EntityTypeMapping TypeName="NFineBaseModel.Z_SchoolTime">
               <MappingFragment StoreEntitySet="Z_SchoolTime">
+                <ScalarProperty Name="F_EndTime" ColumnName="F_EndTime" />
                 <ScalarProperty Name="F_SchoolTime" ColumnName="F_SchoolTime" />
                 <ScalarProperty Name="F_Term" ColumnName="F_Term" />
                 <ScalarProperty Name="F_SchoolYear" ColumnName="F_SchoolYear" />
