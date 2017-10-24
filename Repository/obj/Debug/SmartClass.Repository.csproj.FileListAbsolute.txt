@@ -4,3 +4,4 @@ E:\SmartClass\SmartClass\bin\SmartClass.Repository.pdb
 E:\SmartClass\Repository\obj\Debug\SmartClass.Repository.csprojResolveAssemblyReference.cache
 E:\SmartClass\Repository\obj\Debug\SmartClass.Repository.dll
 E:\SmartClass\Repository\obj\Debug\SmartClass.Repository.pdb
+E:\SmartClass\Repository\obj\Debug\SmartClass.Repository.csproj.CoreCompileInputs.cache

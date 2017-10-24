@@ -12,3 +12,4 @@ E:\SmartClass\Model\obj\Release\Model.dll
 E:\SmartClass\Model\obj\Release\Model.pdb
 E:\SmartClass\Model\bin\Release\AutoMapper.dll
 E:\SmartClass\Model\bin\Release\AutoMapper.xml
+E:\SmartClass\Model\obj\Release\Model.csproj.CoreCompileInputs.cache

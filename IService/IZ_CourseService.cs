@@ -16,7 +16,17 @@ namespace SmartClass.IService
     /// <param name="StuNo"></param>
     /// <returns></returns>
     List<Course> GetStudentCourse(string StuNo);
-
+    /// <summary>
+    /// 选出在当前周的课程
+    /// </summary>
+    /// <param name="courses"></param>
+    /// <param name="schollTime"></param>
+    /// <returns></returns>
+    List<Course> SelectCourseInTheCurrentWeek(List<Course> courses, SchollTime schollTime);
+    /// <summary>
+    /// 得到当前的时间与开学的时间状态
+    /// </summary>
+    SchollTime GetSchollTime();
     /// <summary>
     /// 通过教师编号查询该教师的课程
     /// </summary>

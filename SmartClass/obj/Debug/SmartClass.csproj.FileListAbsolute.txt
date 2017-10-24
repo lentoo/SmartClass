@@ -223,3 +223,4 @@ E:\SmartClass\SmartClass\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
 E:\SmartClass\SmartClass\obj\Debug\SmartClass.csprojResolveAssemblyReference.cache
 E:\SmartClass\SmartClass\obj\Debug\SmartClass.dll
 E:\SmartClass\SmartClass\obj\Debug\SmartClass.pdb
+E:\SmartClass\SmartClass\obj\Debug\SmartClass.csproj.CoreCompileInputs.cache

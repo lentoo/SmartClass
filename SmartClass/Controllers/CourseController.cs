@@ -17,9 +17,6 @@ namespace SmartClass.Controllers
   {
     public IZ_CourseService CourseService { get; set; }
 
-    public IZ_SectionTimeService SectionTimeService { get; set; }
-
-    public ICacheHelper Cache { get; set; }
 
     public ActionResult GetToDayCourse()
     {

@@ -37,6 +37,8 @@ namespace SmartClass
       QuartzConfig.InitJob();
       QuartzConfig.StartJob();
 
+      SerialPortUtils.InitialSerialPort();
+
       //EF Pre-Generated Mapping Views（预生成映射视图）
       using (var dbcontext = new NFineBaseEntities())
       {

@@ -51,3 +51,4 @@ E:\SmartClass\Common\obj\Release\SmartClass.Infrastructure.dll
 E:\SmartClass\Common\obj\Release\SmartClass.Infrastructure.pdb
 E:\SmartClass\Common\bin\Release\AutoMapper.dll
 E:\SmartClass\Common\bin\Release\AutoMapper.xml
+E:\SmartClass\Common\obj\Release\SmartClass.Infrastructure.csproj.CoreCompileInputs.cache

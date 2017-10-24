@@ -21,6 +21,9 @@ using SmartClass.Infrastructure;
 
 namespace SmartClass.Models
 {
+  /// <summary>
+  /// 串口服务类，用于封装串口返回的信息
+  /// </summary>
   public class SerialPortService
   {
     public IZ_EquipmentService ZEquipmentService { get; set; }
@@ -279,7 +282,7 @@ namespace SmartClass.Models
         ProjectionScreen.Type = type;
         ProjectionScreen.Online = state == 0 ? StateType.Offline : StateType.Online;
         ProjectionScreen.State = state != 0 ? StateType.StateOpen : StateType.StateClose;
-        ProjectionScreen.Controllable = false;
+        ProjectionScreen.Controllable = true;
         Sensors.Add(ProjectionScreen);
       }
 

@@ -7,6 +7,9 @@ using SmartClass.Infrastructure.Exception;
 
 namespace SmartClass.Infrastructure.Cache
 {
+  /// <summary>
+  /// Redis帮助类封装
+  /// </summary>
   public class RedisWrite : ICacheHelper
   {
     private static readonly string[] ReadOnlyHosts = ConfigurationManager.AppSettings["RedisReadOnlyHosts"].Split(';');
@@ -29,6 +32,7 @@ namespace SmartClass.Infrastructure.Cache
     {
       using (IRedisClient redis = prcm.GetClient())
       {
+        
         return redis.Add(key, value);
       }
     }

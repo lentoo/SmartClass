@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Model.DTO.Classes;
 using Model.DTO.Courses;
+using System.Collections.Generic;
 
 namespace Model.AutoMapperConfig
 {
@@ -73,6 +74,11 @@ namespace Model.AutoMapperConfig
     public static T1 Map<T, T1>(T obj, T1 obj2)
     {
       return Mapper.Map(obj, obj2);
+    }
+
+    public static List<T1> MapList<T,T1>(List<T> listFor,List<T1> listTo)
+    {
+      return Mapper.Map(listFor, listTo);
     }
   }
 }

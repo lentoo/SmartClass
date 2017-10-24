@@ -64,6 +64,7 @@
     <Compile Include="DTO\Classes\Floors.cs" />
     <Compile Include="DTO\Courses\Course.cs" />
     <Compile Include="DTO\ControlParams.cs" />
+    <Compile Include="DTO\Courses\SchoolTime.cs" />
     <Compile Include="DTO\Equipment\EquipmentDto.cs" />
     <Compile Include="DTO\QueryParams.cs" />
     <Compile Include="DTO\Result\AttendanceResult.cs" />

@@ -271,6 +271,7 @@
     <Property Name="F_SchoolYear" Type="nvarchar" MaxLength="50" />
     <Property Name="F_Term" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="F_SchoolTime" Type="date" Nullable="false" />
+    <Property Name="F_EndTime" Type="date" Nullable="false" />
   </EntityType>
   <EntityType Name="Z_SectionTime">
     <Key>

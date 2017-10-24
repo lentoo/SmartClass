@@ -4,3 +4,4 @@ E:\SmartClass\SmartClass\bin\SmartClass.Infrastructure.pdb
 E:\SmartClass\Common\obj\Debug\SmartClass.Infrastructure.csprojResolveAssemblyReference.cache
 E:\SmartClass\Common\obj\Debug\SmartClass.Infrastructure.dll
 E:\SmartClass\Common\obj\Debug\SmartClass.Infrastructure.pdb
+E:\SmartClass\Common\obj\Debug\SmartClass.Infrastructure.csproj.CoreCompileInputs.cache

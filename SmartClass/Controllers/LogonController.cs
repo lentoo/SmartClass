@@ -97,6 +97,12 @@ namespace SmartClass.Controllers
       return Json(loginResult);
 
     }
+    /// <summary>
+    /// 给后台使用，获取登录Token值
+    /// </summary>
+    /// <param name="account">账号</param>
+    /// <param name="Pwd">密码</param>
+    /// <returns></returns>
     [HttpPost]
     public ActionResult GetToken(string account, string Pwd)
     {

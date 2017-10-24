@@ -38,3 +38,4 @@ E:\SmartClass\Repository\bin\Release\EntityFramework.SqlServer.xml
 E:\SmartClass\Repository\bin\Release\AutoMapper.xml
 E:\SmartClass\Repository\bin\Release\zh-Hans\EntityFramework.resources.dll
 E:\SmartClass\Repository\bin\Release\zh-Hans\EntityFramework.SqlServer.resources.dll
+E:\SmartClass\Repository\obj\Release\SmartClass.Repository.csproj.CoreCompileInputs.cache

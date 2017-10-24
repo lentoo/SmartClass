@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -253,8 +254,10 @@
     <Compile Include="Models\Job\SearchBuildingAllRoomEquipmentJob.cs" />
     <Compile Include="Models\Job\SynchronizeElectronicClockTimeJob.cs" />
     <Compile Include="Models\Job\TimingProcessDailyCoursesJob.cs" />
-    <Compile Include="Models\SerialPortService.cs" />
-    <Compile Include="Models\SerialPortUtils.cs" />
+    <Compile Include="Models\SerialPortRelated\LampData.cs" />
+    <Compile Include="Models\SerialPortRelated\SerialPortDataProcess.cs" />
+    <Compile Include="Models\SerialPortRelated\SerialPortService.cs" />
+    <Compile Include="Models\SerialPortRelated\SerialPortUtils.cs" />
     <Compile Include="Models\SignalR\QRCodeHub.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Models\Types\StateType.cs" />

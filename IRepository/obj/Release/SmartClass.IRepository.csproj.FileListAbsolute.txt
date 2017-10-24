@@ -28,3 +28,4 @@ E:\SmartClass\IRepository\bin\Release\zh-Hans\EntityFramework.SqlServer.resource
 E:\SmartClass\IRepository\obj\Release\SmartClass.IRepository.csprojResolveAssemblyReference.cache
 E:\SmartClass\IRepository\obj\Release\SmartClass.IRepository.dll
 E:\SmartClass\IRepository\obj\Release\SmartClass.IRepository.pdb
+E:\SmartClass\IRepository\obj\Release\SmartClass.IRepository.csproj.CoreCompileInputs.cache

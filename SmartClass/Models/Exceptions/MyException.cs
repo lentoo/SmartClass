@@ -1,24 +1,14 @@
-﻿
-using Autofac;
-using Autofac.Integration.Mvc;
-using SmartClass.Infrastructure;
-using NLog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Web;
+﻿using System;
 using System.Web.Mvc;
 using SmartClass.Infrastructure.Exception;
 using SmartClass.Infrastructure.Logged;
 
 namespace SmartClass.Models.Exceptions
 {
-    /// <summary>
-    /// 全局异常处理类
-    /// </summary>
-    public class MyException : HandleErrorAttribute
+  /// <summary>
+  /// 全局异常处理类
+  /// </summary>
+  public class MyException : HandleErrorAttribute
     {
 
        // public static Queue<Exception> ExceptionQueue = new Queue<Exception>();

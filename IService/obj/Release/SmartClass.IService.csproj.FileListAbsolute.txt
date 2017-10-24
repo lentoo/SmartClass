@@ -26,3 +26,4 @@ E:\SmartClass\IService\bin\Release\zh-Hans\EntityFramework.resources.dll
 E:\SmartClass\IService\obj\Release\SmartClass.IService.csprojResolveAssemblyReference.cache
 E:\SmartClass\IService\obj\Release\SmartClass.IService.dll
 E:\SmartClass\IService\obj\Release\SmartClass.IService.pdb
+E:\SmartClass\IService\obj\Release\SmartClass.IService.csproj.CoreCompileInputs.cache

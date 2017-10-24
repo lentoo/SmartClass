@@ -32,15 +32,14 @@ namespace SmartClass.Service
       AttendanceResult Result = new AttendanceResult();
       try
       {
-        DateTime currentTime = Convert.ToDateTime(Infrastructure.Extended.DatetimeExtened.GetNetDateTime());
-        attendance.F_InitiatedTime = currentTime;
-
-
-        //今天星期几
-        string week = ((float)currentTime.DayOfWeek).ToString(CultureInfo.InvariantCulture);
+        //获取今天与开学的时间状态信息
+        SchollTime schollTime = CourseService.GetSchollTime();
+        //获取该老师的课程
         List<Course> courses = CourseService.GetTeacherCourse(TeacherNum);
-        Course course = courses.Where(u => u.Week == week).FirstOrDefault(u => u.EnCode == CourseNo);
-
+        
+        courses = CourseService.SelectCourseInTheCurrentWeek(courses, schollTime);
+        //获取该老师今天的课程
+        Course course = courses.Where(u => u.Week == schollTime.Week).FirstOrDefault(u => u.EnCode == CourseNo);
         if (course == null) //今天没课，不能发起签到
         {
           Result.ResultCode = ResultCode.Error;
@@ -48,8 +47,8 @@ namespace SmartClass.Service
         }
         else //今天有课
         {
-          // 通过今天日期和课程ID，课程编号,教师编号来确定考勤ID
-          attendance.F_ID = $"{currentTime:yyyyMMdd}.{course.Id}";
+          // 通过今天日期和课程ID来确定考勤ID
+          attendance.F_ID = $"{schollTime.CurrentTime:yyyyMMdd}.{course.Id}";
           //判断今天是否已经发起签到了
           var a = GetEntity(u => u.F_ID == attendance.F_ID).FirstOrDefault();
           if (a != null)
@@ -62,10 +61,10 @@ namespace SmartClass.Service
           List<Z_SectionTime> list = CourseService.GetSectionTime();
           Z_SectionTime sectionTime = list.FirstOrDefault(t => t.F_CourseTimeType == course.CourseTimeType);
           DateTime sectionDateTime = DateTime.Parse(sectionTime?.F_Time);
-          if (sectionDateTime > currentTime) //上课前
+          if (sectionDateTime > schollTime.CurrentTime) //上课前
           {
             //上课前10分钟可以发起签到
-            TimeSpan time = sectionDateTime - currentTime;
+            TimeSpan time = sectionDateTime - schollTime.CurrentTime;
             if (time.Minutes <= 10)
             {
               attendance.F_TNum = TeacherNum;
@@ -73,7 +72,7 @@ namespace SmartClass.Service
               attendance.F_Flag = true;
               attendance.F_ClassRoomNo = course.RoomNo;
               attendance.F_ClassNo = course.Major + course.Classes;
-              attendance.F_InitiatedTime = currentTime;
+              attendance.F_InitiatedTime = schollTime.CurrentTime;
               AddEntity(attendance);
               Result.RoomNo = course.RoomNo;
               Result.ResultCode = ResultCode.Ok;
@@ -111,15 +110,18 @@ namespace SmartClass.Service
       AttendanceResult Result = new AttendanceResult();
       try
       {
-        DateTime currentTime = Convert.ToDateTime(SmartClass.Infrastructure.Extended.DatetimeExtened.GetNetDateTime());
+        SchollTime schollTime = CourseService.GetSchollTime();
+        DateTime currentTime = schollTime.CurrentTime;
         Z_AttendanceDetails attendanceDetails = new Z_AttendanceDetails();
         Z_Student student = StudentService.GetEntity(u => u.F_StuNo == StuNo).FirstOrDefault();
 
         Z_Class cClass = ClassService.GetEntity(u => u.F_Id == student.Z_C_F_Id).FirstOrDefault();
-        //今天星期几
-        string week = ((float)currentTime.DayOfWeek).ToString(CultureInfo.InvariantCulture);
+
         //学生今日的课程
-        Course course = CourseService.GetStudentCourse(StuNo).FirstOrDefault(u => u.Week == week && u.EnCode == CourseNo);
+        var courses = CourseService.GetStudentCourse(StuNo);
+        courses = CourseService.SelectCourseInTheCurrentWeek(courses, schollTime);
+        var course = courses.FirstOrDefault(u => u.Week == schollTime.Week && u.EnCode == CourseNo);
+
         if (course == null) //学生今日没有该课
         {
           Result.ResultCode = ResultCode.Error;

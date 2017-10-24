@@ -230,3 +230,4 @@ E:\SmartClass\SmartClass\bin\zh-Hans\Microsoft.AspNet.SignalR.SystemWeb.resource
 E:\SmartClass\SmartClass\bin\zh-Hans\Microsoft.Owin.resources.dll
 E:\SmartClass\SmartClass\bin\zh-Hans\Microsoft.Owin.Host.SystemWeb.resources.dll
 E:\SmartClass\SmartClass\bin\zh-Hans\Microsoft.Owin.Security.resources.dll
+E:\SmartClass\SmartClass\obj\Release\SmartClass.csproj.CoreCompileInputs.cache

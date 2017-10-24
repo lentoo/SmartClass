@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Data.Objects.SqlClient;
 using System.Text;
 using Model.AutoMapperConfig;
+using System.Threading.Tasks;
 
 namespace SmartClass.Service
 {
@@ -30,7 +31,7 @@ namespace SmartClass.Service
 
     public ICacheHelper Cache { get; set; }
     /// <summary>
-    /// 学生课程表获取
+    /// 学生的课程
     /// </summary>
     /// <param name="StuNo">学生编号</param>
     /// <returns></returns>
@@ -52,24 +53,20 @@ namespace SmartClass.Service
 
         //查询到该专业的所有课程
         IQueryable<Z_Course> courses = GetEntity(u => u.F_Major == profession.F_ProName).Where(u => u.F_Grade == grade.F_GradeName).Where(u => u.F_Class.Contains(cClass.F_ClassName)).Where(u => u.F_SchoolYear.Contains(schollTime.SearchYear)).Where(u => u.F_Term == schollTime.Term.ToString());
-        foreach (var item in courses)
-        {
-          if (int.Parse(item.F_BeginWeek) <= schollTime.Weeks && int.Parse(item.F_EndWeek) >= schollTime.Weeks)
-          {
-            Course course = AutoMapperConfig.Map<Course>(item);
-            courseList.Add(course);
-          }
-        }
-        courseList = courseList.OrderBy(u => u.Week).ThenBy(u => u.CourseTimeType).ToList();
+
+        var cl = courses.OrderBy(u => u.F_Week).ThenBy(u => u.F_CourseTimeType).ToList();
+        cl.ForEach(u => u.F_CourseTimeType = u.F_CourseTimeType.Substring(0, u.F_CourseTimeType.Length - 1));
+        courseList = AutoMapperConfig.MapList(cl, courseList);
+        ComputedTimeLength(courseList);
       }
       catch (Exception e)
       {
-        ExceptionHelper.AddException(e);
+        throw e;
       }
       return courseList;
     }
     /// <summary>
-    /// 老师本周的课程
+    /// 老师的课程
     /// </summary>
     /// <param name="TeaNo">教师编号</param>
     /// <returns></returns>
@@ -82,19 +79,35 @@ namespace SmartClass.Service
       IQueryable<Z_Course> courses = GetEntity(u => u.F_TeacherName == user.F_RealName)
           .Where(u => u.F_SchoolYear.Contains(schollTime.SearchYear)).Where(u => u.F_Term == schollTime.Term.ToString());
       List<Course> courseList = new List<Course>();
+
+      //对课程按周，课时类型升序排序
+      var cl = courses.OrderBy(u => u.F_Week).ThenBy(u => u.F_CourseTimeType).ToList();
+      cl.ForEach(u => u.F_CourseTimeType = u.F_CourseTimeType.Substring(0, u.F_CourseTimeType.Length - 1));
+      courseList = AutoMapperConfig.MapList(cl, courseList);
+      ComputedTimeLength(courseList);
+      return courseList;
+    }
+    /// <summary>
+    /// 选出在当前周的课程
+    /// </summary>
+    /// <param name="courses"></param>
+    /// <param name="schollTime"></param>
+    /// <returns></returns>
+    public List<Course> SelectCourseInTheCurrentWeek(List<Course> courses, SchollTime schollTime)
+    {
+      List<Course> courseList = new List<Course>();
       foreach (var item in courses)
       {
         //筛选出开始周和结束周在当前周范围内的课程
-        if (int.Parse(item.F_BeginWeek) <= schollTime.Weeks && int.Parse(item.F_EndWeek) >= schollTime.Weeks)
+        if (int.Parse(item.BeginWeek) <= schollTime.Weeks && int.Parse(item.EndWeek) >= schollTime.Weeks)
         {
           Course course = AutoMapperConfig.Map<Course>(item);
           courseList.Add(course);
         }
       }
-      //对课程按周，课时类型升序排序
-      courseList = courseList.OrderBy(u => u.Week).ThenBy(u => u.CourseTimeType).ToList();
       return courseList;
     }
+
     /// <summary>
     /// 获取课时类型
     /// </summary>
@@ -110,10 +123,11 @@ namespace SmartClass.Service
       }
       return list;
     }
+
     /// <summary>
     /// 得到当前的时间与开学的时间状态
     /// </summary>
-    private SchollTime GetSchollTime()
+    public SchollTime GetSchollTime()
     {
       //获取当前网络时间
       DateTime currenTime = Convert.ToDateTime(Infrastructure.Extended.DatetimeExtened.GetNetDateTime());
@@ -124,7 +138,7 @@ namespace SmartClass.Service
       if (month >= 9 || month <= 2)
       {
         term = 1;
-        if (month >= 9) searchYear = year + "-" + (year+1);
+        if (month >= 9) searchYear = year + "-" + (year + 1);
         else searchYear = "-" + year;
       }
       else
@@ -138,14 +152,17 @@ namespace SmartClass.Service
       TimeSpan span = currenTime - schoolTime;   //距离开学过去多久了
       int days = span.Days;               //距离开学过去几天了
       int weeks = Convert.ToInt32(Math.Ceiling(days / 7.0)); //开学第几周了
-      weeks=weeks == 0 ? 1 : weeks;
+      string week = ((float)currenTime.DayOfWeek).ToString(CultureInfo.InvariantCulture);
+      weeks = weeks == 0 ? 1 : weeks;
       SchollTime schollTime = new SchollTime()
       {
+        Week = week,
         Month = month,
         Term = term,
         Weeks = weeks,
         Year = year,
-        SearchYear = searchYear
+        SearchYear = searchYear,
+        CurrentTime = currenTime
       };
       return schollTime;
     }
@@ -181,34 +198,19 @@ namespace SmartClass.Service
     /// <returns></returns>
     public List<Course> GetToDayCourse()
     {
-      DateTime currenTime = DateTime.Today;
-
-      int year = currenTime.Year;         //今天的年
-      int month = currenTime.Month;       //今天的月
-      int day = currenTime.Day;           //今天的日
-      string week = ((float)currenTime.DayOfWeek).ToString(CultureInfo.InvariantCulture);    //今天星期几
-      int term;                          //第几学期
-      if (month >= 9 && month <= 2)
-      {
-        term = 1;
-      }
-      else
-      {
-        term = 2;
-      }
-      string searchYear = term == 1 ? (year - 1) + "-" + year : "-" + year;
-      Z_SchoolTime ZSchoolTime = SchoolTimeService.GetEntity(u => u.F_SchoolYear.Contains(searchYear)).FirstOrDefault(u => u.F_Term == term + "");
+      SchollTime schollTime = GetSchollTime();
+      Z_SchoolTime ZSchoolTime = SchoolTimeService.GetEntity(u => u.F_SchoolYear.Contains(schollTime.SearchYear)).FirstOrDefault(u => u.F_Term == schollTime.Term + "");
       DateTime schoolTime = ZSchoolTime.F_SchoolTime;  //开学时间
       DateTime endTime = ZSchoolTime.F_EndTime; //该学期结束时间
-      if (currenTime >= endTime)
+      if (schollTime.CurrentTime >= endTime)
       {
         return new List<Course>();
       }
-      TimeSpan span = currenTime - schoolTime;   //距离开学过去多久了
+      TimeSpan span = schollTime.CurrentTime - schoolTime;   //距离开学过去多久了
       int days = span.Days;               //距离开学过去几天了
       int weeks = Convert.ToInt32(Math.Ceiling(days / 7.0)); //开学第几周了
 
-      var zCourses = GetEntity(u => u.F_SchoolYear.Contains(searchYear) && u.F_Term == term.ToString() && u.F_Week == week);  //获取符合条件的课程信息
+      var zCourses = GetEntity(u => u.F_SchoolYear.Contains(schollTime.SearchYear) && u.F_Term == schollTime.Term.ToString() && u.F_Week == schollTime.Week);  //获取符合条件的课程信息
 
       var rooms = RoomService.GetEntity(r => true);
       IQueryable<Course> list = (from r in rooms
@@ -231,39 +233,32 @@ namespace SmartClass.Service
                                  });
 
       var toDayCourses = new List<Course>();
-
-      foreach (Course course in list)
-      {
-        if (Convert.ToInt32(course.BeginWeek) <= weeks && Convert.ToInt32(course.EndWeek) >= weeks)
-        {
-          toDayCourses.Add(course);
-        }
-      }
+      toDayCourses = SelectCourseInTheCurrentWeek(toDayCourses, schollTime);
       return toDayCourses;
     }
-  }
 
-  public class SchollTime
-  {
     /// <summary>
-    /// 学年
+    /// 计算课程时长
     /// </summary>
-    public string SearchYear { get; set; }
-    /// <summary>
-    /// 年
-    /// </summary>
-    public int Year { get; set; }
-    /// <summary>
-    /// 月
-    /// </summary>
-    public int Month { get; set; }
-    /// <summary>
-    /// 第几学期
-    /// </summary>
-    public int Term { get; set; }
-    /// <summary>
-    /// 当前第几周
-    /// </summary>
-    public int Weeks { get; set; }
+    /// <param name="courseList"></param>
+    private void ComputedTimeLength(List<Course> courseList)
+    {
+      courseList.ForEach(course =>
+      {
+        var courseTimeType = course.CourseTimeType;
+        if (courseTimeType.Contains("-"))
+        {
+          string[] types = courseTimeType.Split('-');
+          if (types.Length >= 2)
+          {
+            course.TimeLength = 1 + Convert.ToInt32(types[1]) - Convert.ToInt32(types[0]);
+          }
+        }
+        else
+        {
+          course.TimeLength = 1;
+        }
+      });
+    }
   }
 }
