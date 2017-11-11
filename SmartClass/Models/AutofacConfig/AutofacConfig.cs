@@ -10,6 +10,7 @@ using Microsoft.AspNet.SignalR;
 using Autofac.Integration.SignalR;
 using Autofac;
 using Autofac.Integration.Mvc;
+using SmartClass.Models.SerialPortRelated;
 
 namespace SmartClass.Models.AutofacConfig
 {
@@ -38,6 +39,9 @@ namespace SmartClass.Models.AutofacConfig
             
             builder.RegisterType<ServiceGetter>().As<IServiceGetter>();
             builder.RegisterType<SerialPortService>().AsSelf().PropertiesAutowired();
+      //builder.RegisterType<SocketClient>().AsSelf().PropertiesAutowired();
+      builder.RegisterType<SerialPortServerClient>().InstancePerLifetimeScope().AsSelf().PropertiesAutowired();
+            
             //注册过滤器
             builder.RegisterFilterProvider();
             //Quartz注册定时任务模块

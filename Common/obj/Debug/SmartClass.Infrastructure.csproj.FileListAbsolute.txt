@@ -5,3 +5,10 @@ E:\SmartClass\Common\obj\Debug\SmartClass.Infrastructure.csprojResolveAssemblyRe
 E:\SmartClass\Common\obj\Debug\SmartClass.Infrastructure.dll
 E:\SmartClass\Common\obj\Debug\SmartClass.Infrastructure.pdb
 E:\SmartClass\Common\obj\Debug\SmartClass.Infrastructure.csproj.CoreCompileInputs.cache
+E:\开发软件\SmartClass\SmartClass\bin\SmartClass.Infrastructure.dll.config
+E:\开发软件\SmartClass\SmartClass\bin\SmartClass.Infrastructure.dll
+E:\开发软件\SmartClass\SmartClass\bin\SmartClass.Infrastructure.pdb
+E:\开发软件\SmartClass\Common\obj\Debug\SmartClass.Infrastructure.csprojResolveAssemblyReference.cache
+E:\开发软件\SmartClass\Common\obj\Debug\SmartClass.Infrastructure.csproj.CoreCompileInputs.cache
+E:\开发软件\SmartClass\Common\obj\Debug\SmartClass.Infrastructure.dll
+E:\开发软件\SmartClass\Common\obj\Debug\SmartClass.Infrastructure.pdb

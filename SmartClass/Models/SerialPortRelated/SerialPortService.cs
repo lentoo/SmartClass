@@ -17,7 +17,8 @@ using SmartClass.Infrastructure.Extended;
 using SmartClass.Infrastructure.Cache;
 using Model.DTO.Result;
 using SmartClass.Infrastructure;
-
+using SmartClass.Models.SerialPortRelated;
+using System.Text;
 
 namespace SmartClass.Models
 {
@@ -28,6 +29,7 @@ namespace SmartClass.Models
   {
     public IZ_EquipmentService ZEquipmentService { get; set; }
     public ICacheHelper Cache { get; set; }
+    public SerialPortServerClient serialPortServerClient { get; set; }
     /// <summary>
     /// 数字量传感器种类
     /// </summary>
@@ -50,16 +52,45 @@ namespace SmartClass.Models
     /// <param name="cmd"></param>
     public void SendCmd(byte[] cmd)
     {
-      SerialPortUtils.SendCmd(cmd);
+      serialPortServerClient.SendData(cmd);
+      CloseConnect();
+      //SerialPortUtils.SendCmd(cmd);
+    }
+    /// <summary>
+    /// 查询报警数据
+    /// </summary>
+    /// <returns>教室id</returns>
+    public string QueryAlarmData(out int value)
+    {
+      string str = "报警数据";
+      serialPortServerClient.SendData(Encoding.UTF8.GetBytes(str));
+      byte[] bs = serialPortServerClient.GetReturnData();
+      if (bs == null)
+      {
+        value = 0;
+        return null;
+      }
+      string classId = Convert.ToString(bs[2], 16) + Convert.ToString(bs[3], 16);
+      value = bs[7];
+      return classId;
 
     }
     /// <summary>
     /// 向串口发送查询数据
     /// </summary>
     /// <param name="cmd"></param>
-    public void SendSearchCmd(byte[] cmd)
+    /// <returns>串口数据</returns>
+    public byte[] SendSearchCmd(byte[] cmd)
     {
-      SerialPortUtils.SendSearchCmd(cmd);
+      serialPortServerClient.SendSearchData(cmd);
+      Data = serialPortServerClient.GetReturnData();
+
+      return Data;
+      //SerialPortUtils.SendSearchCmd(cmd);
+    }
+    public void CloseConnect()
+    {
+      serialPortServerClient.CloseConnect();
     }
 
     /// <summary>
@@ -69,18 +100,10 @@ namespace SmartClass.Models
     /// <returns></returns>
     public ClassRoom GetReturnData(string classroom)
     {
-      Stopwatch stopwatch = new Stopwatch();
-      stopwatch.Start();
-      //等待数据初始化
-      while (!SerialPortUtils.DataDictionary.ContainsKey(classroom))
+      if (Data == null || Data?.Length == 0)
       {
-        if (stopwatch.Elapsed.Seconds >= 3)//3秒后获取不到数据，则返回
-        {
-          return null;
-        }
+        return null;
       }
-      Data = SerialPortUtils.DataDictionary[classroom];
-      SerialPortUtils.DataDictionary.Remove(classroom);
       ClassRoom classRoom = null;
       classRoom = Init(classRoom);
       return classRoom;
@@ -88,11 +111,11 @@ namespace SmartClass.Models
 
     public ClassRoom GetReturnDataTest(string classroom)
     {   //TODO 测试数据
-      while (!SerialPortUtils.DataDictionary.ContainsKey(classroom))
-      {
-        ;
-      }
-      Data = SerialPortUtils.DataDictionary[classroom];
+      //while (!SerialPortUtils.DataDictionary.ContainsKey(classroom))
+      //{
+      //  ;
+      //}
+      //Data = SerialPortUtils.DataDictionary[classroom];
       ClassRoom classRoom = null;
       classRoom = Init(classRoom);
       // ClassRoom classroom = SerialPortUtils.DataQueues.Dequeue();
@@ -107,6 +130,10 @@ namespace SmartClass.Models
     {
       classRoom = classRoom ?? new ClassRoom();
       int index = 7;
+      if (Data == null)
+      {
+        return null;
+      }
       if (Data[4] != 0x1f)
       {
         return null;
@@ -518,6 +545,8 @@ namespace SmartClass.Models
         bnodeAdd.CopyTo(cmd, 5);
         cmd = cmd.ActuatorCommand();
         SendSearchCmd(cmd);
+        ClassRoom classRoom = null;
+        classRoom = Init(classRoom);
         oa.Status = true;
         oa.ResultCode = ResultCode.Ok;
       }
@@ -541,7 +570,7 @@ namespace SmartClass.Models
     /// <param name="height">高位</param>
     /// <param name="low">低位</param>
     /// <returns></returns>
-    public EquipmentResult SendConvertCmd(byte fun, string classroom, string nodeAdd, byte onoff, byte? height = null, byte? low = null)
+    public EquipmentResult SendConvertCmd(byte fun, string classroom, string nodeAdd, byte onoff = 0, byte? height = null, byte? low = null)
     {
       classroom = string.IsNullOrEmpty(classroom) ? "00" : classroom;
       nodeAdd = string.IsNullOrEmpty(nodeAdd) ? "00" : nodeAdd;
@@ -596,19 +625,17 @@ namespace SmartClass.Models
       byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Search"));
       //向串口发送查询指令
       result = SendConvertSearchCmd(fun, room.F_RoomNo);
-
-      result.Message = "查询设备信息成功";
-
       ClassRoom classRoom = GetReturnData(room.F_RoomNo);
       if (classRoom == null) //没有数据就重新发一次
       {
-        Thread.Sleep(500);
+        Thread.Sleep(300);
         //向串口发送指令
         result = SendConvertSearchCmd(fun, room.F_RoomNo);
         classRoom = GetReturnData(room.F_RoomNo);
       }
       if (classRoom != null)
       {
+
         classRoom.Name = room.F_FullName;
         classRoom.ClassNo = room.F_EnCode;          //教室编码
         classRoom.Id = room.F_RoomNo;
@@ -617,6 +644,7 @@ namespace SmartClass.Models
         result.Count = zeList.Count;
         result.ExceptionCount = zeList.Count - classRoom.NormalSonserList.Count;
         result.NormalCount = classRoom.NormalSonserList.Count;
+        result.Message = "查询设备信息成功";
       }
       else
       {
@@ -665,7 +693,7 @@ namespace SmartClass.Models
           bnodeAdd.CopyTo(cmd, 5);
           cmd = cmd.ActuatorCommand();
           SendCmd(cmd);
-          Thread.Sleep(TimeSpan.FromMilliseconds(250));
+          Thread.Sleep(TimeSpan.FromMilliseconds(200));
         }
       }
       catch (Exception e)

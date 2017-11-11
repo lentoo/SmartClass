@@ -8,3 +8,10 @@ E:\SmartClass\Service\obj\Debug\SmartClass.Service.csprojResolveAssemblyReferenc
 E:\SmartClass\Service\obj\Debug\SmartClass.Service.dll
 E:\SmartClass\Service\obj\Debug\SmartClass.Service.pdb
 E:\SmartClass\Service\obj\Debug\SmartClass.Service.csproj.CoreCompileInputs.cache
+E:\开发软件\SmartClass\SmartClass\bin\SmartClass.Service.dll.config
+E:\开发软件\SmartClass\SmartClass\bin\SmartClass.Service.dll
+E:\开发软件\SmartClass\SmartClass\bin\SmartClass.Service.pdb
+E:\开发软件\SmartClass\Service\obj\Debug\SmartClass.Service.csprojResolveAssemblyReference.cache
+E:\开发软件\SmartClass\Service\obj\Debug\SmartClass.Service.csproj.CoreCompileInputs.cache
+E:\开发软件\SmartClass\Service\obj\Debug\SmartClass.Service.dll
+E:\开发软件\SmartClass\Service\obj\Debug\SmartClass.Service.pdb

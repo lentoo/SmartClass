@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
 此文件由 Web 项目的发布/打包过程使用。可以通过编辑此 MSBuild 文件
 自定义此过程的行为。为了解与此相关的更多内容，请访问 https://go.microsoft.com/fwlink/?LinkID=208121。 
@@ -6,23 +6,14 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>E:\SmartRelease\v4.5</_PublishTargetUrl>
+    <_PublishTargetUrl>E:\SmartRelease\v5.22</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
-    <File Include="404.html">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
-    <File Include="ApplicationInsights.config">
-      <publishTime>07/10/2017 11:22:11</publishTime>
-    </File>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>02/22/2013 08:43:40</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.pdb">
       <publishTime>02/22/2013 08:43:40</publishTime>
-    </File>
-    <File Include="bin/ApplicationInsights.config">
-      <publishTime>07/10/2017 11:22:11</publishTime>
     </File>
     <File Include="bin/Autofac.dll">
       <publishTime>03/01/2017 16:36:14</publishTime>
@@ -39,21 +30,6 @@
     <File Include="bin/AutoMapper.dll">
       <publishTime>06/26/2017 20:07:14</publishTime>
     </File>
-    <File Include="bin/BLL.dll">
-      <publishTime>08/08/2017 11:49:43</publishTime>
-    </File>
-    <File Include="bin/BLL.dll.config">
-      <publishTime>08/08/2017 10:14:40</publishTime>
-    </File>
-    <File Include="bin/BLL.pdb">
-      <publishTime>08/08/2017 11:49:43</publishTime>
-    </File>
-    <File Include="bin/Common.dll">
-      <publishTime>08/08/2017 11:49:42</publishTime>
-    </File>
-    <File Include="bin/Common.dll.config">
-      <publishTime>08/08/2017 10:14:40</publishTime>
-    </File>
     <File Include="bin/Common.Logging.Core.dll">
       <publishTime>11/14/2015 13:35:30</publishTime>
     </File>
@@ -66,38 +42,14 @@
     <File Include="bin/Common.Logging.pdb">
       <publishTime>11/14/2015 13:35:30</publishTime>
     </File>
-    <File Include="bin/Common.pdb">
-      <publishTime>08/08/2017 11:49:42</publishTime>
-    </File>
-    <File Include="bin/DAL.dll">
-      <publishTime>08/08/2017 11:49:42</publishTime>
-    </File>
-    <File Include="bin/DAL.dll.config">
-      <publishTime>07/10/2017 11:22:10</publishTime>
-    </File>
-    <File Include="bin/DAL.pdb">
-      <publishTime>08/08/2017 11:49:42</publishTime>
-    </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/02/2015 09:32:26</publishTime>
     </File>
     <File Include="bin/EntityFramework.SqlServer.dll">
-      <publishTime>01/04/2017 00:44:16</publishTime>
+      <publishTime>03/02/2015 09:32:26</publishTime>
     </File>
     <File Include="bin/Enyim.Caching.dll">
       <publishTime>08/22/2016 01:13:00</publishTime>
-    </File>
-    <File Include="bin/IBLL.dll">
-      <publishTime>08/08/2017 11:49:42</publishTime>
-    </File>
-    <File Include="bin/IBLL.pdb">
-      <publishTime>08/08/2017 11:49:42</publishTime>
-    </File>
-    <File Include="bin/IDAL.dll">
-      <publishTime>08/08/2017 11:49:42</publishTime>
-    </File>
-    <File Include="bin/IDAL.pdb">
-      <publishTime>08/08/2017 11:49:42</publishTime>
     </File>
     <File Include="bin/JWT.dll">
       <publishTime>05/17/2017 11:08:06</publishTime>
@@ -145,19 +97,19 @@
       <publishTime>07/25/2012 11:48:56</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>09/10/2017 16:41:55</publishTime>
+      <publishTime>11/06/2017 22:49:28</publishTime>
     </File>
     <File Include="bin/Model.dll.config">
-      <publishTime>07/10/2017 11:22:11</publishTime>
+      <publishTime>10/24/2017 11:13:27</publishTime>
     </File>
     <File Include="bin/Model.pdb">
-      <publishTime>09/10/2017 16:41:55</publishTime>
+      <publishTime>11/06/2017 22:49:28</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>06/18/2017 13:57:10</publishTime>
     </File>
     <File Include="bin/NLog.config">
-      <publishTime>07/31/2017 10:29:23</publishTime>
+      <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="bin/NLog.dll">
       <publishTime>05/05/2017 21:19:28</publishTime>
@@ -274,49 +226,52 @@
       <publishTime>07/03/2016 18:43:46</publishTime>
     </File>
     <File Include="bin/SmartClass.dll">
-      <publishTime>09/10/2017 17:08:54</publishTime>
+      <publishTime>11/11/2017 18:25:01</publishTime>
     </File>
     <File Include="bin/SmartClass.Infrastructure.dll">
-      <publishTime>09/10/2017 16:41:56</publishTime>
+      <publishTime>11/06/2017 22:49:28</publishTime>
     </File>
     <File Include="bin/SmartClass.Infrastructure.dll.config">
-      <publishTime>08/30/2017 17:08:19</publishTime>
+      <publishTime>10/24/2017 11:13:27</publishTime>
     </File>
     <File Include="bin/SmartClass.Infrastructure.pdb">
-      <publishTime>09/10/2017 16:41:56</publishTime>
+      <publishTime>11/06/2017 22:49:28</publishTime>
     </File>
     <File Include="bin/SmartClass.IRepository.dll">
-      <publishTime>09/10/2017 16:41:55</publishTime>
+      <publishTime>11/06/2017 22:49:28</publishTime>
+    </File>
+    <File Include="bin/SmartClass.IRepository.dll.config">
+      <publishTime>11/06/2017 22:01:29</publishTime>
     </File>
     <File Include="bin/SmartClass.IRepository.pdb">
-      <publishTime>09/10/2017 16:41:55</publishTime>
+      <publishTime>11/06/2017 22:49:28</publishTime>
     </File>
     <File Include="bin/SmartClass.IService.dll">
-      <publishTime>09/10/2017 16:41:55</publishTime>
+      <publishTime>11/06/2017 22:49:28</publishTime>
     </File>
     <File Include="bin/SmartClass.IService.pdb">
-      <publishTime>09/10/2017 16:41:55</publishTime>
+      <publishTime>11/06/2017 22:49:28</publishTime>
     </File>
     <File Include="bin/SmartClass.pdb">
-      <publishTime>09/10/2017 17:08:54</publishTime>
+      <publishTime>11/11/2017 18:25:01</publishTime>
     </File>
     <File Include="bin/SmartClass.Repository.dll">
-      <publishTime>09/10/2017 16:41:56</publishTime>
+      <publishTime>11/06/2017 22:49:28</publishTime>
     </File>
     <File Include="bin/SmartClass.Repository.dll.config">
-      <publishTime>07/10/2017 11:22:10</publishTime>
+      <publishTime>10/24/2017 11:13:27</publishTime>
     </File>
     <File Include="bin/SmartClass.Repository.pdb">
-      <publishTime>09/10/2017 16:41:56</publishTime>
+      <publishTime>11/06/2017 22:49:28</publishTime>
     </File>
     <File Include="bin/SmartClass.Service.dll">
-      <publishTime>09/10/2017 17:08:50</publishTime>
+      <publishTime>11/06/2017 22:49:29</publishTime>
     </File>
     <File Include="bin/SmartClass.Service.dll.config">
-      <publishTime>08/30/2017 17:08:19</publishTime>
+      <publishTime>11/06/2017 22:01:30</publishTime>
     </File>
     <File Include="bin/SmartClass.Service.pdb">
-      <publishTime>09/10/2017 17:08:50</publishTime>
+      <publishTime>11/06/2017 22:49:29</publishTime>
     </File>
     <File Include="bin/System.Net.Http.Formatting.dll">
       <publishTime>01/28/2015 04:02:42</publishTime>
@@ -397,55 +352,55 @@
       <publishTime>01/28/2015 04:04:32</publishTime>
     </File>
     <File Include="Content/css/animate.css">
-      <publishTime>08/31/2017 22:39:07</publishTime>
+      <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="Global.asax">
-      <publishTime>07/10/2017 11:22:11</publishTime>
+      <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="NLog.config">
-      <publishTime>07/31/2017 10:29:23</publishTime>
+      <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>08/30/2017 17:05:33</publishTime>
+      <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="QRCode.html">
-      <publishTime>09/01/2017 16:43:20</publishTime>
+      <publishTime>10/24/2017 15:35:34</publishTime>
     </File>
     <File Include="Scripts/jquery-1.10.2.js">
-      <publishTime>08/04/2017 17:05:06</publishTime>
+      <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="Scripts/jquery.signalR-2.2.2.js">
-      <publishTime>08/04/2017 16:36:54</publishTime>
+      <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="Scripts/jquery.signalR-2.2.2.min.js">
-      <publishTime>08/04/2017 16:36:54</publishTime>
+      <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
-      <publishTime>07/10/2017 11:22:11</publishTime>
+      <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="Views/Home/Contact.cshtml">
-      <publishTime>07/10/2017 11:22:11</publishTime>
+      <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>07/10/2017 11:22:11</publishTime>
+      <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="Views/Logon/Index.cshtml">
-      <publishTime>07/10/2017 11:22:11</publishTime>
+      <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
-      <publishTime>07/10/2017 11:22:11</publishTime>
+      <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>07/10/2017 11:22:11</publishTime>
+      <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="Views/Web.config">
-      <publishTime>07/10/2017 11:22:11</publishTime>
+      <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
-      <publishTime>07/10/2017 11:22:11</publishTime>
+      <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/30/2017 21:55:20</publishTime>
+      <publishTime>11/06/2017 23:09:56</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -10,7 +10,7 @@ using Model;
 using Model.AutoMapperConfig;
 using Model.DTO.Classes;
 using Model.DTO.Result;
-
+using System.Diagnostics;
 
 namespace SmartClass.Models.Job
 {
@@ -41,6 +41,7 @@ namespace SmartClass.Models.Job
           Buildings building = SearchBuildingAllRoomEquipmentInfo1(room.F_FullName, room);
           allBuilding.Add(building);
         }
+        PortService.CloseConnect();
         Cache.SetCache("allClassEquipmentInfo", allBuilding, DateTime.Now.AddDays(7));
       }
       catch (Exception exception)
@@ -49,41 +50,6 @@ namespace SmartClass.Models.Job
       }
     }
     /// <summary>
-    /// 通过楼栋查询所有教室异常设备信息
-    /// </summary>
-    /// <returns></returns>
-    //public string SearchBuildingAllRoomEquipmentInfo(string buildingName)
-    //{
-    //    //查询到该楼栋
-    //    var building = ZRoomService.GetEntity(u => u.F_FullName == buildingName).FirstOrDefault();
-    //    //查询到该楼栋下所有楼层
-    //    var floors = ZRoomService.GetEntity(u => u.F_ParentId == building.F_Id);
-    //    //查询该楼栋下所有楼层的教室
-    //    var rooms = ZRoomService.GetEntity(r => floors.Any(f => r.F_ParentId == f.F_Id)).ToList();
-
-    //    List<EquipmentResult> list = new List<EquipmentResult>();
-
-    //    foreach (var item in rooms)
-    //    {
-    //        EquipmentResult result = new EquipmentResult();
-    //        try
-    //        {
-    //            ClassRoom classRoom = searchService.Search(item, ref result);
-    //            result.AppendData = classRoom;
-    //            list.Add(result);
-    //        }
-    //        catch (Exception exception)
-    //        {
-    //            result.ErrorData = exception.ToString();
-    //            result.Message = "查询设备信息失败";
-    //        }
-    //    }
-
-    //    string jsonList = Json.Encode(list);
-    //    return jsonList;
-    //}
-
-    /// <summary>
     /// 通过楼栋查询所有教室设备信息
     /// </summary>
     /// <param name="buildingName"></param>
@@ -91,6 +57,7 @@ namespace SmartClass.Models.Job
     /// <returns></returns>
     public Buildings SearchBuildingAllRoomEquipmentInfo1(string buildingName, Z_Room room)
     {
+     
       Buildings buid = new Buildings();
       //查询到该楼栋
       var building = room;
@@ -110,9 +77,11 @@ namespace SmartClass.Models.Job
           if (item.F_ParentId == floor.F_Id)
           {
             EquipmentResult result = new EquipmentResult();
+            Debug.WriteLine($"开始查询教室地址：{item.F_RoomNo}");
             ClassRoom classRoom = PortService.Search(item, ref result);
             if (classRoom != null)
             {
+              Debug.WriteLine("查询成功");
               AutoMapperConfig.Map(building, classRoom);
               AutoMapperConfig.Map(floor, classRoom);
               AutoMapperConfig.Map(item, classRoom);
@@ -132,6 +101,7 @@ namespace SmartClass.Models.Job
             }
             else
             {
+              Debug.WriteLine("没有查询到结果");
               classRoom = new ClassRoom();
               AutoMapperConfig.Map(building, classRoom);
               AutoMapperConfig.Map(floor, classRoom);
@@ -145,7 +115,7 @@ namespace SmartClass.Models.Job
             fl.ClassRooms.Add(classRoom);
             result.AppendData = classRoom;
           }
-        }
+        }        
         if (fl.ClassRooms.Count == 0)
         {
           fl.Name = floor.F_FullName + " (没有教室)";
@@ -155,7 +125,7 @@ namespace SmartClass.Models.Job
           fl.Name = floor.F_FullName;
         }
         buid.Floors.Add(fl);
-      }
+      }      
       return buid;
     }
 

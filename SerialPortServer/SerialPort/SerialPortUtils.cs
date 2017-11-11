@@ -9,17 +9,30 @@ using System.Threading.Tasks;
 using System.Threading;
 using SmartClass.Infrastructure.Extended;
 
-namespace SmartClass.Models
+namespace SerialPortServer
 {
   /// <summary>
   /// 串口工具类
   /// </summary>
   public class SerialPortUtils
   {
-    public static void InitialSerialPort()
+    private static SerialPort port = null;
+    public static SerialPort InitialSerialPort()
     {
-      SerialPort port = Port;
+      if (port == null)
+      {
+        port = new SerialPort(COM);
+        port.BaudRate = 115200;
+        port.ReadBufferSize = 1024;
+        port.DataBits = 8;
+        port.StopBits = StopBits.One;
+        //Port.ReadTimeout = 60000;
+        port.DataReceived += Port_DataReceived;
+        port.Open();
+      }
+      return port;
     }
+
     /// <summary>
     /// 无线串口
     /// </summary>
@@ -27,20 +40,13 @@ namespace SmartClass.Models
     {
       get
       {
-        if (Port == null)
+        var _port = InitialSerialPort();
+        if (!_port.IsOpen)
         {
-          Port = new SerialPort(COM);
-          Port.BaudRate = 115200;
-          Port.ReadBufferSize = 1024;
-          Port.DataBits = 8;
-          Port.StopBits = StopBits.One;
-          //Port.ReadTimeout = 60000;
-          Port.DataReceived += Port_DataReceived;
-          Port.Open();
+          _port.Open();
         }
-        return Port;
+        return _port;
       }
-      set { Port = value; }
     }
 
     //static int Offset = 0;
@@ -59,18 +65,6 @@ namespace SmartClass.Models
     /// </summary>
     public static Queue<byte[]> AlarmData = new Queue<byte[]>();
 
-    //static SerialPortUtils()
-    //{
-    //  Port = new SerialPort(COM);
-    //  Port.BaudRate = 115200;
-    //  Port.ReadBufferSize = 1024;
-    //  Port.DataBits = 8;
-    //  Port.StopBits = StopBits.One;
-    //  //Port.ReadTimeout = 60000;
-    //  Port.DataReceived += Port_DataReceived;
-    //  Port.Open();
-    //}
-
     public static void ClosePort()
     {
       if (Port.IsOpen)
@@ -81,15 +75,17 @@ namespace SmartClass.Models
     }
 
     private static readonly List<byte> ByteList = new List<byte>();
+
     private static void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
     {
       try
       {
+        Console.WriteLine("开始接收串口发来的数据");
         int len = Port.BytesToRead;
         byte[] buf = new byte[len];
         Port.Read(buf, 0, len);
         ByteList.AddRange(buf);
-        Debug.WriteLine("读到的数据长度" + len);
+        Console.WriteLine("读到的数据长度" + len);
         #region 对串口数据进行处理
         while (ByteList.Count >= 10)
         {
@@ -101,6 +97,11 @@ namespace SmartClass.Models
               if (ByteList[4] == 0x1f)
               {
                 int length = ByteList[6] + 10;//数据包长度
+                if (length == 11) //接收到是的查询命令，不是返回数据
+                {
+                  ByteList.RemoveRange(0, ByteList.Count);
+                  break;
+                }
                 if (ByteList.Count < length)  //数据未接收完毕，跳出循环
                 {
                   break;
@@ -110,12 +111,19 @@ namespace SmartClass.Models
                 byte[] _dataCrc = _data.Crc();
                 if (_dataCrc[0] == ByteList[length - 3] && _dataCrc[1] == ByteList[length - 2]) //CRC的校验
                 {
+                  
                   buf = new byte[length];
                   ByteList.CopyTo(0, buf, 0, length);
                   ByteList.RemoveRange(0, length);
                   //教室地址
                   string classroom = Convert.ToString(buf[2], 16) + Convert.ToString(buf[3], 16);
-                  Debug.WriteLine(classroom);
+                  Console.WriteLine(classroom);
+                  if (DataDictionary.ContainsKey(classroom))
+                  {
+                    Console.WriteLine("有一条未消费的数据，key值为："+classroom);
+                    DataDictionary.Remove(classroom);
+                  }
+                  Console.WriteLine("一条数据已经添加到字典中，key值为："+classroom);
                   DataDictionary.Add(classroom, buf);
                 }
               }
@@ -161,7 +169,7 @@ namespace SmartClass.Models
       }
       catch (Exception exception)
       {
-        ExceptionHelper.AddException(exception);
+        throw exception;
       }
     }
     /// <summary>
@@ -185,13 +193,13 @@ namespace SmartClass.Models
         {
           Cmd = cmd;
           Port.Write(cmd, 0, cmd.Length);
-          Task.Delay(TimeSpan.FromMilliseconds(150));
-          //Thread.Sleep(TimeSpan.FromMilliseconds(150));
+          Console.WriteLine("发送完成");
+          //Task.Delay(TimeSpan.FromMilliseconds(150));          
         }
       }
       catch (Exception e)
       {
-        ExceptionHelper.AddException(e);
+        throw e;
       }
       return true;
     }

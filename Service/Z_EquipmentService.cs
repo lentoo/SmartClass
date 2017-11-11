@@ -8,7 +8,7 @@ namespace SmartClass.Service
         public SmartClass.IService.IZ_RoomService ZRoomService { get; set; }
         public bool CheckClassEquipment(string classroom, string nodeAdd)
         {
-            string node = Convert.ToInt32(nodeAdd) + "";
+            string node = nodeAdd;
             var room = ZRoomService.GetEntity(u => u.F_RoomNo == classroom);
             var equipment = GetEntity(u => u.F_EquipmentNo == node);
             var roomEquipment =

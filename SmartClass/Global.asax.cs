@@ -37,7 +37,7 @@ namespace SmartClass
       QuartzConfig.InitJob();
       QuartzConfig.StartJob();
 
-      SerialPortUtils.InitialSerialPort();
+
 
       //EF Pre-Generated Mapping Views（预生成映射视图）
       using (var dbcontext = new NFineBaseEntities())
@@ -52,8 +52,8 @@ namespace SmartClass
     {
       base.Dispose();
       //停止所有任务
-      QuartzConfig.StopJob();
-      SerialPortUtils.ClosePort();
+      //QuartzConfig.StopJob();
+      //SerialPortUtils.ClosePort();
     }
   }
 }

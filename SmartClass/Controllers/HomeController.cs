@@ -24,7 +24,7 @@ namespace SmartClass.Controllers
   /// <summary>
   /// 控制设备状态  控制器
   /// </summary>
-  [EquipmentLogFilter]
+  //[EquipmentLogFilter]
   public class HomeController : Controller
   {
     /// <summary>
@@ -50,7 +50,7 @@ namespace SmartClass.Controllers
     /// </summary>
     /// <param name="queryParams">查询参数</param>
     /// <returns></returns>
-    [OutputCache(Duration = 30)]
+    [OutputCache(Duration = 10)]
     public ActionResult SearchAll(QueryParams queryParams)
     {
       EquipmentResult result = new EquipmentResult();
@@ -66,7 +66,7 @@ namespace SmartClass.Controllers
         else
         {
           ClassRoom classRoom = PortService.Search(room, ref result);
-
+          PortService.CloseConnect();
           result.AppendData = classRoom;
         }
       }
@@ -242,7 +242,7 @@ namespace SmartClass.Controllers
       height |= (byte)(Convert.ToInt16(airControlParams.SweepWind) << 1);
       byte low = (byte)Convert.ToInt16(airControlParams.wd);
       byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Air"));
-      EResult = PortService.SendConvertCmd(fun, airControlParams.classroom, airControlParams.nodeAdd, height, low);
+      EResult = PortService.SendConvertCmd(fun, airControlParams.classroom, airControlParams.nodeAdd, height:height, low:low);
       EResult.Message = EResult.Status ? "设置空调成功" : "设置空调失败";
       return Json(EResult);
     }
@@ -352,7 +352,7 @@ namespace SmartClass.Controllers
           };
           zeList.Add(zEquipment);
         }
-      }
+      }      
       ZEquipmentService.AddEntitys(zeList);
       EResult.AppendData = list;
       //return Json(Result, JsonRequestBehavior.AllowGet);

@@ -106,6 +106,8 @@ namespace SmartClass.Controllers
     [HttpPost]
     public ActionResult GetToken(string account, string Pwd)
     {
+      //account = "admin";
+      //Pwd = "4a7d1ed414474e4033ac29ccb8653d9b";
       Sys_User user = UserService.GetEntity(u => u.F_Account == account).FirstOrDefault();
       LoginResult loginResult;
       if (user == null)

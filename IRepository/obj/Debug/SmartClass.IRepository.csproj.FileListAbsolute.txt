@@ -4,3 +4,10 @@ E:\SmartClass\IRepository\obj\Debug\SmartClass.IRepository.csprojResolveAssembly
 E:\SmartClass\IRepository\obj\Debug\SmartClass.IRepository.dll
 E:\SmartClass\IRepository\obj\Debug\SmartClass.IRepository.pdb
 E:\SmartClass\IRepository\obj\Debug\SmartClass.IRepository.csproj.CoreCompileInputs.cache
+E:\开发软件\SmartClass\SmartClass\bin\SmartClass.IRepository.dll
+E:\开发软件\SmartClass\SmartClass\bin\SmartClass.IRepository.pdb
+E:\开发软件\SmartClass\IRepository\obj\Debug\SmartClass.IRepository.csprojResolveAssemblyReference.cache
+E:\开发软件\SmartClass\IRepository\obj\Debug\SmartClass.IRepository.csproj.CoreCompileInputs.cache
+E:\开发软件\SmartClass\IRepository\obj\Debug\SmartClass.IRepository.dll
+E:\开发软件\SmartClass\IRepository\obj\Debug\SmartClass.IRepository.pdb
+E:\开发软件\SmartClass\SmartClass\bin\SmartClass.IRepository.dll.config

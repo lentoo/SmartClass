@@ -12,3 +12,7 @@
 /ILogHelper
 /DALFactory
 /SmartClassControl
+/.vs
+**/bin/
+**/Log/
+**/obj/

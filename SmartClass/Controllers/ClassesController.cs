@@ -22,19 +22,15 @@ namespace SmartClass.Controllers
   {
     public IZ_RoomService ZRoomService { get; set; }
     public ICacheHelper Cache { get; set; }
+    public SerialPortService PortService { get; set; }
     /// <summary>
     /// 查询所有的教室
     /// </summary>
     /// <returns></returns>
-    [OutputCache(Duration = 60*60*24)]
+    [OutputCache(Duration = 60 * 60 * 24)]
     public ActionResult SearchAllClass()
     {
       List<Buildings> list;
-      //  = Cache.GetCache<List<Buildings>>("AllClasses");
-      //if (list != null)
-      //{
-      //  return Json(list, JsonRequestBehavior.AllowGet);
-      //}
       list = new List<Buildings>();
       var buildings = ZRoomService.GetEntity(u => u.F_RoomType == "Building").ToList();
       var Floors = ZRoomService.GetEntity(u => u.F_RoomType == "Floor").ToList();
@@ -58,11 +54,6 @@ namespace SmartClass.Controllers
             AutoMapperConfig.Map(building, classRoom);
             AutoMapperConfig.Map(floors, classRoom);
             AutoMapperConfig.Map(rooms, classRoom);
-            //classRoom.Id = rooms.F_RoomNo;
-            //classRoom.BuildingName = item.F_FullName;
-            //classRoom.LayerName = f.F_FullName;
-            //classRoom.Name = rooms.F_FullName;
-            //classRoom.ClassNo = rooms.F_EnCode;
             classRooms.Add(classRoom);
           }
           floors.ClassRooms = classRooms;
@@ -97,12 +88,12 @@ namespace SmartClass.Controllers
     /// <returns></returns>
     public ActionResult AlarmInformation()
     {
-      if (SerialPortUtils.AlarmData.Count > 0) //有报警数据
+      int value;
+      string classId = PortService.QueryAlarmData(out value);
+      PortService.CloseConnect();
+      if (classId != null) //有报警数据
       {
-        byte[] data = SerialPortUtils.AlarmData.Dequeue();
-        string classId = Convert.ToString(data[2], 16) + Convert.ToString(data[3], 16);
         Z_Room room = ZRoomService.GetEntity(r => r.F_RoomNo == classId).FirstOrDefault();
-        int value = data[7];
         return Json(new { ResultCode = ResultCode.Error, ClassName = room.F_FullName, AppendData = value, ClassNo = room.F_EnCode });
       }
       return Json(new { ResultCode = ResultCode.Ok });
