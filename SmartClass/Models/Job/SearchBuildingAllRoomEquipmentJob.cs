@@ -36,6 +36,7 @@ namespace SmartClass.Models.Job
       {
         List<Buildings> allBuilding = new List<Buildings>();
         var rooms = ZRoomService.GetEntity(u => u.F_RoomType == "Building").ToList();
+        PortService.serialPortServerClient.IsSendClosedConnection = false;
         foreach (var room in rooms)
         {
           Buildings building = SearchBuildingAllRoomEquipmentInfo1(room.F_FullName, room);

@@ -63,7 +63,7 @@ namespace SmartClass.Models
     public string QueryAlarmData(out int value)
     {
       string str = "报警数据";
-      serialPortServerClient.SendData(Encoding.UTF8.GetBytes(str));
+      serialPortServerClient.SendSearchData(Encoding.UTF8.GetBytes(str));
       byte[] bs = serialPortServerClient.GetReturnData();
       if (bs == null)
       {
@@ -682,10 +682,16 @@ namespace SmartClass.Models
               b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
             }
           }
+          else
+          if (equipmentType == EquipmentType.CURTAIN || equipmentType == EquipmentType.WINDOW)
+          {
+            b = (byte)(onoff == StateType.OPEN ? 0x04 : onoff == StateType.STOP ? 0x05 : 0x00);
+          }
           else //其它传感器的功能码
           {
             b = (byte)(onoff == StateType.OPEN ? 0x01 : 0x00);
           }
+
           byte[] cmd = { 0x55, 0x02, 0, 0, fun, 0, 0x01, b };
           byte[] bclassroom = item.F_RoomNo.StrToHexByte();
           byte[] bnodeAdd = item.F_EquipmentNo.StrToHexByte();

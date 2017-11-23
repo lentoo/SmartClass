@@ -28,7 +28,7 @@ namespace SmartClass.Service
     public IZ_GradeService GradeService { get; set; }
     public IZ_SectionTimeService SectionTimeService { get; set; }
     public IZ_RoomService RoomService { get; set; }
-
+    public IZ_DepartmentService DepartmentService { get; set; }
     public ICacheHelper Cache { get; set; }
     /// <summary>
     /// 学生的课程
@@ -76,16 +76,20 @@ namespace SmartClass.Service
       SchollTime schollTime = GetSchollTime();
       //TODO 这边需要用教师编号查询，不应该用教师名称
       //查询老师当前学年学期的所有课程
-      IQueryable<Z_Course> courses = GetEntity(u => u.F_TeacherName == user.F_RealName)
-          .Where(u => u.F_SchoolYear.Contains(schollTime.SearchYear)).Where(u => u.F_Term == schollTime.Term.ToString());
+      var courses = GetEntity(u => u.F_TeacherName == user.F_RealName)
+          .Where(u => u.F_SchoolYear.Contains(schollTime.SearchYear)).Where(u => u.F_Term == schollTime.Term.ToString()).ToList();
       List<Course> courseList = new List<Course>();
 
-      //对课程按周，课时类型升序排序
-      var cl = courses.OrderBy(u => u.F_Week).ThenBy(u => u.F_CourseTimeType).ToList();
-      cl.ForEach(u => u.F_CourseTimeType = u.F_CourseTimeType.Substring(0, u.F_CourseTimeType.Length - 1));
-      courseList = AutoMapperConfig.MapList(cl, courseList);
-      ComputedTimeLength(courseList);
-      return courseList;
+      if (courses.Count > 0)
+      {
+        //对课程按周，课时类型升序排序
+        var cl = courses.OrderBy(u => u.F_Week).ThenBy(u => u.F_CourseTimeType).ToList();
+        cl.ForEach(u => u.F_CourseTimeType = u.F_CourseTimeType.Substring(0, u.F_CourseTimeType.Length - 1));
+        courseList = AutoMapperConfig.MapList(cl, courseList);
+        ComputedTimeLength(courseList);
+        return courseList;
+      }
+      return null;
     }
     /// <summary>
     /// 选出在当前周的课程
@@ -125,12 +129,16 @@ namespace SmartClass.Service
     }
 
     /// <summary>
-    /// 得到当前的时间与开学的时间状态
+    /// 得到指定时间或者当前的时间与开学的时间状态
     /// </summary>
-    public SchollTime GetSchollTime()
+    public SchollTime GetSchollTime(string time = null)
     {
-      //获取当前网络时间
-      DateTime currenTime = Convert.ToDateTime(Infrastructure.Extended.DatetimeExtened.GetNetDateTime());
+      if (!DateTime.TryParse(time, out DateTime currenTime))
+      {
+        //获取当前网络时间
+        currenTime = Convert.ToDateTime(Infrastructure.Extended.DatetimeExtened.GetNetDateTime());
+      }
+
       int year = currenTime.Year;         //今天的年
       int month = currenTime.Month;       //今天的月
       int term;                          //第几学期
@@ -153,6 +161,7 @@ namespace SmartClass.Service
       int days = span.Days;               //距离开学过去几天了
       int weeks = Convert.ToInt32(Math.Ceiling(days / 7.0)); //开学第几周了
       string week = ((float)currenTime.DayOfWeek).ToString(CultureInfo.InvariantCulture);
+      week = "0" == week ? "7" : week;
       weeks = weeks == 0 ? 1 : weeks;
       SchollTime schollTime = new SchollTime()
       {
@@ -193,12 +202,14 @@ namespace SmartClass.Service
     }
 
     /// <summary>
-    /// 获取今日所有课程
+    /// 获取今日或者指定日期下的所有课程
     /// </summary>
+    /// <param name="time">指定日期</param>
     /// <returns></returns>
-    public List<Course> GetToDayCourse()
+    public List<Course> GetToDayCourseOrByDate(SchollTime schollTime = null)
     {
-      SchollTime schollTime = GetSchollTime();
+
+      schollTime = schollTime ?? GetSchollTime();
       Z_SchoolTime ZSchoolTime = SchoolTimeService.GetEntity(u => u.F_SchoolYear.Contains(schollTime.SearchYear)).FirstOrDefault(u => u.F_Term == schollTime.Term + "");
       DateTime schoolTime = ZSchoolTime.F_SchoolTime;  //开学时间
       DateTime endTime = ZSchoolTime.F_EndTime; //该学期结束时间
@@ -232,9 +243,27 @@ namespace SmartClass.Service
                                    EndWeek = course.F_EndWeek
                                  });
 
-      var toDayCourses = new List<Course>();
-      toDayCourses = SelectCourseInTheCurrentWeek(toDayCourses, schollTime);
+      //var toDayCourses = new List<Course>();
+      var toDayCourses = SelectCourseInTheCurrentWeek(list.ToList(), schollTime);
       return toDayCourses;
+    }
+
+    /// <summary>
+    /// 根据课程获取该课程下的所有学生
+    /// </summary>
+    /// <returns></returns>
+    public List<Z_Student> GetStudentsByCourseId(Course course)
+    {
+      // 获取学年
+      var grade = GradeService.GetEntity(gra => gra.F_GradeName == course.Grade).FirstOrDefault();
+      // 获取该课程所属专业
+      var profession = ProfessionService.GetEntity(u => u.F_ProName == course.Major).FirstOrDefault();
+      // 获取该课程下的班级
+      var classes = ClassService.GetEntity(u => u.Z_Grade.F_ID == grade.F_ID && u.Z_Profession.F_ID == profession.F_ID && course.Classes.Contains(u.F_ClassName));
+      // 获取班级下的所有学生
+      var stus = StudentService.GetEntity(stu => classes.Any(c => c.F_Id == stu.Z_Class.F_Id)).AsQueryable().ToList();
+      return stus;
+
     }
 
     /// <summary>

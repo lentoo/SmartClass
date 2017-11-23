@@ -20,7 +20,7 @@ namespace SmartClass.Controllers
 
     public ActionResult GetToDayCourse()
     {
-      var toDayCourses = CourseService.GetToDayCourse();
+      var toDayCourses = CourseService.GetToDayCourseOrByDate();
       return Json(new
       {
         toDayCourses

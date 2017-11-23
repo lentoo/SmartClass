@@ -90,7 +90,7 @@ namespace SmartClass.Controllers
     {
       int value;
       string classId = PortService.QueryAlarmData(out value);
-      PortService.CloseConnect();
+      //PortService.CloseConnect();
       if (classId != null) //有报警数据
       {
         Z_Room room = ZRoomService.GetEntity(r => r.F_RoomNo == classId).FirstOrDefault();

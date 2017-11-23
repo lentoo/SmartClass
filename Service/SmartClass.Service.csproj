@@ -53,6 +53,7 @@
     <Compile Include="Z_AttendanceService.cs" />
     <Compile Include="Z_CourseService.cs" />
     <Compile Include="Z_EquipmentService.cs" />
+    <Compile Include="Z_RoomService.cs" />
     <Compile Include="Z_SectionTimeService.cs" />
   </ItemGroup>
   <ItemGroup>

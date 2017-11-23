@@ -15,11 +15,9 @@ namespace SerialPortServer
 
 
     static async Task MainResult()
-    {
-
-      //Console.Title = "TestConsoleLikeWin32";
-      ConsoleWin32Helper.ShowNotifyIcon();
-      ConsoleWin32Helper.DisableCloseButton(Console.Title);
+    {      
+      //ConsoleWin32Helper.ShowNotifyIcon();
+      //ConsoleWin32Helper.DisableCloseButton(Console.Title);
 
       SerialPortUtils.InitialSerialPort();
       Console.WriteLine("程序启动");
@@ -28,16 +26,16 @@ namespace SerialPortServer
       Task.Run(async () => await socketServer.BeginListen());
 
 
-      while (true)
-      {
-        Application.DoEvents();
-        if (ConsoleWin32Helper._IsExit)
-        {
-          MonitorInput();
-          break;
-        }
-      }
-      //Console.ReadKey();
+      //while (true)
+      //{
+      //  Application.DoEvents();
+      //  if (ConsoleWin32Helper._IsExit)
+      //  {
+      //    MonitorInput();
+      //    break;
+      //  }
+      //}
+      Console.ReadKey();
     }
     static void MonitorInput()
     {

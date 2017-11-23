@@ -70,7 +70,7 @@ namespace SmartClass.Models.SerialPortRelated
     {
       lock (lockObj)
       {
-        if (socketClient == null)
+        if (socketClient == null || !socketClient.Connected)
         {
           socketClient = Connect();
         }
@@ -85,7 +85,7 @@ namespace SmartClass.Models.SerialPortRelated
     {
       lock (lockObj)
       {
-        if (socketClient == null)
+        if (socketClient == null || !socketClient.Connected)
         {
           socketClient = Connect();
         }

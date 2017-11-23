@@ -136,6 +136,7 @@ namespace SerialPortServer
       Console.WriteLine("=========获取到串口完整数据=======");
       Console.WriteLine($"字典key为：{classroom} 的数据被消费");
       byte[] data = SerialPortUtils.DataDictionary[classroom];
+      SerialPortUtils.SendCmd(data);
       SerialPortUtils.DataDictionary.Remove(classroom);
       return data;
     }

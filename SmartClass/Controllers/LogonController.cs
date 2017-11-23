@@ -44,6 +44,7 @@ namespace SmartClass.Controllers
           Status = false,
           ResultCode = ResultCode.Error
         };
+
         return Json(loginResult);
       }
       Sys_UserLogOn userLogOn = UserLogService.GetEntityByUserId(user.F_Id);
@@ -73,19 +74,16 @@ namespace SmartClass.Controllers
         Payload payload = new Payload()
         {
           Account = account,
-          IMEI = imei
+          Exp = DateTime.Now.AddDays(7),
+          IMEI = imei,
+          Issuer = "IServer"
         };
         //创建一个token
-        string token = JwtUtils.EncodingToken(payload, userLogOn.F_UserSecretkey);
-        Cache.AddCache(token, userLogOn.F_UserSecretkey, DateTime.Now.AddDays(7));
-        HttpCookie tokenCookie = new HttpCookie("Access");
-        tokenCookie.Value = token;
-        tokenCookie.Domain = "/";
-        tokenCookie.Path = "/";
-        tokenCookie.Expires = DateTime.Now.AddDays(7);
-        Response.Cookies.Add(tokenCookie);
+        string token = JwtUtils.EncodingToken(payload);
+        Cache.AddCache(token, payload, DateTime.Now.AddDays(7));      
         loginResult = new LoginResult
         {
+          
           Message = "登录成功",
           Status = true,
           AppendData = token,
@@ -139,17 +137,15 @@ namespace SmartClass.Controllers
       {
         Payload payload = new Payload()
         {
-          Account = account
+          Account = account,
+          Exp = DateTime.Now.AddDays(7),
+          Issuer = "IServer",
+          IMEI = "0000"
         };
         //创建一个token
-        string token = JwtUtils.EncodingToken(payload, userLogOn.F_UserSecretkey);
-        Cache.AddCache(token, userLogOn.F_UserSecretkey, DateTime.Now.AddDays(7));
-        HttpCookie tokenCookie = new HttpCookie("Access");
-        tokenCookie.Value = token;
-        tokenCookie.Domain = "/";
-        tokenCookie.Path = "/";
-        tokenCookie.Expires = DateTime.Now.AddDays(7);
-        Response.Cookies.Add(tokenCookie);
+        string token = JwtUtils.EncodingToken(payload);
+        Cache.AddCache(token, payload, DateTime.Now.AddDays(7));
+       
         return Content(token);
       }
       loginResult = new LoginResult() { Message = "用户名密码错误", Status = false, ResultCode = ResultCode.Error };

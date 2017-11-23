@@ -59,6 +59,7 @@
     <Compile Include="Actuators\SonserBase.cs" />
     <Compile Include="AutoMapperConfig\AutoMapperConfig.cs" />
     <Compile Include="DTO\AirControlParams.cs" />
+    <Compile Include="DTO\Attend\AttendanceDetails.cs" />
     <Compile Include="DTO\Classes\Buildings.cs" />
     <Compile Include="DTO\Classes\ClassRoom.cs" />
     <Compile Include="DTO\Classes\Floors.cs" />

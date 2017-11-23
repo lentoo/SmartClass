@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Model.DTO.Attend;
 using Model.DTO.Classes;
 using Model.DTO.Courses;
 using System.Collections.Generic;
@@ -32,6 +33,21 @@ namespace Model.AutoMapperConfig
           BeginWeek = course.F_BeginWeek,
           EndWeek = course.F_EndWeek
         });
+
+        #region Z_AttendanceDetails => AttendanceDetails
+        cfg.CreateMap<Z_AttendanceDetails, AttendanceDetails>().ConstructUsing(att => new AttendanceDetails()
+        {
+          ID = att.F_ID,
+          AttendanceID = att.Z_A_F_ID,
+          AttenTime = att.F_AttenTime.ToString(),
+          ClassNo = att.F_ClassNo,
+          Flag = att.F_Flag,
+          Result = att.F_Result,
+          StuName = att.F_StuName,
+          StuNo = att.F_StuNo
+
+        });
+        #endregion
         //courseMap.ForMember(zc => zc.Id, op => op.MapFrom(a => a.F_Id));
         //courseMap.ForMember(zc => zc.Grade, op => op.MapFrom(a => a.F_Grade));
         //courseMap.ForMember(zc => zc.Classes, op => op.MapFrom(a => a.F_Class));
@@ -57,6 +73,8 @@ namespace Model.AutoMapperConfig
       });
       #endregion
 
+
+
     }
 
     public static T Map<T>(object obj)
@@ -76,7 +94,7 @@ namespace Model.AutoMapperConfig
       return Mapper.Map(obj, obj2);
     }
 
-    public static List<T1> MapList<T,T1>(List<T> listFor,List<T1> listTo)
+    public static List<T1> MapList<T, T1>(List<T> listFor, List<T1> listTo)
     {
       return Mapper.Map(listFor, listTo);
     }

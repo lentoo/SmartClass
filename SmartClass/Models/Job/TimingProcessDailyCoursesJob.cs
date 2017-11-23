@@ -34,7 +34,7 @@ namespace SmartClass.Models.Job
     {
       try
       {
-        List<Course> courses = CourseService.GetToDayCourse();
+        List<Course> courses = CourseService.GetToDayCourseOrByDate();
         Debug.WriteLine("获取成功...");
         Debug.WriteLine($"今日有{courses.Count}节课");
         Debug.WriteLine("正在处理定时任务......");

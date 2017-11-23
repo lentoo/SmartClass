@@ -24,7 +24,8 @@ namespace SmartClass.Controllers
   /// <summary>
   /// 控制设备状态  控制器
   /// </summary>
-  //[EquipmentLogFilter]
+  [EquipmentLogFilter]
+  [CustomAuthorize]
   public class HomeController : Controller
   {
     /// <summary>
@@ -66,7 +67,7 @@ namespace SmartClass.Controllers
         else
         {
           ClassRoom classRoom = PortService.Search(room, ref result);
-          PortService.CloseConnect();
+          //PortService.CloseConnect();
           result.AppendData = classRoom;
         }
       }
@@ -242,7 +243,7 @@ namespace SmartClass.Controllers
       height |= (byte)(Convert.ToInt16(airControlParams.SweepWind) << 1);
       byte low = (byte)Convert.ToInt16(airControlParams.wd);
       byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Air"));
-      EResult = PortService.SendConvertCmd(fun, airControlParams.classroom, airControlParams.nodeAdd, height:height, low:low);
+      EResult = PortService.SendConvertCmd(fun, airControlParams.classroom, airControlParams.nodeAdd, height: height, low: low);
       EResult.Message = EResult.Status ? "设置空调成功" : "设置空调失败";
       return Json(EResult);
     }
@@ -352,7 +353,7 @@ namespace SmartClass.Controllers
           };
           zeList.Add(zEquipment);
         }
-      }      
+      }
       ZEquipmentService.AddEntitys(zeList);
       EResult.AppendData = list;
       //return Json(Result, JsonRequestBehavior.AllowGet);
@@ -372,12 +373,7 @@ namespace SmartClass.Controllers
       EquipmentResult equipmentResult = new EquipmentResult();
       try
       {
-        //查找该楼栋
-        Z_Room room = ZRoomService.GetEntity(u => u.F_FullName == buildingName).FirstOrDefault();
-        //该楼栋所有楼层
-        var floors = ZRoomService.GetEntity(u => u.F_ParentId == room.F_Id);
-        //楼层中所有教室
-        var classroom = ZRoomService.GetEntity(u => floors.Any(f => f.F_Id == u.F_ParentId));
+        var classroom = ZRoomService.GetRoomsForBuildingName(buildingName);
         //查找出所有教室里的所有该设备编码的设备
         var equis = ZEquipmentService.GetEntity(e => classroom.Any(r => e.F_RoomId == r.F_Id)).Where(e => e.F_EquipmentType == equipmentType);
         //筛选出教室编码和设备编码
@@ -417,10 +413,11 @@ namespace SmartClass.Controllers
       EquipmentResult equipmentResult = new EquipmentResult();
       try
       {
-        Z_Room room = ZRoomService.GetEntity(u => u.F_FullName == buildingName).FirstOrDefault();//查找该楼栋
-        var floor = ZRoomService.GetEntity(u => u.F_ParentId == room.F_Id).Where(u => u.F_FullName == floorName);     //该楼栋的该楼层
-        var classroom = ZRoomService.GetEntity(u => floor.Any(f => f.F_Id == u.F_ParentId));  //楼层中所有教室
-                                                                                              //查询该楼层下的该设备型号的所有设备
+        //Z_Room room = ZRoomService.GetEntity(u => u.F_FullName == buildingName).FirstOrDefault();//查找该楼栋
+        //var floor = ZRoomService.GetEntity(u => u.F_ParentId == room.F_Id).Where(u => u.F_FullName == floorName);     //该楼栋的该楼层
+        //var classroom = ZRoomService.GetEntity(u => floor.Any(f => f.F_Id == u.F_ParentId));  //楼层中所有教室
+        var classroom = ZRoomService.GetRoomsForBuildingName(buildingName, floorName);
+        //查询该楼层下的该设备型号的所有设备
         var equis = ZEquipmentService.GetEntity(e => classroom.Any(r => e.F_RoomId == r.F_Id)).Where(e => e.F_EquipmentType == equipmentType);
         //筛选出教室编码和设备编码
         var val = (from c in classroom

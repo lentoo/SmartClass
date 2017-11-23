@@ -384,3 +384,9 @@ E:\开发软件\SmartClass\SmartClass\obj\Release\SmartClass.csproj.CoreCompileI
 E:\开发软件\SmartClass\SmartClass\obj\Release\SmartClass.dll
 E:\开发软件\SmartClass\SmartClass\obj\Release\SmartClass.pdb
 E:\开发软件\SmartClass\SmartClass\bin\SmartClass.IRepository.dll.config
+E:\开发软件\SmartClass\SmartClass\bin\Microsoft.Owin.Security.Jwt.dll
+E:\开发软件\SmartClass\SmartClass\bin\Microsoft.Owin.Security.OAuth.dll
+E:\开发软件\SmartClass\SmartClass\bin\System.IdentityModel.Tokens.Jwt.dll
+E:\开发软件\SmartClass\SmartClass\bin\Microsoft.Owin.Security.Jwt.xml
+E:\开发软件\SmartClass\SmartClass\bin\Microsoft.Owin.Security.OAuth.xml
+E:\开发软件\SmartClass\SmartClass\bin\System.IdentityModel.Tokens.Jwt.xml

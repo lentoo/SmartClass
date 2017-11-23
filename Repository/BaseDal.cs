@@ -36,7 +36,8 @@ namespace SmartClass.Repository
     #region 查询
     public IQueryable<T> GetEntitys(Expression<Func<T, bool>> whereLambda)
     {
-      return dbContext.Set<T>().Where(whereLambda).AsNoTracking();
+      return dbContext.Set<T>().Where(whereLambda)
+        .AsNoTracking();
     }
 
     /// <summary>

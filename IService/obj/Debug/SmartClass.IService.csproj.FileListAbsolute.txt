@@ -30,3 +30,4 @@ E:\开发软件\SmartClass\IService\obj\Debug\SmartClass.IService.csproj.CoreCom
 E:\开发软件\SmartClass\IService\obj\Debug\SmartClass.IService.dll
 E:\开发软件\SmartClass\IService\obj\Debug\SmartClass.IService.pdb
 E:\开发软件\SmartClass\IService\bin\Debug\SmartClass.IRepository.dll.config
+E:\开发软件\SmartClass\IService\bin\Debug\zh-Hans\EntityFramework.resources.dll

@@ -43,7 +43,7 @@ namespace SmartClass.Controllers
           if (result.ResultCode == ResultCode.Ok)
           {
             string HostIP = IPUtils.GetHostAddresse();
-            string data = $"http://{HostIP}:8080/Attendance/InitiatedCheckIn?AttendanceId={result.AttendanceId}&CourseNo={CourseNo}&StuNo=";
+            string data = $"http://{HostIP}:8080/api/Attendance/StudentCheckIn?AttendanceId={result.AttendanceId}&CourseNo={CourseNo}&StuNo=";
             byte[] bytes = QRCodeHelper.GetQRCode(data);
 
             var room = RoomService.GetEntity(u => u.F_EnCode == result.RoomNo).FirstOrDefault();
@@ -87,9 +87,29 @@ namespace SmartClass.Controllers
     /// <param name="CourseNo">课程编号</param>
     /// <param name="CheckStatus">状态</param>
     /// <returns></returns>
-    public ActionResult ManualCheckIn(string TeaNo, string StuNo, string CourseNo,string CheckStatus)
+    public ActionResult ManualCheckIn(string TeaNo, string StuNo, string CourseNo, string CheckStatus)
     {
       var result = AttendanceService.ManualCheckIn(TeaNo, StuNo, CourseNo, CheckStatus);
+      return Json(result, JsonRequestBehavior.AllowGet);
+    }
+
+    /// <summary>
+    /// 查询签到详情信息
+    /// </summary>
+    /// <param name="teacher">教工名称</param>
+    /// <param name="time">时间</param>
+    /// <param name="section">节次</param>
+    /// <returns></returns>
+    public ActionResult AttendanceRecord(string teacher, string time, string section)
+    {
+      var attends = AttendanceService.AttendanceRecord(teacher, time, section);
+
+      return Json(attends, JsonRequestBehavior.AllowGet);
+    }
+
+    public ActionResult AttendanceRecordByRooms(string building, string floor, string room, string time, string teacher, string section)
+    {
+      var result = AttendanceService.AttendanceRecordForRooms(building, floor, room, time, teacher, section);
       return Json(result, JsonRequestBehavior.AllowGet);
     }
   }

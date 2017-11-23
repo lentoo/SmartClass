@@ -26,13 +26,14 @@ namespace SerialPortServer
         port.ReadBufferSize = 1024;
         port.DataBits = 8;
         port.StopBits = StopBits.One;
+        port.ReceivedBytesThreshold = 1;
         //Port.ReadTimeout = 60000;
         port.DataReceived += Port_DataReceived;
         port.Open();
       }
       return port;
     }
-
+        
     /// <summary>
     /// 无线串口
     /// </summary>
@@ -86,6 +87,17 @@ namespace SerialPortServer
         Port.Read(buf, 0, len);
         ByteList.AddRange(buf);
         Console.WriteLine("读到的数据长度" + len);
+        #region 测试专用
+        if (len == 1)
+        {
+          if (ByteList[0] == 0xE0)
+          {
+            SendCmd(new byte[] { 0x55, 0x02, 0x12, 0x34, 0x1f, 0x00, 0x01, 0x00, 0x3a, 0x12, 0xbb });
+
+          }
+          ByteList.RemoveAt(0);
+        }
+        #endregion
         #region 对串口数据进行处理
         while (ByteList.Count >= 10)
         {
@@ -111,7 +123,7 @@ namespace SerialPortServer
                 byte[] _dataCrc = _data.Crc();
                 if (_dataCrc[0] == ByteList[length - 3] && _dataCrc[1] == ByteList[length - 2]) //CRC的校验
                 {
-                  
+
                   buf = new byte[length];
                   ByteList.CopyTo(0, buf, 0, length);
                   ByteList.RemoveRange(0, length);
@@ -120,10 +132,10 @@ namespace SerialPortServer
                   Console.WriteLine(classroom);
                   if (DataDictionary.ContainsKey(classroom))
                   {
-                    Console.WriteLine("有一条未消费的数据，key值为："+classroom);
+                    Console.WriteLine("有一条未消费的数据，key值为：" + classroom);
                     DataDictionary.Remove(classroom);
                   }
-                  Console.WriteLine("一条数据已经添加到字典中，key值为："+classroom);
+                  Console.WriteLine("一条数据已经添加到字典中，key值为：" + classroom);
                   DataDictionary.Add(classroom, buf);
                 }
               }

@@ -361,6 +361,12 @@ E:\开发软件\SmartClass\SmartClass\obj\Debug\SmartClass.csprojResolveAssembly
 E:\开发软件\SmartClass\SmartClass\obj\Debug\SmartClass.csproj.CoreCompileInputs.cache
 E:\开发软件\SmartClass\SmartClass\obj\Debug\SmartClass.dll
 E:\开发软件\SmartClass\SmartClass\obj\Debug\SmartClass.pdb
+E:\开发软件\SmartClass\SmartClass\bin\Microsoft.Owin.Security.Jwt.dll
+E:\开发软件\SmartClass\SmartClass\bin\Microsoft.Owin.Security.OAuth.dll
+E:\开发软件\SmartClass\SmartClass\bin\System.IdentityModel.Tokens.Jwt.dll
+E:\开发软件\SmartClass\SmartClass\bin\Microsoft.Owin.Security.Jwt.xml
+E:\开发软件\SmartClass\SmartClass\bin\Microsoft.Owin.Security.OAuth.xml
+E:\开发软件\SmartClass\SmartClass\bin\System.IdentityModel.Tokens.Jwt.xml
 E:\开发软件\SmartClass\SmartClass\bin\JWT.dll
 E:\开发软件\SmartClass\SmartClass\bin\ThoughtWorks.QRCode.dll
 E:\开发软件\SmartClass\SmartClass\bin\Enyim.Caching.dll
@@ -371,5 +377,5 @@ E:\开发软件\SmartClass\SmartClass\bin\SmartClass.Infrastructure.dll.config
 E:\开发软件\SmartClass\SmartClass\bin\SmartClass.Repository.pdb
 E:\开发软件\SmartClass\SmartClass\bin\SmartClass.Repository.dll.config
 E:\开发软件\SmartClass\SmartClass\bin\SmartClass.IRepository.pdb
-E:\开发软件\SmartClass\SmartClass\bin\Enyim.Caching.xml
 E:\开发软件\SmartClass\SmartClass\bin\SmartClass.IRepository.dll.config
+E:\开发软件\SmartClass\SmartClass\bin\Enyim.Caching.xml

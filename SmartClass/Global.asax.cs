@@ -34,8 +34,8 @@ namespace SmartClass
       // MyException.ProcessException();
 
       //执行计划任务
-      QuartzConfig.InitJob();
-      QuartzConfig.StartJob();
+      //QuartzConfig.InitJob();
+      //QuartzConfig.StartJob();
 
 
 

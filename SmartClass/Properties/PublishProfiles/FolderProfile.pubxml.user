@@ -6,7 +6,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>E:\SmartRelease\v5.22</_PublishTargetUrl>
+    <_PublishTargetUrl>E:\SmartRelease\v5.42</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -85,25 +85,31 @@
       <publishTime>12/13/2016 03:10:32</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.dll">
-      <publishTime>02/13/2015 13:16:30</publishTime>
+      <publishTime>04/05/2017 11:53:36</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Host.SystemWeb.dll">
       <publishTime>02/13/2015 13:16:34</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Security.dll">
-      <publishTime>02/13/2015 13:16:36</publishTime>
+      <publishTime>04/05/2017 11:53:42</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Jwt.dll">
+      <publishTime>04/05/2017 11:53:44</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.OAuth.dll">
+      <publishTime>04/05/2017 11:53:46</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>07/25/2012 11:48:56</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>11/06/2017 22:49:28</publishTime>
+      <publishTime>11/21/2017 11:28:32</publishTime>
     </File>
     <File Include="bin/Model.dll.config">
       <publishTime>10/24/2017 11:13:27</publishTime>
     </File>
     <File Include="bin/Model.pdb">
-      <publishTime>11/06/2017 22:49:28</publishTime>
+      <publishTime>11/21/2017 11:28:32</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>06/18/2017 13:57:10</publishTime>
@@ -226,52 +232,55 @@
       <publishTime>07/03/2016 18:43:46</publishTime>
     </File>
     <File Include="bin/SmartClass.dll">
-      <publishTime>11/11/2017 18:25:01</publishTime>
+      <publishTime>11/22/2017 10:53:53</publishTime>
     </File>
     <File Include="bin/SmartClass.Infrastructure.dll">
-      <publishTime>11/06/2017 22:49:28</publishTime>
+      <publishTime>11/21/2017 11:28:33</publishTime>
     </File>
     <File Include="bin/SmartClass.Infrastructure.dll.config">
       <publishTime>10/24/2017 11:13:27</publishTime>
     </File>
     <File Include="bin/SmartClass.Infrastructure.pdb">
-      <publishTime>11/06/2017 22:49:28</publishTime>
+      <publishTime>11/21/2017 11:28:33</publishTime>
     </File>
     <File Include="bin/SmartClass.IRepository.dll">
-      <publishTime>11/06/2017 22:49:28</publishTime>
+      <publishTime>11/21/2017 11:28:32</publishTime>
     </File>
     <File Include="bin/SmartClass.IRepository.dll.config">
       <publishTime>11/06/2017 22:01:29</publishTime>
     </File>
     <File Include="bin/SmartClass.IRepository.pdb">
-      <publishTime>11/06/2017 22:49:28</publishTime>
+      <publishTime>11/21/2017 11:28:32</publishTime>
     </File>
     <File Include="bin/SmartClass.IService.dll">
-      <publishTime>11/06/2017 22:49:28</publishTime>
+      <publishTime>11/22/2017 10:53:49</publishTime>
     </File>
     <File Include="bin/SmartClass.IService.pdb">
-      <publishTime>11/06/2017 22:49:28</publishTime>
+      <publishTime>11/22/2017 10:53:49</publishTime>
     </File>
     <File Include="bin/SmartClass.pdb">
-      <publishTime>11/11/2017 18:25:01</publishTime>
+      <publishTime>11/22/2017 10:53:53</publishTime>
     </File>
     <File Include="bin/SmartClass.Repository.dll">
-      <publishTime>11/06/2017 22:49:28</publishTime>
+      <publishTime>11/21/2017 11:28:33</publishTime>
     </File>
     <File Include="bin/SmartClass.Repository.dll.config">
       <publishTime>10/24/2017 11:13:27</publishTime>
     </File>
     <File Include="bin/SmartClass.Repository.pdb">
-      <publishTime>11/06/2017 22:49:28</publishTime>
+      <publishTime>11/21/2017 11:28:33</publishTime>
     </File>
     <File Include="bin/SmartClass.Service.dll">
-      <publishTime>11/06/2017 22:49:29</publishTime>
+      <publishTime>11/22/2017 10:53:49</publishTime>
     </File>
     <File Include="bin/SmartClass.Service.dll.config">
       <publishTime>11/06/2017 22:01:30</publishTime>
     </File>
     <File Include="bin/SmartClass.Service.pdb">
-      <publishTime>11/06/2017 22:49:29</publishTime>
+      <publishTime>11/22/2017 10:53:49</publishTime>
+    </File>
+    <File Include="bin/System.IdentityModel.Tokens.Jwt.dll">
+      <publishTime>08/19/2014 10:03:34</publishTime>
     </File>
     <File Include="bin/System.Net.Http.Formatting.dll">
       <publishTime>01/28/2015 04:02:42</publishTime>
@@ -325,10 +334,10 @@
       <publishTime>02/13/2015 13:23:48</publishTime>
     </File>
     <File Include="bin/zh-Hans/Microsoft.Owin.resources.dll">
-      <publishTime>02/13/2015 13:23:48</publishTime>
+      <publishTime>04/05/2017 12:02:28</publishTime>
     </File>
     <File Include="bin/zh-Hans/Microsoft.Owin.Security.resources.dll">
-      <publishTime>02/13/2015 13:23:50</publishTime>
+      <publishTime>04/05/2017 12:02:30</publishTime>
     </File>
     <File Include="bin/zh-Hans/System.Web.Helpers.resources.dll">
       <publishTime>01/28/2015 04:04:32</publishTime>
@@ -361,7 +370,7 @@
       <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>10/24/2017 11:13:28</publishTime>
+      <publishTime>11/15/2017 15:24:12</publishTime>
     </File>
     <File Include="QRCode.html">
       <publishTime>10/24/2017 15:35:34</publishTime>
@@ -400,7 +409,7 @@
       <publishTime>10/24/2017 11:13:28</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/06/2017 23:09:56</publishTime>
+      <publishTime>11/19/2017 18:57:04</publishTime>
     </File>
   </ItemGroup>
 </Project>

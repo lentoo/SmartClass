@@ -51,6 +51,7 @@
     <Compile Include="IZ_AttendanceService.cs" />
     <Compile Include="IZ_CourseService.cs" />
     <Compile Include="IZ_EquipmentService.cs" />
+    <Compile Include="IZ_RoomService.cs" />
     <Compile Include="IZ_SectionTimeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
