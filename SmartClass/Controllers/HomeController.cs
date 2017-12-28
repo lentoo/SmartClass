@@ -18,6 +18,8 @@ using Model.DTO;
 using Model.DTO.Classes;
 using Model.DTO.Equipment;
 using Model.DTO.Result;
+using System.Web.Security;
+using SmartClass.Models.Authorizes;
 
 namespace SmartClass.Controllers
 {
@@ -25,7 +27,7 @@ namespace SmartClass.Controllers
   /// 控制设备状态  控制器
   /// </summary>
   [EquipmentLogFilter]
-  [CustomAuthorize]
+  [TokenAuthorize]
   public class HomeController : Controller
   {
     /// <summary>
@@ -173,8 +175,6 @@ namespace SmartClass.Controllers
     /// <returns></returns>
     public ActionResult SetFan(ControlParams controlParams)
     {
-      controlParams.classroom = string.IsNullOrEmpty(controlParams.classroom) ? "0000" : controlParams.classroom;
-      controlParams.nodeAdd = string.IsNullOrEmpty(controlParams.nodeAdd) ? "00" : controlParams.nodeAdd;
       byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Fan"));
       byte b = (byte)(controlParams.onoff == StateType.OPEN ? 0x01 : 0x00);
       EResult = PortService.SendConvertCmd(fun, controlParams.classroom, controlParams.nodeAdd, b);
@@ -206,7 +206,7 @@ namespace SmartClass.Controllers
     public ActionResult SetWindow(ControlParams controlParams)
     {
       byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Window"));
-      byte b = (byte)(controlParams.onoff == StateType.OPEN ? 0x04 : controlParams.onoff == StateType.STOP ? 0x05 : 0x00);
+      byte b = (byte)(controlParams.onoff == StateType.OPEN ? 0x04 : (controlParams.onoff == StateType.STOP ? 0x05 : 0x00));
       EResult = PortService.SendConvertCmd(fun, controlParams.classroom, controlParams.nodeAdd, b);
       EResult.Message = EResult.Status ? "设置窗户成功" : "设置窗户失败";
       return Json(EResult);
@@ -221,7 +221,7 @@ namespace SmartClass.Controllers
     public ActionResult SetCurtain(ControlParams controlParams)
     {
       byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("Curtain"));
-      byte b = (byte)(controlParams.onoff == StateType.OPEN ? 0x04 : controlParams.onoff == StateType.STOP ? 0x05 : 0x00);
+      byte b = (byte)(controlParams.onoff == StateType.OPEN ? 0x04 : (controlParams.onoff == StateType.STOP ? 0x05 : 0x00));
       EResult = PortService.SendConvertCmd(fun, controlParams.classroom, controlParams.nodeAdd, b);
       EResult.Message = EResult.Status ? "设置窗帘成功" : "设置窗帘失败";
       return Json(EResult);
@@ -258,9 +258,6 @@ namespace SmartClass.Controllers
     [HttpPost]
     public ActionResult SetElectronicClock(string classroom, string nodeAdd)
     {
-      classroom = string.IsNullOrEmpty(classroom) ? "0000" : classroom;
-      nodeAdd = string.IsNullOrEmpty(nodeAdd) ? "00" : nodeAdd;
-
       EquipmentResult oa = new EquipmentResult();
       try
       {
@@ -313,7 +310,6 @@ namespace SmartClass.Controllers
     [HttpPost]
     public ActionResult SetProjectionScreen(ControlParams controlParams)
     {
-
       byte fun = (byte)Convert.ToInt32(AppSettingUtils.GetValue("ProjectionScreen"));
       byte b = (byte)(controlParams.onoff == StateType.OPEN ? 0x01 : 0x00);
       EResult = PortService.SendConvertCmd(fun, controlParams.classroom, controlParams.nodeAdd, b);
@@ -328,7 +324,6 @@ namespace SmartClass.Controllers
     /// <returns></returns>
     public ActionResult Init(string classroom)
     {
-      //cg5aU5K1iU
       byte b = 0x00;
       byte fun = 0x1f;
       EResult = PortService.SendConvertCmd(fun, classroom, "00", b);
@@ -356,7 +351,6 @@ namespace SmartClass.Controllers
       }
       ZEquipmentService.AddEntitys(zeList);
       EResult.AppendData = list;
-      //return Json(Result, JsonRequestBehavior.AllowGet);
       return Json(EResult, JsonRequestBehavior.AllowGet);
     }
 
@@ -455,7 +449,8 @@ namespace SmartClass.Controllers
     {
       try
       {
-        List<Buildings> list = Cache.GetCache<List<Buildings>>("allClassEquipmentInfo");
+        string allClassEquipmentInfoKey = AppSettingUtils.GetValue("allClassEquipmentInfo");
+        List<Buildings> list = Cache.GetCache<List<Buildings>>(allClassEquipmentInfoKey);
         foreach (var item in list)
         {
           EResult.ExceptionCount += item.ExceptionCount;
@@ -510,7 +505,8 @@ namespace SmartClass.Controllers
     {
       try
       {
-        List<Buildings> list = Cache.GetCache<List<Buildings>>("allClassEquipmentInfo");
+        string allClassEquipmentInfoKey = AppSettingUtils.GetValue("allClassEquipmentInfo");
+        List<Buildings> list = Cache.GetCache<List<Buildings>>(allClassEquipmentInfoKey);
         List<Buildings> _list = new List<Buildings>();
         foreach (var building in list)
         {
@@ -542,7 +538,8 @@ namespace SmartClass.Controllers
     {
       try
       {
-        List<Buildings> list = Cache.GetCache<List<Buildings>>("allClassEquipmentInfo");
+        string allClassEquipmentInfoKey = AppSettingUtils.GetValue("allClassEquipmentInfo");
+        List<Buildings> list = Cache.GetCache<List<Buildings>>(allClassEquipmentInfoKey);
         List<Buildings> _list = new List<Buildings>();
         foreach (var building in list)
         {

@@ -122,5 +122,14 @@ namespace SmartClass.Infrastructure.Extended
 
       return new[] { (byte)(reg >> 8), (byte)(reg) };
     }
+    public static string HexToStr(this byte[]buff)
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        foreach (var item in buff)
+        {
+            stringBuilder.Append(item.ToString("X2")+" ");
+        }
+        return stringBuilder.ToString();
+    }
   }
 }

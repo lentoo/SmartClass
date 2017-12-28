@@ -53,7 +53,6 @@ namespace SmartClass.Models
     public void SendCmd(byte[] cmd)
     {
       serialPortServerClient.SendData(cmd);
-      CloseConnect();
       //SerialPortUtils.SendCmd(cmd);
     }
     /// <summary>
@@ -63,9 +62,9 @@ namespace SmartClass.Models
     public string QueryAlarmData(out int value)
     {
       string str = "报警数据";
-      serialPortServerClient.SendSearchData(Encoding.UTF8.GetBytes(str));
-      byte[] bs = serialPortServerClient.GetReturnData();
-      if (bs == null)
+      byte[] bs = serialPortServerClient.SearchAlarmData(str);
+      //byte[] bs = serialPortServerClient.GetReturnData();
+      if (bs == null || bs[0]==0)
       {
         value = 0;
         return null;
@@ -82,15 +81,11 @@ namespace SmartClass.Models
     /// <returns>串口数据</returns>
     public byte[] SendSearchCmd(byte[] cmd)
     {
-      serialPortServerClient.SendSearchData(cmd);
-      Data = serialPortServerClient.GetReturnData();
+      Data = serialPortServerClient.SendSearchData(cmd);
+      //Data = serialPortServerClient.GetReturnData();
 
       return Data;
       //SerialPortUtils.SendSearchCmd(cmd);
-    }
-    public void CloseConnect()
-    {
-      serialPortServerClient.CloseConnect();
     }
 
     /// <summary>
@@ -572,9 +567,6 @@ namespace SmartClass.Models
     /// <returns></returns>
     public EquipmentResult SendConvertCmd(byte fun, string classroom, string nodeAdd, byte onoff = 0, byte? height = null, byte? low = null)
     {
-      classroom = string.IsNullOrEmpty(classroom) ? "00" : classroom;
-      nodeAdd = string.IsNullOrEmpty(nodeAdd) ? "00" : nodeAdd;
-
       EquipmentResult oa = new EquipmentResult();
       try
       {
@@ -635,7 +627,6 @@ namespace SmartClass.Models
       }
       if (classRoom != null)
       {
-
         classRoom.Name = room.F_FullName;
         classRoom.ClassNo = room.F_EnCode;          //教室编码
         classRoom.Id = room.F_RoomNo;

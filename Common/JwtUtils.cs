@@ -46,6 +46,10 @@ namespace SmartClass.Infrastructure
         {
           throw new TokenExpiredException("Token已过期");
         }
+        else  //未过期，延长时间
+        {
+          payload.Exp = DateTime.Now.AddDays(7);          
+        }
         validateTokenResult.Status = true;
         validateTokenResult.Payload = payload;
         validateTokenResult.ResultCode = ResultCode.Ok;

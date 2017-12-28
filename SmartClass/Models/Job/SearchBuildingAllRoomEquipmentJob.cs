@@ -11,6 +11,7 @@ using Model.AutoMapperConfig;
 using Model.DTO.Classes;
 using Model.DTO.Result;
 using System.Diagnostics;
+using SmartClass.Infrastructure;
 
 namespace SmartClass.Models.Job
 {
@@ -36,14 +37,13 @@ namespace SmartClass.Models.Job
       {
         List<Buildings> allBuilding = new List<Buildings>();
         var rooms = ZRoomService.GetEntity(u => u.F_RoomType == "Building").ToList();
-        PortService.serialPortServerClient.IsSendClosedConnection = false;
         foreach (var room in rooms)
         {
           Buildings building = SearchBuildingAllRoomEquipmentInfo1(room.F_FullName, room);
           allBuilding.Add(building);
         }
-        PortService.CloseConnect();
-        Cache.SetCache("allClassEquipmentInfo", allBuilding, DateTime.Now.AddDays(7));
+        string allClassEquipmentInfoKey = AppSettingUtils.GetValue("allClassEquipmentInfo");
+        Cache.SetCache(allClassEquipmentInfoKey, allBuilding, DateTime.Now.AddDays(7));
       }
       catch (Exception exception)
       {
@@ -86,10 +86,6 @@ namespace SmartClass.Models.Job
               AutoMapperConfig.Map(building, classRoom);
               AutoMapperConfig.Map(floor, classRoom);
               AutoMapperConfig.Map(item, classRoom);
-              //classRoom.LayerName = floor.F_FullName;
-              //classRoom.BuildingName = building.F_FullName;
-              //classRoom.Name = item.F_FullName;
-              //classRoom.ClassNo = item.F_EnCode;
               if (classRoom.AbnormalSonserList.Count > 0)
               {
                 buid.ExceptionCount += 1;
@@ -107,11 +103,6 @@ namespace SmartClass.Models.Job
               AutoMapperConfig.Map(building, classRoom);
               AutoMapperConfig.Map(floor, classRoom);
               AutoMapperConfig.Map(item, classRoom);
-              //classRoom.LayerName = floor.F_FullName;
-              //classRoom.BuildingName = building.F_FullName;
-              //classRoom.Name = item.F_FullName;
-              //classRoom.ClassNo = item.F_EnCode;
-              //classRoom.Id = item.F_RoomNo;
             }
             fl.ClassRooms.Add(classRoom);
             result.AppendData = classRoom;

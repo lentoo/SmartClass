@@ -142,6 +142,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ServiceStack.Redis.Complete.1.0.0\lib\net35\ServiceStack.Text.dll</HintPath>
     </Reference>
+    <Reference Include="SuperSocket.ClientEngine, Version=0.9.0.0, Culture=neutral, PublicKeyToken=ee9af13f57f00acc, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.ClientEngine.0.9.0\lib\net45\SuperSocket.ClientEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ProtoBase, Version=1.7.0.17, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.ProtoBase.1.7.0.17\lib\net45\SuperSocket.ProtoBase.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -249,16 +255,15 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogonController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AutofacConfig\AutofacConfig.cs" />
-    <Compile Include="Models\AutofacConfig\IServiceGetter.cs" />
-    <Compile Include="Models\AutofacConfig\ServiceGetter.cs" />
     <Compile Include="Models\Exceptions\EquipmentNoFindException.cs" />
     <Compile Include="Models\Exceptions\MyException.cs" />
-    <Compile Include="Models\Authorizes\CustomAuthorize.cs" />
+    <Compile Include="Models\Authorizes\TokenAuthorize.cs" />
     <Compile Include="Models\Filter\EquipmentLogFilterAttribute.cs" />
     <Compile Include="Models\Filter\LoginActionFilterAttribute.cs" />
     <Compile Include="Models\Job\ProcessExceptionJob.cs" />
@@ -266,6 +271,7 @@
     <Compile Include="Models\Job\SearchBuildingAllRoomEquipmentJob.cs" />
     <Compile Include="Models\Job\SynchronizeElectronicClockTimeJob.cs" />
     <Compile Include="Models\Job\TimingProcessDailyCoursesJob.cs" />
+    <Compile Include="Models\SerialPortRelated\MyReceiveFilter.cs" />
     <Compile Include="Models\SerialPortRelated\SerialPortServerClient.cs" />
     <Compile Include="Models\SerialPortRelated\SerialPortService.cs" />
     <Compile Include="Models\SerialPortRelated\SocketClient.cs" />
@@ -314,6 +320,7 @@
     <Folder Include="Views\Attendance\" />
     <Folder Include="Views\Classes\" />
     <Folder Include="Views\Course\" />
+    <Folder Include="Views\Student\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>

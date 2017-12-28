@@ -37,10 +37,9 @@ namespace SmartClass.Models.AutofacConfig
             builder.RegisterType<RedisWrite>().Named<ICacheHelper>("Redis");
             builder.RegisterType<MemcacheHelper>().Named<ICacheHelper>("Memcached");
             
-            builder.RegisterType<ServiceGetter>().As<IServiceGetter>();
             builder.RegisterType<SerialPortService>().AsSelf().PropertiesAutowired();
-      //builder.RegisterType<SocketClient>().AsSelf().PropertiesAutowired();
-      builder.RegisterType<SerialPortServerClient>().InstancePerLifetimeScope().AsSelf().PropertiesAutowired();
+
+            builder.RegisterType<SerialPortServerClient>().InstancePerDependency().AsSelf().PropertiesAutowired();
             
             //注册过滤器
             builder.RegisterFilterProvider();
@@ -49,7 +48,7 @@ namespace SmartClass.Models.AutofacConfig
             builder.RegisterModule(new QuartzAutofacJobsModule(typeof(ProcessExceptionJob).Assembly));
             //属性注入
             builder.RegisterControllers(Assembly.GetExecutingAssembly()).PropertiesAutowired();
-            //.PropertiesAutowired();
+
             builder.RegisterType<QRCodeHub>().ExternallyOwned();
             var container = builder.Build();
             

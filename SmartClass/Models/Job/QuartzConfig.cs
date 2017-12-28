@@ -33,7 +33,7 @@ namespace SmartClass.Models.Job
         int count = dbcontext.Z_Room.Where(u => u.F_RoomType == "ClassRoom").ToList().Count;
         //创建一个任务
         IJobDetail job1 = JobBuilder.Create<SearchBuildingAllRoomEquipmentJob>().Build();
-        //触发时间  教室总数乘以10s
+        //触发时间  教室总数乘以1分钟
         ISimpleTrigger trigger = (ISimpleTrigger)TriggerBuilder.Create()//.WithCronSchedule("0 0 ")
             .WithSimpleSchedule(o => o.WithIntervalInMinutes(count).WithRepeatCount(int.MaxValue))
             .Build();

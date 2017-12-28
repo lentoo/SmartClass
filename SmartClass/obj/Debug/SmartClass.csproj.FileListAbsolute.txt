@@ -367,6 +367,9 @@ E:\开发软件\SmartClass\SmartClass\bin\System.IdentityModel.Tokens.Jwt.dll
 E:\开发软件\SmartClass\SmartClass\bin\Microsoft.Owin.Security.Jwt.xml
 E:\开发软件\SmartClass\SmartClass\bin\Microsoft.Owin.Security.OAuth.xml
 E:\开发软件\SmartClass\SmartClass\bin\System.IdentityModel.Tokens.Jwt.xml
+E:\开发软件\SmartClass\SmartClass\bin\SuperSocket.ClientEngine.dll
+E:\开发软件\SmartClass\SmartClass\bin\SuperSocket.ProtoBase.dll
+E:\开发软件\SmartClass\SmartClass\bin\SuperSocket.ProtoBase.xml
 E:\开发软件\SmartClass\SmartClass\bin\JWT.dll
 E:\开发软件\SmartClass\SmartClass\bin\ThoughtWorks.QRCode.dll
 E:\开发软件\SmartClass\SmartClass\bin\Enyim.Caching.dll

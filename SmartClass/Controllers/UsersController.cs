@@ -1,4 +1,5 @@
-﻿using SmartClass.Models.Filter;
+﻿using SmartClass.Models.Authorizes;
+using SmartClass.Models.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Web.Mvc;
 
 namespace SmartClass.Controllers
 {
-  [CustomAuthorize]
+  [TokenAuthorize]
   public class UsersController : Controller
   {
     public IService.ISys_UserService userService { get; set; }

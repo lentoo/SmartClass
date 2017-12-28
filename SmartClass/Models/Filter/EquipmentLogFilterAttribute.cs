@@ -23,8 +23,8 @@ namespace SmartClass.Models.Filter
     public ISys_UserService SysUserService { get; set; }
     public ICacheHelper Cache { get; set; }
     private readonly string EQUOPEN = "EquOpen";
-    private readonly string EQUCLOSE = "EQuClose";
-    private readonly string EQUSEARCH = "EQuSearch";
+    private readonly string EQUCLOSE = "EquClose";
+    private readonly string EQUSEARCH = "EquSearch";
     public bool isCheck = true;
     /// <summary>
     /// 操作前
@@ -33,46 +33,6 @@ namespace SmartClass.Models.Filter
     public override void OnActionExecuting(ActionExecutingContext filterContext)
     {
       base.OnActionExecuting(filterContext);
-      ////TODO 这边要改成从请求头中获取
-      //string token;
-      //token = filterContext.HttpContext.Request.Headers["Access"];
-      //token = token ?? filterContext.HttpContext.Request["Access"];
-      //token = token ?? filterContext.HttpContext.Request.Cookies["Access"]?.Value;
-      //if (token == null)
-      //{
-      //  var json = new JsonResult();
-      //  json.Data = new { ResultCode = ResultCode.Error, Message = "请重新登录" };
-      //  filterContext.Result = json;
-
-      //}
-      //else
-      //{
-      //  //从缓存中获取token信息
-      //  //string UserSecretkey = Cache.GetCache<string>(token);
-      //  //if (UserSecretkey != null)
-      //  //{
-      //    //解析token
-      //    ValidateTokenResult obj = JwtUtils.DecodingToken(token);
-      //    this.ValidateTokenResult = obj;
-      //    if (obj.ResultCode == ResultCode.Ok)  //验证通过
-      //    {
-      //      //延长token时间
-      //      //Cache.SetCache(token, UserSecretkey, DateTime.Now.AddDays(7));
-      //    }
-      //  else   //拦截请求
-      //  {
-
-      //    var json = new JsonResult { Data = obj };
-      //    filterContext.Result = json;
-      //  }
-      ////}
-      ////  else    //缓存中没有token信息，则拦截请求
-      ////  {
-      ////    var json = new JsonResult();
-      ////    json.Data = new { ResultCode = ResultCode.Error, Message = "请重新登录" };
-      ////    filterContext.Result = json;
-      ////  }
-      //}
     }
     /// <summary>
     /// 操作后
@@ -86,6 +46,7 @@ namespace SmartClass.Models.Filter
       token = filterContext.HttpContext.Request.Headers["Access"];
       token = token ?? filterContext.HttpContext.Request["Access"];
       token = token ?? filterContext.HttpContext.Request.Cookies["Access"]?.Value;
+
       var payload = Cache.GetCache<Payload>(token);
       //操作日志记录
       JsonResult jsonResult = filterContext.Result as JsonResult;

@@ -33,7 +33,7 @@ namespace SerialPortServer
       }
       return port;
     }
-        
+    public static CountdownEvent countdown = new CountdownEvent(1);    
     /// <summary>
     /// 无线串口
     /// </summary>
@@ -68,10 +68,11 @@ namespace SerialPortServer
 
     public static void ClosePort()
     {
-      if (Port.IsOpen)
+      if ((port?.IsOpen)==true)
       {
-        Port.Close();
-        Port.Dispose();
+
+        port.Close();
+        port.Dispose();
       }
     }
 
@@ -109,7 +110,7 @@ namespace SerialPortServer
               if (ByteList[4] == 0x1f)
               {
                 int length = ByteList[6] + 10;//数据包长度
-                if (length == 11) //接收到是的查询命令，不是返回数据
+                if (length == 11) //接收到是的查询命令，不是返回的数据
                 {
                   ByteList.RemoveRange(0, ByteList.Count);
                   break;
@@ -123,20 +124,19 @@ namespace SerialPortServer
                 byte[] _dataCrc = _data.Crc();
                 if (_dataCrc[0] == ByteList[length - 3] && _dataCrc[1] == ByteList[length - 2]) //CRC的校验
                 {
-
                   buf = new byte[length];
                   ByteList.CopyTo(0, buf, 0, length);
                   ByteList.RemoveRange(0, length);
                   //教室地址
                   string classroom = Convert.ToString(buf[2], 16) + Convert.ToString(buf[3], 16);
-                  Console.WriteLine(classroom);
                   if (DataDictionary.ContainsKey(classroom))
                   {
                     Console.WriteLine("有一条未消费的数据，key值为：" + classroom);
                     DataDictionary.Remove(classroom);
                   }
                   Console.WriteLine("一条数据已经添加到字典中，key值为：" + classroom);
-                  DataDictionary.Add(classroom, buf);
+                  DataDictionary.Add(classroom, buf);                  
+                  countdown.Signal();
                 }
               }
               else if (ByteList[4] == 0x07)   //表示接收到教室控制器发送过来的报警数据

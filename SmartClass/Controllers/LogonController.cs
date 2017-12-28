@@ -144,7 +144,7 @@ namespace SmartClass.Controllers
         };
         //创建一个token
         string token = JwtUtils.EncodingToken(payload);
-        Cache.AddCache(token, payload, DateTime.Now.AddDays(7));
+        Cache.AddCache(token, payload, payload.Exp);
        
         return Content(token);
       }
@@ -163,27 +163,6 @@ namespace SmartClass.Controllers
       byte[] data = validate.CreateValidateGraphic(code);
       Session["validateCode"] = code;
       return File(data, "image/jpeg");
-    }
-    /// <summary>
-    /// 校验验证码
-    /// </summary>
-    /// <param name="validateCode"></param>
-    /// <returns></returns>
-    public ActionResult CheckValidate(string validateCode)
-    {
-      if (Session["validateCode"] == null)
-      {
-        return Json(new { state = "No", content = "验证码过期" });
-      }
-      string code = Session["validateCode"].ToString();
-      if (code != validateCode)
-      {
-        return Json(new { state = "No", content = "验证码错误" });
-      }
-      else
-      {
-        return Json(new { state = "Yes", content = "验证通过" });
-      }
-    }
+    }    
   }
 }
